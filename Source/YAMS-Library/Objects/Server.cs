@@ -90,6 +90,30 @@ namespace YAMS
             this.LogonMode = Convert.ToString(Database.GetSetting(this.ServerID, "ServerLogonMode"));
             this.Port = Convert.ToInt32(this.GetProperty("server-port"));
 
+            //There is a bug in <0.3.2 that causes double worlds, detect and correct
+            if (this.GetProperty("level-name") == @"..\\world")
+            {
+                try
+                {
+                    this.SaveProperty("level-name", "world");
+                    //Backup the dupe world, just in case
+                    Backup.BackupNow(this, "_dupeworld");
+
+                    //Delete the world dir and replace with the duped one
+                    Directory.Move(this.ServerDirectory + @"\world\", this.ServerDirectory + @"\world_duped\");
+                    Directory.Move(Core.RootFolder + @"\servers\world\", this.ServerDirectory + @"\world\");
+
+                    //Backup again
+                    Backup.BackupNow(this, "_afterdedupe");
+
+                    YAMS.Database.AddLog("Your world needed a de-duplication, the folder world_duped can be deleted if everything seems ok now", "app", "warn");
+                }
+                catch (Exception e)
+                {
+                    YAMS.Database.AddLog("Your world needs a de-duplication, but it couldn't be done automatically. Please report this issue: " + e.Data, "app", "error");
+                }
+            }
+
         }
 
         public string GetProperty(string strPropertyName)
