@@ -12,7 +12,7 @@ namespace YAMS
     public static class Backup
     {
 
-        public static void BackupNow(MCServer s)
+        public static void BackupNow(MCServer s, string strAppendName = "")
         {
             Database.AddLog("Backing up " + s.ServerTitle, "backup");
 
@@ -35,7 +35,7 @@ namespace YAMS
             //Now zip up temp dir and move to backups
             FastZip z = new FastZip();
             z.CreateEmptyDirectories = true;
-            z.CreateZip(s.ServerDirectory + @"\backups\" + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".zip", s.ServerDirectory + @"\backups\temp\", true, "");
+            z.CreateZip(s.ServerDirectory + @"\backups\" + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + strAppendName + ".zip", s.ServerDirectory + @"\backups\temp\", true, "");
 
             //If the server is empty, reset the HasChanged
             if (s.Players.Count == 0) s.HasChanged = false;
