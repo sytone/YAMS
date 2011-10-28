@@ -330,7 +330,13 @@ namespace YAMS
                     //Update from Schema 2
                     Database.SaveSetting("UsageData", "true");
                     Database.SaveSetting("DBSchema", "3");
-                    break;    
+                    goto case 3;
+                case 3:
+                    Database.SaveSetting("EnablePortFowarding", "true");
+                    Database.SaveSetting("EnableOpenFirewall", "true");
+                    Database.SaveSetting("YAMSListenIP", Networking.GetExternalIP().ToString());
+                    Database.SaveSetting("DBSchema", "4");
+                    break;
                     //goto case 3; //etc
                 default:
                     break;

@@ -47,6 +47,7 @@ namespace YAMS
         public int PID;
         public int GameMode = 0;
         public int Port = 0;
+        public string ListenIP = "";
 
         private bool SafeStop = false;
         public bool AutoRestart = true;
@@ -88,6 +89,7 @@ namespace YAMS
             this.ServerTitle = Convert.ToString(Database.GetSetting(this.ServerID, "ServerTitle"));
             this.ServerType = Convert.ToString(Database.GetSetting(this.ServerID, "ServerType"));
             this.LogonMode = Convert.ToString(Database.GetSetting(this.ServerID, "ServerLogonMode"));
+            this.ListenIP = this.GetProperty("server-ip");
             this.Port = Convert.ToInt32(this.GetProperty("server-port"));
 
             //There is a bug in <0.3.2 that causes double worlds, detect and correct
@@ -221,8 +223,8 @@ namespace YAMS
                 Database.AddLog("Server Started: " + strArgs, "server", "info", false, this.ServerID);
 
                 //Try and open the firewall port
-                Networking.OpenFirewallPort(this.Port, this.ServerTitle);
-                Networking.OpenUPnP(this.Port, this.ServerTitle);
+                if (Database.GetSetting("EnableOpenFirewall", "YAMS") == "true") Networking.OpenFirewallPort(this.Port, this.ServerTitle);
+                if (Database.GetSetting("EnablePortForwarding", "YAMS") == "true") Networking.OpenUPnP(this.Port, this.ServerTitle);
 
                 //Save the process ID so we can kill if there is a crash
                 this.PID = this.prcMinecraft.Id;

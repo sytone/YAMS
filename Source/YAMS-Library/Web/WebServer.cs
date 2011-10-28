@@ -81,11 +81,17 @@ namespace YAMS
             publicServerThread.Start();
 
             //Open firewall ports
-            Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
-            Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            if (Database.GetSetting("EnableOpenFirewall", "YAMS") == "true")
+            {
+                Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
+                Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            }
 
-            Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
-            Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            if (Database.GetSetting("EnablePortForwarding", "YAMS") == "true")
+            {
+                Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
+                Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            }
         }
 
         static void myServer_ErrorPageRequested(object sender, ErrorPageEventArgs e)
