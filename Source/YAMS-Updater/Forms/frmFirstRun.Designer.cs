@@ -76,7 +76,7 @@
             this.txtMemory.Location = new System.Drawing.Point(156, 81);
             this.txtMemory.Name = "txtMemory";
             this.txtMemory.Size = new System.Drawing.Size(144, 20);
-            this.txtMemory.TabIndex = 6;
+            this.txtMemory.TabIndex = 3;
             this.txtMemory.Text = "1024";
             // 
             // label7
