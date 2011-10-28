@@ -376,6 +376,22 @@ namespace YAMS
             }
         }
 
+        public static int GetPlayerCount(int intServerID)
+        {
+            try
+            {
+                SqlCeCommand cmd = new SqlCeCommand("SELECT COUNT(PlayerID) AS Counter FROM Players WHERE PlayerServer = @id", connLocal);
+                cmd.Parameters.Add("@id", intServerID);
+                var intSettingValue = (int)cmd.ExecuteScalar();
+                return intSettingValue;
+            }
+            catch (Exception ex)
+            {
+                AddLog("YAMS.Database.GetPlayerLevel Exception: " + ex.Message, "database", "error");
+                return 0;
+            }
+        }
+
         //Job Engine
         public static SqlCeDataReader GetJobs(int intHour, int intMinute)
         {

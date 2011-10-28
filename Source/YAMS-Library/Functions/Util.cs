@@ -178,7 +178,7 @@ namespace YAMS
             Database.SaveSetting("UpdateBranch", "live");
 
             //Run an update now
-            AutoUpdate.CheckUpdates();
+            //AutoUpdate.CheckUpdates();
 
             //Tell the DB that we've run this
             Database.SaveSetting("FirstRun", "true");
@@ -243,7 +243,7 @@ namespace YAMS
             //Count online players
             int intPlayers = 0;
             foreach (KeyValuePair<int, MCServer> kvp in Core.Servers) {
-                intPlayers = intPlayers + kvp.Value.Players.Count;
+                intPlayers = intPlayers + Database.GetPlayerCount(kvp.Value.ServerID);
             }
             
             //Collect Data
