@@ -508,12 +508,12 @@ YAMS.admin = {
                         if (results.bukkit === "true") YAMS.D.get('bukkit-installed').checked = true;
                     },
                     failure: function (o) {
-                        YAMS.admin.about.setBody("Error getting apps data;");
+                        YAMS.admin.apps.setBody("Error getting apps data;");
                     }
                 }, 'action=installed-apps');
             },
             failure: function (o) {
-                YAMS.admin.about.setBody("Error getting apps template;");
+                YAMS.admin.apps.setBody("Error getting apps template;");
             }
         })
     },
