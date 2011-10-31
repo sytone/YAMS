@@ -334,7 +334,7 @@ namespace YAMS
                 case 3:
                     Database.SaveSetting("EnablePortFowarding", "true");
                     Database.SaveSetting("EnableOpenFirewall", "true");
-                    Database.SaveSetting("YAMSListenIP", Networking.GetExternalIP().ToString());
+                    Database.SaveSetting("YAMSListenIP", Networking.GetListenIP().ToString());
                     Database.SaveSetting("DBSchema", "4");
                     break;
                     //goto case 3; //etc
