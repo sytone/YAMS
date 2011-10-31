@@ -332,7 +332,7 @@ namespace YAMS
                     Database.SaveSetting("DBSchema", "3");
                     goto case 3;
                 case 3:
-                    Database.SaveSetting("EnablePortFowarding", "true");
+                    Database.SaveSetting("EnablePortForwarding", "true");
                     Database.SaveSetting("EnableOpenFirewall", "true");
                     Database.SaveSetting("YAMSListenIP", Networking.GetListenIP().ToString());
                     Database.SaveSetting("DBSchema", "4");

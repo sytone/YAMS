@@ -534,6 +534,69 @@ YAMS.admin = {
         }, 'action=update-apps&' + values);
     },
 
+    networkSettings: function () {
+        YAMS.admin.network = new YAHOO.widget.Panel("networking-panel", {
+            width: "340px",
+            fixedcenter: true,
+            close: true,
+            draggable: false,
+            zindex: 4,
+            modal: true,
+            visible: true,
+            filterWord: true
+        });
+        YAMS.admin.network.setHeader("Network Settings");
+        YAMS.admin.network.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
+        YAMS.admin.network.render(document.body);
+        YAMS.admin.network.show();
+
+        YAMS.admin.network.subscribe("close", YAMS.admin.network.destroy);
+
+        var trans = YAHOO.util.Connect.asyncRequest('GET', '/assets/parts/network.html', {
+            success: function (o) {
+                YAMS.admin.network.setBody(o.responseText);
+                var trans2 = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
+                    success: function (o) {
+                        var results = [];
+                        try { results = YAHOO.lang.JSON.parse(o.responseText); }
+                        catch (x) { YAMS.admin.log('JSON Parse Failed'); return; }
+                        if (results.portForwarding === "true") YAMS.D.get('portForwarding-enabled').checked = true;
+                        if (results.openFirewall === "true") YAMS.D.get('openFirewall-enabled').checked = true;
+                        YAMS.D.get('adminInterface-port').value = results.adminPort;
+                        YAMS.D.get('publicInterface-port').value = results.publicPort;
+                        var ipSelect = YAMS.D.get('listen-ip');
+                        for (ip in results.IPs) {
+                            ipSelect.options[ipSelect.options.length] = new Option(results.IPs[ip], results.IPs[ip], false, false);
+                        }
+                        for (i = 0; i < ipSelect.options.length; i++) {
+                            if (ipSelect.options[i].value == results.currentIP) ipSelect.options[i].selected = true;
+                        }
+                    },
+                    failure: function (o) {
+                        YAMS.admin.network.setBody("Error getting network data;");
+                    }
+                }, 'action=network-settings');
+            },
+            failure: function (o) {
+                YAMS.admin.network.setBody("Error getting network template;");
+            }
+        })
+    },
+
+    updateNetwork: function () {
+        var values = "portForwarding=" + YAMS.D.get('portForwarding-enabled').checked + "&" +
+                     "openFirewall=" + YAMS.D.get('openFirewall-enabled').checked + "&" +
+                     "adminPort=" + YAMS.D.get('adminInterface-port').value + "&" +
+                     "publicPort=" + YAMS.D.get('publicInterface-port').value + "&" +
+                     "listenIp=" + YAMS.D.get('listen-ip').value;
+        var trans = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
+            success: function (o) {
+                YAMS.admin.network.destroy();
+            },
+            failure: function (o) { alert("Network settings not set") }
+        }, 'action=save-network-settings&' + values);
+    },
+
     leadingZero: function (intInput) {
         if (intInput < 10) {
             return "0" + intInput;
@@ -595,6 +658,7 @@ YAMS.admin = {
                 id: "settingsmenu",
                 itemdata: [
                     [
+                        { text: "Network Settings", onclick: { fn: networkSettings} },
                         { text: "Installed Apps", onclick: { fn: installedApps} },
                         { text: "Run Updates Now", onclick: { fn: forceUpdate} }
                     ]
@@ -618,6 +682,7 @@ function onMenuItemClick() {
 function aboutYAMS() { YAMS.admin.aboutYAMS() };
 function installedApps() { YAMS.admin.installedApps() };
 function forceUpdate() { YAMS.admin.forceUpdate() };
+function networkSettings() { YAMS.admin.networkSettings() };
 
 YAMS.E.onDOMReady(YAMS.admin.init);
 

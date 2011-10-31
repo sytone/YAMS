@@ -311,6 +311,47 @@ namespace YAMS.Web
                         case "force-autoupdate":
                             AutoUpdate.CheckUpdates();
                             break;
+                        case "network-settings":
+                            List<string> listIPs = new List<string>();
+                            IPHostEntry ipListen = Dns.GetHostEntry("");
+                            foreach (IPAddress ipaddress in ipListen.AddressList)
+                            {
+                                if (ipaddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) listIPs.Add(ipaddress.ToString());
+                            }
+
+                            Dictionary<string, string> dicNetwork = new Dictionary<string, string> {
+                                { "portForwarding" , Database.GetSetting("EnablePortForwarding", "YAMS") },
+                                { "openFirewall" , Database.GetSetting("EnableOpenFirewall", "YAMS") },
+                                { "adminPort" , Database.GetSetting("AdminListenPort", "YAMS") },
+                                { "publicPort" , Database.GetSetting("PublicListenPort", "YAMS") },
+                                { "currentIP" , Database.GetSetting("YAMSListenIP", "YAMS") },
+                                { "IPs" , JsonConvert.SerializeObject(listIPs, Formatting.None) }
+                            };
+                            strResponse = JsonConvert.SerializeObject(dicNetwork, Formatting.Indented).Replace(@"\","").Replace("\"[", "[").Replace("]\"", "]");
+                            break;
+                        case "save-network-settings":
+                            int intTester = 0;
+                            try
+                            {
+                                //Try to convert to integers to make sure something silly isn't put in. TODO: Javascript validation
+                                intTester = Convert.ToInt32(param["adminPort"]);
+                                intTester = Convert.ToInt32(param["publicPort"]);
+                                IPAddress ipTest = IPAddress.Parse(param["listenIp"]);
+                            }
+                            catch (Exception e)
+                            {
+                                YAMS.Database.AddLog("Invalid input on network settings", "web", "warn");
+                                return ProcessingResult.Abort;
+                            }
+
+                            Database.SaveSetting("EnablePortForwarding", param["portForwarding"]);
+                            Database.SaveSetting("EnableOpenFirewall", param["openFirewall"]);
+                            Database.SaveSetting("AdminListenPort", param["adminPort"]);
+                            Database.SaveSetting("PublicListenPort", param["publicPort"]);
+                            Database.SaveSetting("YAMSListenIP", param["listenIp"]);
+
+                            Database.AddLog("Network settings have been saved, to apply changes a service restart is required. Please check they are correct before restarting", "web", "warn");
+                            break;
                         default:
                             return ProcessingResult.Abort;
                     }
