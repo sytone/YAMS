@@ -170,6 +170,13 @@ namespace YAMS.Web
                             break;
                         case "get-server-settings":
                             //retrieve all server settings as JSON
+                            List<string> listIPsMC = new List<string>();
+                            IPHostEntry ipListenMC = Dns.GetHostEntry("");
+                            foreach (IPAddress ipaddress in ipListenMC.AddressList)
+                            {
+                                if (ipaddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) listIPsMC.Add(ipaddress.ToString());
+                            }
+
                             intServerID = Convert.ToInt32(param["serverid"]);
                             strResponse = "{ \"serverid\" : " + intServerID + "," +
                                               "\"title\" : \"" + Database.GetSetting(intServerID, "ServerTitle") + "\"," +
@@ -177,7 +184,10 @@ namespace YAMS.Web
                                               "\"memory\" : \"" + Database.GetSetting(intServerID, "ServerAssignedMemory") + "\"," +
                                               "\"autostart\" : \"" + Database.GetSetting(intServerID, "ServerAutoStart") + "\"," +
                                               "\"type\" : \"" + Database.GetSetting(intServerID, "ServerType") + "\"," +
-                                              "\"motd\" : \"" + Database.GetSetting("motd", "MC", intServerID) + "\"";
+                                              "\"motd\" : \"" + Database.GetSetting("motd", "MC", intServerID) + "\"," +
+                                              "\"listen\" : \"" + Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].GetProperty("server-ip") + "\"," +
+                                              "\"port\" : \"" + Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].GetProperty("server-port") + "\"," +
+                                              "\"IPs\": " + JsonConvert.SerializeObject(listIPsMC, Formatting.None);
                             strResponse += "}";
                             break;
                         case "get-mc-settings":
@@ -252,6 +262,8 @@ namespace YAMS.Web
 
                             //Save the server's MC settings
                             MCServer thisServer = Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])];
+                            thisServer.SaveProperty("server-ip", param["cfg_listen-ip"]);
+                            thisServer.SaveProperty("server-port", param["cfg_port"]);
 
                             json = File.ReadAllText(YAMS.Core.RootFolder + @"\lib\properties.json");
                             jProps = JObject.Parse(json);

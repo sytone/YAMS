@@ -272,6 +272,15 @@ YAMS.admin = {
                             if (typeSelect.options[i].value === results.type) typeSelect.options[i].selected = true;
                         }
                         YAMS.D.get('cfg_motd').value = results.motd;
+                        YAMS.D.get('cfg_port').value = results.port;
+
+                        var ipSelect = YAMS.D.get('cfg_listen-ip');
+                        for (ip in results.IPs) {
+                            ipSelect.options[ipSelect.options.length] = new Option(results.IPs[ip], results.IPs[ip], false, false);
+                        }
+                        for (i = 0; i < ipSelect.options.length; i++) {
+                            if (ipSelect.options[i].value == results.listen) ipSelect.options[i].selected = true;
+                        }
                     },
                     failure: function (o) {
                         YAMS.admin.log('getServerSettings failed');
