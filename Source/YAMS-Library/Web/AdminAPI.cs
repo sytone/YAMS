@@ -364,6 +364,10 @@ namespace YAMS.Web
 
                             Database.AddLog("Network settings have been saved, to apply changes a service restart is required. Please check they are correct before restarting", "web", "warn");
                             break;
+                        case "job-list":
+                            DataSet rdJobs = Database.ListJobs();
+                            strResponse = JsonConvert.SerializeObject(rdJobs, Formatting.Indented);
+                            break;
                         default:
                             return ProcessingResult.Abort;
                     }

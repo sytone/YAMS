@@ -28,6 +28,13 @@ fieldset { border: 1px solid #999; text-align: left; padding: 10px; }
 legend { margin: 0px 5px; padding: 0px 2px; font-size: 80%; }
 label { width: 150px; float: left; text-align: right; padding-right: 10px; }
 
+#jobs-table { width: 100%; }
+#jobs-table th { color: #fff; background-color: #000; }
+
+.icon { display: block; height: 16px; width: 16px; }
+
+.delete { background-image: url(../images/icons/delete.png); }
+
 /* Menu */
 em#yamslabel { text-indent: -6em; display: block; background: url(../images/YAMS-Icon.png) center center no-repeat; width: 2em; overflow: hidden; }
 #filemenu.visible .yuimenuitemlabel, #editmenu.visible .yuimenuitemlabel { *zoom: 1; }

@@ -592,6 +592,71 @@ YAMS.admin = {
         })
     },
 
+    jobList: function () {
+        YAMS.admin.jobs = new YAHOO.widget.Panel("job-panel", {
+            width: "600px",
+            fixedcenter: true,
+            close: true,
+            draggable: false,
+            zindex: 4,
+            modal: true,
+            visible: true,
+            filterWord: true
+        });
+        YAMS.admin.jobs.setHeader("Jobs");
+        YAMS.admin.jobs.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
+        YAMS.admin.jobs.render(document.body);
+        YAMS.admin.jobs.show();
+
+        YAMS.admin.jobs.subscribe("close", YAMS.admin.jobs.destroy);
+
+        var trans = YAHOO.util.Connect.asyncRequest('GET', '/assets/parts/job-list.html', {
+            success: function (o) {
+                YAMS.admin.jobs.setBody(o.responseText);
+                var trans2 = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
+                    success: function (o) {
+                        var results = [];
+                        try { results = YAHOO.lang.JSON.parse(o.responseText); }
+                        catch (x) { YAMS.admin.log('JSON Parse Failed'); return; }
+                        var tblJobs = YAMS.D.get('jobs-table');
+
+                        for (var i = 0; i < results.Table.length; i++) {
+                            var r = results.Table[i];
+                            var row = document.createElement('tr');
+                            var c2 = document.createElement('td');
+                            c2.innerHTML = r.JobAction;
+                            row.appendChild(c2);
+                            var c3 = document.createElement('td');
+                            if (r.JobHour == -1) r.JobHour = "*";
+                            c3.innerHTML = r.JobHour;
+                            row.appendChild(c3);
+                            var c4 = document.createElement('td');
+                            if (r.JobMinute == -1) r.JobMinute = "*";
+                            c4.innerHTML = r.JobMinute;
+                            row.appendChild(c4);
+                            var c5 = document.createElement('td');
+                            c5.innerHTML = r.JobParams;
+                            row.appendChild(c5);
+                            var c6 = document.createElement('td');
+                            c6.innerHTML = r.ServerTitle;
+                            row.appendChild(c6);
+                            var c1 = document.createElement('td');
+                            c1.innerHTML = '<a href="YAMS.admin,deleteJob(' + r.JobID + '); return false" class="icon delete"></a>';
+                            row.appendChild(c1);
+                            tblJobs.appendChild(row);
+                        }
+                    },
+                    failure: function (o) {
+                        YAMS.admin.jobs.setBody("Error getting job data;");
+                    }
+                }, 'action=job-list');
+            },
+            failure: function (o) {
+                YAMS.admin.jobs.setBody("Error getting job template;");
+            }
+        })
+    },
+
     updateNetwork: function () {
         var values = "portForwarding=" + YAMS.D.get('portForwarding-enabled').checked + "&" +
                      "openFirewall=" + YAMS.D.get('openFirewall-enabled').checked + "&" +
@@ -669,6 +734,9 @@ YAMS.admin = {
                     [
                         { text: "Network Settings", onclick: { fn: networkSettings} },
                         { text: "Installed Apps", onclick: { fn: installedApps} },
+                        { text: "Scheduled Jobs", onclick: { fn: jobList} }
+                    ],
+                    [
                         { text: "Run Updates Now", onclick: { fn: forceUpdate} }
                     ]
             ]
@@ -692,6 +760,7 @@ function aboutYAMS() { YAMS.admin.aboutYAMS() };
 function installedApps() { YAMS.admin.installedApps() };
 function forceUpdate() { YAMS.admin.forceUpdate() };
 function networkSettings() { YAMS.admin.networkSettings() };
+function jobList() { YAMS.admin.jobList() };
 
 YAMS.E.onDOMReady(YAMS.admin.init);
 

@@ -354,20 +354,6 @@ namespace YAMS
             return readerServers;
         }
 
-        public static bool AddJob(string strAction, int intHour, int intMinute, string strParams, int intServerID)
-        {
-            SqlCeCommand cmd = new SqlCeCommand();
-            cmd.Connection = connLocal;
-            cmd.CommandText = "INSERT INTO Jobs (JobAction, JobHour, JobMinute, JobParams, JobServer) VALUES (@action, @hour, @minute, @params, @server);";
-            cmd.Parameters.Add("@action", strAction);
-            cmd.Parameters.Add("@hour", intHour);
-            cmd.Parameters.Add("@minute", intMinute);
-            cmd.Parameters.Add("@params", strParams);
-            cmd.Parameters.Add("@server", intServerID);
-            cmd.ExecuteNonQuery();
-            return true;
-        }
-
         //User Functions
         public static bool AddUser(string strUsername, int intServerID, string strLevel = "guest")
         {
@@ -420,9 +406,32 @@ namespace YAMS
             SqlCeCommand cmd = new SqlCeCommand("SELECT * FROM Jobs WHERE (JobHour = -1 AND JobMinute = @minute) OR (JobHour = @hour AND JobMinute = @minute)", connLocal);
             cmd.Parameters.Add("@minute", intMinute);
             cmd.Parameters.Add("@hour", intHour);
-            SqlCeDataReader readerServers = null;
-            readerServers = cmd.ExecuteReader();
-            return readerServers;
+            SqlCeDataReader readerJobs = null;
+            readerJobs = cmd.ExecuteReader();
+            return readerJobs;
+        }
+
+        public static bool AddJob(string strAction, int intHour, int intMinute, string strParams, int intServerID)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+            cmd.CommandText = "INSERT INTO Jobs (JobAction, JobHour, JobMinute, JobParams, JobServer) VALUES (@action, @hour, @minute, @params, @server);";
+            cmd.Parameters.Add("@action", strAction);
+            cmd.Parameters.Add("@hour", intHour);
+            cmd.Parameters.Add("@minute", intMinute);
+            cmd.Parameters.Add("@params", strParams);
+            cmd.Parameters.Add("@server", intServerID);
+            cmd.ExecuteNonQuery();
+            return true;
+        }
+
+        public static DataSet ListJobs()
+        {
+            DataSet ds = new DataSet();
+            SqlCeCommand cmd = new SqlCeCommand("SELECT Jobs.*, MCServers.ServerTitle FROM Jobs LEFT JOIN MCServers ON Jobs.JobServer = MCServers.ServerID", connLocal);
+            SqlCeDataAdapter adapter = new SqlCeDataAdapter(cmd);
+            adapter.Fill(ds);
+            return ds;
         }
 
         ~Database()
