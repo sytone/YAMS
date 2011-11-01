@@ -2,29 +2,15 @@
 
 YAMS is a vanilla server admin tool designed to make running a Minecraft server easier without changing the overall experience of playing Survival Multiplayer.  As it is not a wrapper, you won't have to wait for YAMS to be updated when a new Minecraft server version comes out.
 
-## Current Status
+# Documentation
 
-YAMS is currently in development but can run your server for you, there is an installer in the download section.  Source code contained here should always compile but may not do what you expect it to.  Local commits are made more frequently than they are pushed to this remote.
+All documentation is now in the [wiki](https://github.com/richardbenson/YAMS/wiki), of particular note are the following:
 
-## Planned Features
+  * [Planned Features](https://github.com/richardbenson/YAMS/wiki/Planned-features)
+  * [Version History](https://github.com/richardbenson/YAMS/wiki/Version-history)
+  * [Current Features](https://github.com/richardbenson/YAMS/wiki/Current-features)
+  * [Repository Guide](https://github.com/richardbenson/YAMS/wiki/Repository-guide) (For Developers)
 
-* Installer, checks pre-requisites and installs 3rd party tools if requested
-* Run as windows service
-* Provide web interface for controlling all servers
-* Keep itself and your Minecraft server up to date
-* Integrate and automate various 3rd party tools such as c10t and Minecraft Overviewer
-* Store all output in a database for properly persistent logs of server activity and chat
-
-## Repository Guide
-
-* __Binaries__ - Contains Release versions of all projects, used for auto updating
-* __Source__ - The Visual Studio 2010 Solution and sub-projects
-    * __YAMS-Library__ - Core DLL that contains any functions that actually do something
-    * __YAMS-Service__ - The Windows service that keeps YAMS going 24/7
-    * __YAMS-Setup__ - Visual Studio setup project for creating the MSI to distribute
-    * __YAMS-Tester__ - A throw-away app for checking various functions before they go into the service
-    * __YAMS-Updater__ - Small app to restart the service and apply updates to core files
-    * __YAMS-Web__ - Apatana project for web files
 
 ## License
 
