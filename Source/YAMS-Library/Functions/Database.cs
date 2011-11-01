@@ -335,6 +335,8 @@ namespace YAMS
                     Database.SaveSetting("EnablePortForwarding", "true");
                     Database.SaveSetting("EnableOpenFirewall", "true");
                     Database.SaveSetting("YAMSListenIP", Networking.GetListenIP().ToString());
+                    AddJob("update", -1, 0, "", 0);
+                    AddJob("backup", -1, 30, "", 1);
                     Database.SaveSetting("DBSchema", "4");
                     break;
                     //goto case 3; //etc
@@ -350,6 +352,20 @@ namespace YAMS
             SqlCeDataReader readerServers = null;
             readerServers = comServers.ExecuteReader();
             return readerServers;
+        }
+
+        public static bool AddJob(string strAction, int intHour, int intMinute, string strParams, int intServerID)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+            cmd.CommandText = "INSERT INTO Jobs (JobAction, JobHour, JobMinute, JobParams, JobServer) VALUES (@action, @hour, @minute, @params, @server);";
+            cmd.Parameters.Add("@action", strAction);
+            cmd.Parameters.Add("@hour", intHour);
+            cmd.Parameters.Add("@minute", intMinute);
+            cmd.Parameters.Add("@params", strParams);
+            cmd.Parameters.Add("@server", intServerID);
+            cmd.ExecuteNonQuery();
+            return true;
         }
 
         //User Functions

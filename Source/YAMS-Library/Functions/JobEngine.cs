@@ -41,10 +41,22 @@ namespace YAMS
                         AddOns.Overviewer gmap = new AddOns.Overviewer(s, rdJobs["JobParams"].ToString());
                         gmap.Start();
                         break;
+                    case "c10t":
+                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                        AddOns.c10t c10t = new AddOns.c10t(s, rdJobs["JobParams"].ToString());
+                        c10t.Start();
+                        break;
                     case "biome-extractor":
                         s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
                         AddOns.BiomeExtractor extractor = new AddOns.BiomeExtractor(s, rdJobs["JobParams"].ToString());
                         extractor.Start();
+                        break;
+                    case "backup":
+                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                        Backup.BackupIfNeeded(s);
+                        break;
+                    case "update":
+                        AutoUpdate.CheckUpdates();
                         break;
                     default:
                         Database.AddLog("Invalid entry in Job database", "job", "warn");
