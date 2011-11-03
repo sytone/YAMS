@@ -20,6 +20,8 @@ YAMS.admin = {
     serverTimer: 0,
     serverUpdateInProgress: false,
 
+    panels: {},
+
     log: function (strMessage) {
         if (typeof (console) != "undefined") console.log(strMessage);
     },
@@ -440,9 +442,9 @@ YAMS.admin = {
         }
     },
 
-    aboutYAMS: function () {
-        YAMS.admin.about = new YAHOO.widget.Panel("about-panel", {
-            width: "240px",
+    createPanel: function (strName, intWidth, strHeader, strTemplate, funcOnLoad) {
+        var panel = new YAHOO.widget.Panel(strName, {
+            width: intWidth + "px",
             fixedcenter: true,
             close: true,
             draggable: false,
@@ -451,210 +453,162 @@ YAMS.admin = {
             visible: true,
             filterWord: true
         });
-        YAMS.admin.about.setHeader("About YAMS");
-        YAMS.admin.about.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
-        YAMS.admin.about.render(document.body);
-        YAMS.admin.about.show();
+        panel.setHeader(strHeader);
+        panel.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
+        panel.render(document.body);
+        panel.show();
 
-        YAMS.admin.about.subscribe("close", YAMS.admin.about.destroy);
+        panel.subscribe("close", panel.destroy);
 
-        var trans = YAHOO.util.Connect.asyncRequest('GET', '/assets/parts/about.html', {
-            success: function (o) {
-                YAMS.admin.about.setBody(o.responseText);
-                var trans2 = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
-                    success: function (o) {
-                        var results = [];
-                        try { results = YAHOO.lang.JSON.parse(o.responseText); }
-                        catch (x) { YAMS.admin.log('JSON Parse Failed'); return; }
-                        YAMS.S('#dll-ver .version-number')[0].innerHTML = results.dll;
-                        YAMS.S('#svc-ver .version-number')[0].innerHTML = results.svc;
-                        YAMS.S('#gui-ver .version-number')[0].innerHTML = results.gui;
-                        YAMS.S('#db-ver .version-number')[0].innerHTML = results.db;
-                    },
-                    failure: function (o) {
-                        YAMS.admin.about.setBody("Error getting about data;");
-                    }
-                }, 'action=about');
+        $.ajax({
+            url: '/assets/parts/' + strTemplate + '.html',
+            type: 'GET',
+            success: function (data) {
+                panel.setBody(data);
+                if (typeof (funcOnLoad) == "function") funcOnLoad();
             },
-            failure: function (o) {
-                YAMS.admin.about.setBody("Error getting about template;");
+            failure: function () {
+                panel.setBody("Unable to load " + strTemplate + " template");
             }
         })
 
+        return panel;
+    },
+
+    aboutYAMS: function () {
+        YAMS.admin.panels.about = YAMS.admin.createPanel("about-panel", 240, "About YAMS", "about", function () {
+            $.ajax({
+                url: '/api/',
+                type: 'POST',
+                data: 'action=about',
+                dataType: 'json',
+                success: function (data) {
+                    $('#dll-ver .version-number').html(data.dll);
+                    $('#svc-ver .version-number').html(data.svc);
+                    $('#gui-ver .version-number').html(data.gui);
+                    $('#db-ver .version-number').html(data.db);
+                }
+            })
+        });
     },
 
     installedApps: function () {
-        YAMS.admin.apps = new YAHOO.widget.Panel("apps-panel", {
-            width: "340px",
-            fixedcenter: true,
-            close: true,
-            draggable: false,
-            zindex: 4,
-            modal: true,
-            visible: true,
-            filterWord: true
+        YAMS.admin.panels.apps = YAMS.admin.createPanel("apps-panel", 340, "Installed Apps", "apps", function () {
+            $.ajax({
+                url: '/api/',
+                type: 'POST',
+                data: 'action=installed-apps',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.overviewer === "true") $('#overviewer-installed').prop("checked", true);
+                    if (data.c10t === "true") $('#c10t-installed').prop("checked", true);
+                    if (data.biomeextractor === "true") $('#biomeextractor-installed').prop("checked", true);
+                    if (data.tectonicus === "true") $('#tectonicus-installed').prop("checked", true);
+                    if (data.nbtoolkit === "true") $('#nbtoolkit-installed').prop("checked", true);
+                    if (data.bukkit === "true") $('#bukkit-installed').prop("checked", true);
+                }
+            });
         });
-        YAMS.admin.apps.setHeader("Installed Apps");
-        YAMS.admin.apps.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
-        YAMS.admin.apps.render(document.body);
-        YAMS.admin.apps.show();
-
-        YAMS.admin.apps.subscribe("close", YAMS.admin.apps.destroy);
-
-        var trans = YAHOO.util.Connect.asyncRequest('GET', '/assets/parts/apps.html', {
-            success: function (o) {
-                YAMS.admin.apps.setBody(o.responseText);
-                var trans2 = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
-                    success: function (o) {
-                        var results = [];
-                        try { results = YAHOO.lang.JSON.parse(o.responseText); }
-                        catch (x) { YAMS.admin.log('JSON Parse Failed'); return; }
-                        if (results.overviewer === "true") YAMS.D.get('overviewer-installed').checked = true;
-                        if (results.c10t === "true") YAMS.D.get('c10t-installed').checked = true;
-                        if (results.biomeextractor === "true") YAMS.D.get('biomeextractor-installed').checked = true;
-                        if (results.tectonicus === "true") YAMS.D.get('tectonicus-installed').checked = true;
-                        if (results.nbtoolkit === "true") YAMS.D.get('nbtoolkit-installed').checked = true;
-                        if (results.bukkit === "true") YAMS.D.get('bukkit-installed').checked = true;
-                    },
-                    failure: function (o) {
-                        YAMS.admin.apps.setBody("Error getting apps data;");
-                    }
-                }, 'action=installed-apps');
-            },
-            failure: function (o) {
-                YAMS.admin.apps.setBody("Error getting apps template;");
-            }
-        })
     },
 
     updateApps: function () {
-        var values = "overviewer=" + YAMS.D.get('overviewer-installed').checked + "&" +
-                     "c10t=" + YAMS.D.get('c10t-installed').checked + "&" +
-                     "biomeextractor=" + YAMS.D.get('biomeextractor-installed').checked + "&" +
-                     "tectonicus=" + YAMS.D.get('tectonicus-installed').checked + "&" +
-                     "nbtoolkit=" + YAMS.D.get('nbtoolkit-installed').checked + "&" +
-                     "bukkit=" + YAMS.D.get('bukkit-installed').checked;
+        var values = "overviewer=" + $('#overviewer-installed').prop("checked") + "&" +
+                     "c10t=" + $('#c10t-installed').prop("checked") + "&" +
+                     "biomeextractor=" + $('#biomeextractor-installed').prop("checked") + "&" +
+                     "tectonicus=" + $('#tectonicus-installed').prop("checked") + "&" +
+                     "nbtoolkit=" + $('#nbtoolkit-installed').prop("checked") + "&" +
+                     "bukkit=" + $('#bukkit-installed').prop("checked");
         var trans = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
             success: function (o) {
                 alert("Selected apps will be downloaded on next update check.");
-                YAMS.admin.apps.destroy();
+                YAMS.admin.panels.apps.destroy();
             },
             failure: function (o) { alert("apps not set") }
         }, 'action=update-apps&' + values);
     },
 
     networkSettings: function () {
-        YAMS.admin.network = new YAHOO.widget.Panel("networking-panel", {
-            width: "340px",
-            fixedcenter: true,
-            close: true,
-            draggable: false,
-            zindex: 4,
-            modal: true,
-            visible: true,
-            filterWord: true
-        });
-        YAMS.admin.network.setHeader("Network Settings");
-        YAMS.admin.network.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
-        YAMS.admin.network.render(document.body);
-        YAMS.admin.network.show();
-
-        YAMS.admin.network.subscribe("close", YAMS.admin.network.destroy);
-
-        var trans = YAHOO.util.Connect.asyncRequest('GET', '/assets/parts/network.html', {
-            success: function (o) {
-                YAMS.admin.network.setBody(o.responseText);
-                var trans2 = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
-                    success: function (o) {
-                        var results = [];
-                        try { results = YAHOO.lang.JSON.parse(o.responseText); }
-                        catch (x) { YAMS.admin.log('JSON Parse Failed'); return; }
-                        if (results.portForwarding === "true") YAMS.D.get('portForwarding-enabled').checked = true;
-                        if (results.openFirewall === "true") YAMS.D.get('openFirewall-enabled').checked = true;
-                        YAMS.D.get('adminInterface-port').value = results.adminPort;
-                        YAMS.D.get('publicInterface-port').value = results.publicPort;
-                        var ipSelect = YAMS.D.get('listen-ip');
-                        for (ip in results.IPs) {
-                            ipSelect.options[ipSelect.options.length] = new Option(results.IPs[ip], results.IPs[ip], false, false);
-                        }
-                        for (i = 0; i < ipSelect.options.length; i++) {
-                            if (ipSelect.options[i].value == results.currentIP) ipSelect.options[i].selected = true;
-                        }
-                    },
-                    failure: function (o) {
-                        YAMS.admin.network.setBody("Error getting network data;");
+        YAMS.admin.panels.network = YAMS.admin.createPanel("networking-panel", 340, "Network Settings", "network", function () {
+            $.ajax({
+                url: '/api/',
+                type: 'POST',
+                data: 'action=network-settings',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.portForwarding === "true") $('#portForwarding-enabled').prop("checked", true);
+                    if (data.openFirewall === "true") $('#openFirewall-enabled').prop("checked", true);
+                    $('#adminInterface-port').val(data.adminPort);
+                    $('#publicInterface-port').val(data.publicPort);
+                    var ipSelect = YAMS.D.get('listen-ip');
+                    for (ip in data.IPs) {
+                        ipSelect.options[ipSelect.options.length] = new Option(data.IPs[ip], data.IPs[ip], false, false);
                     }
-                }, 'action=network-settings');
-            },
-            failure: function (o) {
-                YAMS.admin.network.setBody("Error getting network template;");
-            }
-        })
+                    for (i = 0; i < ipSelect.options.length; i++) {
+                        if (ipSelect.options[i].value == data.currentIP) ipSelect.options[i].selected = true;
+                    }
+                }
+            });
+        });
     },
 
+
     jobList: function () {
-        YAMS.admin.jobs = new YAHOO.widget.Panel("job-panel", {
-            width: "600px",
-            fixedcenter: true,
-            close: true,
-            draggable: false,
-            zindex: 4,
-            modal: true,
-            visible: true,
-            filterWord: true
-        });
-        YAMS.admin.jobs.setHeader("Jobs");
-        YAMS.admin.jobs.setBody('<img src="http://l.yimg.com/a/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
-        YAMS.admin.jobs.render(document.body);
-        YAMS.admin.jobs.show();
+        YAMS.admin.panels.jobs = YAMS.admin.createPanel("job-panel", 600, "Jobs", "job-list", YAMS.admin.refreshJobs);
+    },
 
-        YAMS.admin.jobs.subscribe("close", YAMS.admin.jobs.destroy);
 
-        var trans = YAHOO.util.Connect.asyncRequest('GET', '/assets/parts/job-list.html', {
-            success: function (o) {
-                YAMS.admin.jobs.setBody(o.responseText);
-                var trans2 = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
-                    success: function (o) {
-                        var results = [];
-                        try { results = YAHOO.lang.JSON.parse(o.responseText); }
-                        catch (x) { YAMS.admin.log('JSON Parse Failed'); return; }
-                        var tblJobs = YAMS.D.get('jobs-table');
+    refreshJobs: function () {
+        $.ajax({
+            url: '/api/',
+            type: 'POST',
+            data: 'action=job-list',
+            dataType: 'json',
+            success: function (data) {
+                var tblJobs = YAMS.D.get('jobs-table');
 
-                        for (var i = 0; i < results.Table.length; i++) {
-                            var r = results.Table[i];
-                            var row = document.createElement('tr');
-                            var c2 = document.createElement('td');
-                            c2.innerHTML = r.JobAction;
-                            row.appendChild(c2);
-                            var c3 = document.createElement('td');
-                            if (r.JobHour == -1) r.JobHour = "*";
-                            c3.innerHTML = r.JobHour;
-                            row.appendChild(c3);
-                            var c4 = document.createElement('td');
-                            if (r.JobMinute == -1) r.JobMinute = "*";
-                            c4.innerHTML = r.JobMinute;
-                            row.appendChild(c4);
-                            var c5 = document.createElement('td');
-                            c5.innerHTML = r.JobParams;
-                            row.appendChild(c5);
-                            var c6 = document.createElement('td');
-                            c6.innerHTML = r.ServerTitle;
-                            row.appendChild(c6);
-                            var c1 = document.createElement('td');
-                            c1.innerHTML = '<a href="YAMS.admin,deleteJob(' + r.JobID + '); return false" class="icon delete"></a>';
-                            row.appendChild(c1);
-                            tblJobs.appendChild(row);
-                        }
-                    },
-                    failure: function (o) {
-                        YAMS.admin.jobs.setBody("Error getting job data;");
-                    }
-                }, 'action=job-list');
+                for (var i = 0; i < data.Table.length; i++) {
+                    var r = data.Table[i];
+                    var row = document.createElement('tr');
+                    var c2 = document.createElement('td');
+                    c2.innerHTML = r.JobAction;
+                    row.appendChild(c2);
+                    var c3 = document.createElement('td');
+                    if (r.JobHour == -1) r.JobHour = "*";
+                    c3.innerHTML = r.JobHour;
+                    row.appendChild(c3);
+                    var c4 = document.createElement('td');
+                    if (r.JobMinute == -1) r.JobMinute = "*";
+                    c4.innerHTML = r.JobMinute;
+                    row.appendChild(c4);
+                    var c5 = document.createElement('td');
+                    c5.innerHTML = r.JobParams;
+                    row.appendChild(c5);
+                    var c6 = document.createElement('td');
+                    c6.innerHTML = r.ServerTitle;
+                    row.appendChild(c6);
+                    var c1 = document.createElement('td');
+                    c1.innerHTML = '<a href="javascript:void(0);" onclick="YAMS.admin.deleteJob(' + r.JobID + ');" class="icon delete"></a>';
+                    row.appendChild(c1);
+                    tblJobs.appendChild(row);
+                }
             },
-            failure: function (o) {
-                YAMS.admin.jobs.setBody("Error getting job template;");
+            failure: function () {
+                YAMS.admin.panels.jobs.setBody("Error getting job data;");
             }
-        })
+        });
+    },
+
+    deleteJob: function (jobID) {
+        $.ajax({
+            url: '/api/',
+            type: 'POST',
+            data: 'action=delete-job&jobid=' + jobID,
+            success: function (data) {
+                if (data == "done") alert("Job Deleted");
+                else alert("Job not deleted");
+            },
+            always: YAMS.admin.refreshJobs
+        });
     },
 
     updateNetwork: function () {
@@ -665,7 +619,7 @@ YAMS.admin = {
                      "listenIp=" + YAMS.D.get('listen-ip').value;
         var trans = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
             success: function (o) {
-                YAMS.admin.network.destroy();
+                YAMS.admin.panels.network.destroy();
             },
             failure: function (o) { alert("Network settings not set") }
         }, 'action=save-network-settings&' + values);
