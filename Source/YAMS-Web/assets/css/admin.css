@@ -1,3 +1,15 @@
+/* Login Page */
+
+.login { background-color: #eee; font: .8em Arial, Tahoma, Verdana; color: #777;}
+.login #login-box { margin: auto; width: 360px; border: 1px solid #ccc; background-color: #fff; overflow: hidden; padding: 20px; margin-top: 200px; border-radius: 10px; }
+.login #logo { float: left; background: url(../images/redbg.gif) repeat-x; padding: 100px 25px 15px; margin: -46px 30px 20px 0px; }
+.login #logo h1 { text-shadow: 1px 1px 1px #7E0E0E; color: #fff; font-size: 1.6em; font-weight: normal; }
+.login a { text-decoration: none; color: #fff; }
+.login .version-tag { float: right; width: 20px; font-size: .8em; color: #aaa; text-shadow: 1px 1px 1px #ccc; }
+.login input.text { width: 146px; padding: 2px; border: 1px solid #ccc; }
+
+/* Main Admin */
+
 h1 { margin: 0 0 0.5em 0; }
 
 .console-input, .command-input { padding: 2px; }
