@@ -434,6 +434,16 @@ namespace YAMS
             return ds;
         }
 
+        public static void DeleteJob(string strJobID)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+            cmd.CommandText = "DELETE FROM Jobs WHERE JobID = @jobid;";
+            cmd.Parameters.Add("@jobid", Convert.ToInt32(strJobID));
+
+            cmd.ExecuteNonQuery();
+        }
+
         ~Database()
         {
             connLocal.Close();

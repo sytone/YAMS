@@ -368,6 +368,11 @@ namespace YAMS.Web
                             DataSet rdJobs = Database.ListJobs();
                             strResponse = JsonConvert.SerializeObject(rdJobs, Formatting.Indented);
                             break;
+                        case "delete-job":
+                            string strJobID = param["jobid"];
+                            Database.DeleteJob(strJobID);
+                            strResponse = "done";
+                            break;
                         case "logout":
                             WebSession.Current.UserName = "";
                             break;
