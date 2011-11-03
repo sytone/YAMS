@@ -368,6 +368,9 @@ namespace YAMS.Web
                             DataSet rdJobs = Database.ListJobs();
                             strResponse = JsonConvert.SerializeObject(rdJobs, Formatting.Indented);
                             break;
+                        case "logout":
+                            WebSession.Current.UserName = "";
+                            break;
                         default:
                             return ProcessingResult.Abort;
                     }

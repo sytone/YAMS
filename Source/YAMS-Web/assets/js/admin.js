@@ -606,8 +606,8 @@ YAMS.admin = {
             success: function (data) {
                 if (data == "done") alert("Job Deleted");
                 else alert("Job not deleted");
-            },
-            always: YAMS.admin.refreshJobs
+                YAMS.admin.refreshJobs();
+            }
         });
     },
 
@@ -623,6 +623,17 @@ YAMS.admin = {
             },
             failure: function (o) { alert("Network settings not set") }
         }, 'action=save-network-settings&' + values);
+    },
+
+    logOut: function() {
+        $.ajax({
+            url: '/api/',
+            type: 'POST',
+            data: 'action=logout',
+            success: function (data) {
+                document.location.reload(true);
+            }
+        });
     },
 
     leadingZero: function (intInput) {
@@ -695,6 +706,10 @@ YAMS.admin = {
                     ]
             ]
             }
+        },
+        {
+            text: "Log Out",
+            onclick: { fn: logOut }
         }
     ],
 
@@ -715,6 +730,7 @@ function installedApps() { YAMS.admin.installedApps() };
 function forceUpdate() { YAMS.admin.forceUpdate() };
 function networkSettings() { YAMS.admin.networkSettings() };
 function jobList() { YAMS.admin.jobList() };
+function logOut() { YAMS.admin.logOut() };
 
 YAMS.E.onDOMReady(YAMS.admin.init);
 
