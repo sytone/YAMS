@@ -14,7 +14,7 @@ YAMS.panel = {
     dialogs: {},
 
     createDialog: function (strName, intWidth, strHeader, strTemplate, funcOnLoad, objButtons) {
-        var dialog = $('<div id="' + strName + '"><img src="/assets/images/ajax-loader.gif" /></div>').dialog({
+        var dialog = $('<div id="' + strName + '"><div style="text-align: center"><img src="/assets/images/ajax-loader.gif" /></div></div>').dialog({
             modal: true,
             open: function () {
                 if (typeof (strTemplate) != "undefined") $(this).load('/assets/parts/' + strTemplate + '.html', funcOnLoad);
@@ -125,11 +125,22 @@ YAMS.panel = {
 
 
     jobList: function () {
-        this.dialogs.jobs = this.createDialog("job-panel", 600, "Jobs", "job-list", YAMS.panel.refreshJobs, { "Add Job": YAMS.panel.addJobWindow });
+        this.dialogs.jobs = this.createDialog("job-panel", 800, "Jobs", "job-list", YAMS.panel.refreshJobs, { "Add Job": YAMS.panel.addJobWindow });
     },
 
     addJobWindow: function () {
-        YAMS.panel.dialogs.addJob = YAMS.panel.createDialog('add-job', 400, "Add a job", "add-job");
+        YAMS.panel.dialogs.addJob = YAMS.panel.createDialog('add-job', 400, "Add a job", "add-job", function () {
+            var serverSelect = document.getElementById('server-select');
+            for (var i = 0, len = YAMS.admin.servers.length; i < len; i++) {
+                serverSelect.options[serverSelect.options.length] = new Option(YAMS.admin.servers[i].name, YAMS.admin.servers[i].id, false, false);
+            }
+        }, { "Add": YAMS.panel.addJob });
+    },
+
+    selectType: function (strType) {
+        $('#job-server, #job-update, #job-backup, #job-overviewer, #job-c10t').hide();
+        if (strType != "update") $('#job-server').show();
+        if (strType != "") $('#job-' + strType).show();
     },
 
     refreshJobs: function () {
@@ -137,7 +148,7 @@ YAMS.panel = {
             data: 'action=job-list',
             success: function (data) {
                 var tblJobs = $('#jobs-table');
-
+                tblJobs.find("tr:gt(0)").remove();
                 for (var i = 0; i < data.Table.length; i++) {
                     var r = data.Table[i];
                     var row = document.createElement('tr');
@@ -165,6 +176,54 @@ YAMS.panel = {
                 }
             }
         });
+    },
+
+    addJob: function () {
+        var strType = $('#job-type').val();
+        var strData = "action=add-job&job-hour=" + $('#job-hour').val() + "&job-minute=" + $('#job-minute').val() + "&job-type=" + strType;
+        switch (strType) {
+            case "":
+                alert("Select job type first");
+                return false;
+                break;
+            case "update":
+                strData += "&jobs-server=0&job-params=";
+                break;
+            case "backup":
+                strData += "&job-server=" + $('#server-select').val() + "&job-params=";
+                break;
+            case "overviewer":
+                strData += "&job-server=" + $('#server-select').val();
+                var strRenderModes = "";
+                if ($('#overviewer-normal').prop("checked")) strRenderModes += "normal";
+                if ($('#overviewer-lighting').prop("checked")) {
+                    if (strRenderModes != "") strRenderModes += ",";
+                    strRenderModes += "lighting";
+                }
+                if ($('#overviewer-night').prop("checked")) {
+                    if (strRenderModes != "") strRenderModes += ",";
+                    strRenderModes += "night";
+                }
+                if ($('#overviewer-spawn').prop("checked")) {
+                    if (strRenderModes != "") strRenderModes += ",";
+                    strRenderModes += "spawn";
+                }
+                if ($('#overviewer-cave').prop("checked")) {
+                    if (strRenderModes != "") strRenderModes += ",";
+                    strRenderModes += "cave";
+                }
+                strData += "&job-params=rendermodes=" + strRenderModes;
+                break;
+            case "c10t":
+                strData += "&job-server=" + $('#server-select').val();
+                strData += "&job-params=" + excape("night=" + $('#c10t-night').val() + "&mode=" + $('#c10t-mode').val());
+                break;
+        }
+        $.ajax({
+            data: strData
+        });
+        YAMS.panel.dialogs.addJob.remove();
+        YAMS.panel.refreshJobs();
     },
 
     deleteJob: function (jobID) {

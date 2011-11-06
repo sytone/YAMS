@@ -373,6 +373,12 @@ namespace YAMS.Web
                             Database.DeleteJob(strJobID);
                             strResponse = "done";
                             break;
+                        case "add-job":
+                            intServerID = Convert.ToInt32(param["job-server"]);
+                            int intHour = Convert.ToInt32(param["job-hour"]);
+                            int intMinute = Convert.ToInt32(param["job-minute"]);
+                            Database.AddJob(param["job-type"], intHour, intMinute, param["job-params"], intServerID);
+                            break;
                         case "logout":
                             WebSession.Current.UserName = "";
                             break;
