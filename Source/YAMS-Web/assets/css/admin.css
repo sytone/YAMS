@@ -1,4 +1,23 @@
+body {
+	font-family: Arial, Tahoma, Verdana;
+	font-size:   86%;
+}
+
+/* Login Page */
+
+.login { background-color: #eee; font: .8em Arial, Tahoma, Verdana; color: #777;}
+.login #login-box { margin: auto; width: 360px; border: 1px solid #ccc; background-color: #fff; overflow: hidden; padding: 20px; margin-top: 200px; border-radius: 10px; }
+.login #logo { float: left; background: url(../images/redbg.gif) repeat-x; padding: 100px 25px 15px; margin: -46px 30px 20px 0px; }
+.login #logo h1 { text-shadow: 1px 1px 1px #7E0E0E; color: #fff; font-size: 1.6em; font-weight: normal; }
+.login a { text-decoration: none; color: #fff; }
+.login .version-tag { float: right; width: 20px; font-size: .8em; color: #aaa; text-shadow: 1px 1px 1px #ccc; }
+.login input.text { width: 146px; padding: 2px; border: 1px solid #ccc; }
+
+/* Main Admin */
+
 h1 { margin: 0 0 0.5em 0; }
+
+h3, h4 { font-size: 1.1em; background: #EEF; border: 1px solid #BBB; border-width:	0 0 1px; padding: 7px 10px; margin: 0; }
 
 .console-input, .command-input { padding: 2px; }
 
@@ -14,7 +33,24 @@ h1 { margin: 0 0 0.5em 0; }
 
 #status p { margin-bottom: 0; }
 
-#players { background-color: #fff; margin: 5px; overflow: auto; border: 1px solid #000; }
+#server-console, #yams-log { font-size: 80%; }
+
+#console-tab, #chat-tab { padding: 0; }
+
+.ui-layout-east,
+.ui-layout-east .ui-layout-content { padding: 0; overflow: hidden; }
+.ui-layout-center { padding: 0; }
+
+.ui-widget { font-size: 1em; }
+.ui-dialog-content { font-size: 98% }
+
+.ui-accordion .ui-accordion-content { padding: 0.5em; }
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-widget-header  { font-weight: normal; }
+
+/*#players { background-color: #fff; margin: 5px; overflow: auto; border: 1px solid #000; }*/
 
 .version-label, .version-number, .app-label, .app-checkbox { width: 48%; float: left; }
 .version-label, .app-label { font-weight: bold; text-align: right; padding-right: 5px; }
@@ -22,9 +58,18 @@ h1 { margin: 0 0 0.5em 0; }
 
 .app-label { clear: both; }
 
+.port-number input { width: 50px; }
+
 fieldset { border: 1px solid #999; text-align: left; padding: 10px; }
 legend { margin: 0px 5px; padding: 0px 2px; font-size: 80%; }
 label { width: 150px; float: left; text-align: right; padding-right: 10px; }
+
+#jobs-table { width: 100%; }
+#jobs-table th { color: #fff; background-color: #000; }
+
+.icon { display: block; height: 16px; width: 16px; }
+
+.delete { background-image: url(../images/icons/delete.png); }
 
 /* Menu */
 em#yamslabel { text-indent: -6em; display: block; background: url(../images/YAMS-Icon.png) center center no-repeat; width: 2em; overflow: hidden; }

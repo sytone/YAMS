@@ -152,13 +152,14 @@ namespace YAMS
         /// <param name="intPortNumber">The port to open</param>
         /// <param name="strFriendlyName">Friendly name for the service</param>
         /// <returns>Boolean indicating whether the forward worked</returns>
-        public static bool OpenUPnP(int intPortNumber, string strFriendlyName)
+        public static bool OpenUPnP(int intPortNumber, string strFriendlyName, string ipAddress = "")
         {
+            if (ipAddress == "") ipAddress = GetListenIP().ToString();
             try {
                 NATUPNPLib.UPnPNATClass upnpnat = new NATUPNPLib.UPnPNATClass();
-                upnpnat.StaticPortMappingCollection.Add(intPortNumber, "TCP", intPortNumber, GetListenIP().ToString(), true, "[YAMS] " + strFriendlyName);
+                upnpnat.StaticPortMappingCollection.Add(intPortNumber, "TCP", intPortNumber, ipAddress, true, "[YAMS] " + strFriendlyName);
             
-                Database.AddLog("Forwarded port " + intPortNumber + " for " + strFriendlyName, "networking");
+                Database.AddLog("Forwarded port " + intPortNumber + " to " + ipAddress + " for " + strFriendlyName, "networking");
                 return true;
             }
             catch(Exception e) {

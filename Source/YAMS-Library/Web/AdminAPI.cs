@@ -170,6 +170,13 @@ namespace YAMS.Web
                             break;
                         case "get-server-settings":
                             //retrieve all server settings as JSON
+                            List<string> listIPsMC = new List<string>();
+                            IPHostEntry ipListenMC = Dns.GetHostEntry("");
+                            foreach (IPAddress ipaddress in ipListenMC.AddressList)
+                            {
+                                if (ipaddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) listIPsMC.Add(ipaddress.ToString());
+                            }
+
                             intServerID = Convert.ToInt32(param["serverid"]);
                             strResponse = "{ \"serverid\" : " + intServerID + "," +
                                               "\"title\" : \"" + Database.GetSetting(intServerID, "ServerTitle") + "\"," +
@@ -177,7 +184,10 @@ namespace YAMS.Web
                                               "\"memory\" : \"" + Database.GetSetting(intServerID, "ServerAssignedMemory") + "\"," +
                                               "\"autostart\" : \"" + Database.GetSetting(intServerID, "ServerAutoStart") + "\"," +
                                               "\"type\" : \"" + Database.GetSetting(intServerID, "ServerType") + "\"," +
-                                              "\"motd\" : \"" + Database.GetSetting("motd", "MC", intServerID) + "\"";
+                                              "\"motd\" : \"" + Database.GetSetting("motd", "MC", intServerID) + "\"," +
+                                              "\"listen\" : \"" + Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].GetProperty("server-ip") + "\"," +
+                                              "\"port\" : \"" + Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].GetProperty("server-port") + "\"," +
+                                              "\"IPs\": " + JsonConvert.SerializeObject(listIPsMC, Formatting.None);
                             strResponse += "}";
                             break;
                         case "get-mc-settings":
@@ -252,6 +262,8 @@ namespace YAMS.Web
 
                             //Save the server's MC settings
                             MCServer thisServer = Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])];
+                            thisServer.SaveProperty("server-ip", param["cfg_listen-ip"]);
+                            thisServer.SaveProperty("server-port", param["cfg_port"]);
 
                             json = File.ReadAllText(YAMS.Core.RootFolder + @"\lib\properties.json");
                             jProps = JObject.Parse(json);
@@ -310,6 +322,65 @@ namespace YAMS.Web
                             break;
                         case "force-autoupdate":
                             AutoUpdate.CheckUpdates();
+                            break;
+                        case "network-settings":
+                            List<string> listIPs = new List<string>();
+                            IPHostEntry ipListen = Dns.GetHostEntry("");
+                            foreach (IPAddress ipaddress in ipListen.AddressList)
+                            {
+                                if (ipaddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) listIPs.Add(ipaddress.ToString());
+                            }
+
+                            Dictionary<string, string> dicNetwork = new Dictionary<string, string> {
+                                { "portForwarding" , Database.GetSetting("EnablePortForwarding", "YAMS") },
+                                { "openFirewall" , Database.GetSetting("EnableOpenFirewall", "YAMS") },
+                                { "adminPort" , Database.GetSetting("AdminListenPort", "YAMS") },
+                                { "publicPort" , Database.GetSetting("PublicListenPort", "YAMS") },
+                                { "currentIP" , Database.GetSetting("YAMSListenIP", "YAMS") },
+                                { "IPs" , JsonConvert.SerializeObject(listIPs, Formatting.None) }
+                            };
+                            strResponse = JsonConvert.SerializeObject(dicNetwork, Formatting.Indented).Replace(@"\","").Replace("\"[", "[").Replace("]\"", "]");
+                            break;
+                        case "save-network-settings":
+                            int intTester = 0;
+                            try
+                            {
+                                //Try to convert to integers to make sure something silly isn't put in. TODO: Javascript validation
+                                intTester = Convert.ToInt32(param["adminPort"]);
+                                intTester = Convert.ToInt32(param["publicPort"]);
+                                IPAddress ipTest = IPAddress.Parse(param["listenIp"]);
+                            }
+                            catch (Exception e)
+                            {
+                                YAMS.Database.AddLog("Invalid input on network settings", "web", "warn");
+                                return ProcessingResult.Abort;
+                            }
+
+                            Database.SaveSetting("EnablePortForwarding", param["portForwarding"]);
+                            Database.SaveSetting("EnableOpenFirewall", param["openFirewall"]);
+                            Database.SaveSetting("AdminListenPort", param["adminPort"]);
+                            Database.SaveSetting("PublicListenPort", param["publicPort"]);
+                            Database.SaveSetting("YAMSListenIP", param["listenIp"]);
+
+                            Database.AddLog("Network settings have been saved, to apply changes a service restart is required. Please check they are correct before restarting", "web", "warn");
+                            break;
+                        case "job-list":
+                            DataSet rdJobs = Database.ListJobs();
+                            strResponse = JsonConvert.SerializeObject(rdJobs, Formatting.Indented);
+                            break;
+                        case "delete-job":
+                            string strJobID = param["jobid"];
+                            Database.DeleteJob(strJobID);
+                            strResponse = "done";
+                            break;
+                        case "add-job":
+                            intServerID = Convert.ToInt32(param["job-server"]);
+                            int intHour = Convert.ToInt32(param["job-hour"]);
+                            int intMinute = Convert.ToInt32(param["job-minute"]);
+                            Database.AddJob(param["job-type"], intHour, intMinute, param["job-params"], intServerID);
+                            break;
+                        case "logout":
+                            WebSession.Current.UserName = "";
                             break;
                         default:
                             return ProcessingResult.Abort;

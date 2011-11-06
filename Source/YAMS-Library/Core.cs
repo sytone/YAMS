@@ -80,11 +80,8 @@ namespace YAMS
                 }
             };
 
-            //Check for updates and start a timer to do it automatically
-            //AutoUpdate.CheckUpdates();
-            int UpdateTick = (60 * 60 * 1000);
-            if (Database.GetSetting("UpdateBranch", "YAMS") == "dev") UpdateTick = (15 * 60 * 1000);
-            timUpdate = new Timer(new TimerCallback(timUpdate_Tick), null, 0, UpdateTick);
+            //Check for updates
+            AutoUpdate.CheckUpdates();
 
             //Load any servers
             SqlCeDataReader readerServers = YAMS.Database.GetServers();
@@ -95,10 +92,6 @@ namespace YAMS
                 if (Convert.ToBoolean(readerServers["ServerAutostart"])) myServer.Start();
                 Servers.Add(Convert.ToInt32(readerServers["ServerID"]), myServer);
             }
-
-            //Schedule a backup for all servers (temporarily here before going in job engine)
-            int BackupTick = (60 * 60 * 1000);
-            timBackup = new Timer(new TimerCallback(timBackup_Tick), null, 5*60*1000, BackupTick);
 
             //Start job engine
             JobEngine.Init();
@@ -117,16 +110,5 @@ namespace YAMS
             YAMS.Database.AddLog("Shutting Down");
         }
 
-        public static void timUpdate_Tick(object t)
-        {
-            AutoUpdate.CheckUpdates();
-        }
-        public static void timBackup_Tick(object t)
-        {
-            foreach (KeyValuePair<int, MCServer> kvp in Core.Servers)
-            {
-                Backup.BackupIfNeeded(kvp.Value);
-            }
-        }
     }
 }

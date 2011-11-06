@@ -81,11 +81,19 @@ namespace YAMS
             publicServerThread.Start();
 
             //Open firewall ports
-            Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
-            Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            if (Database.GetSetting("EnableOpenFirewall", "YAMS") == "true")
+            {
+                Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
+                Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            }
+            else { Database.AddLog("Firewall Opening disabled"); }
 
-            Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
-            Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+            if (Database.GetSetting("EnablePortForwarding", "YAMS") == "true")
+            {
+                Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website", YAMS.Database.GetSetting("YAMSListenIP", "YAMS"));
+                Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website", YAMS.Database.GetSetting("YAMSListenIP", "YAMS"));
+            }
+            else { Database.AddLog("Port Forwarding disabled"); }
         }
 
         static void myServer_ErrorPageRequested(object sender, ErrorPageEventArgs e)
@@ -155,10 +163,16 @@ namespace YAMS
         public static void Stop()
         {
             //Close firewall ports and forward via UPnP
-            Networking.CloseFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")));
-            Networking.CloseFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")));
-            Networking.CloseUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")));
-            Networking.CloseUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")));
+            if (Database.GetSetting("EnableOpenFirewall", "YAMS") == "true")
+            {
+                Networking.CloseFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")));
+                Networking.CloseFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")));
+            }
+            if (Database.GetSetting("EnablePortForwarding", "YAMS") == "true")
+            {
+                Networking.CloseUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")));
+                Networking.CloseUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")));
+            }
             
             adminServerThread.Abort();
             publicServerThread.Abort();
