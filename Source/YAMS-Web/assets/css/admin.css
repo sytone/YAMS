@@ -1,3 +1,8 @@
+body {
+	font-family: Arial, Tahoma, Verdana;
+	font-size:   86%;
+}
+
 /* Login Page */
 
 .login { background-color: #eee; font: .8em Arial, Tahoma, Verdana; color: #777;}
@@ -11,6 +16,8 @@
 /* Main Admin */
 
 h1 { margin: 0 0 0.5em 0; }
+
+h3, h4 { font-size: 1.1em; background: #EEF; border: 1px solid #BBB; border-width:	0 0 1px; padding: 7px 10px; margin: 0; }
 
 .console-input, .command-input { padding: 2px; }
 
@@ -26,7 +33,23 @@ h1 { margin: 0 0 0.5em 0; }
 
 #status p { margin-bottom: 0; }
 
-#players { background-color: #fff; margin: 5px; overflow: auto; border: 1px solid #000; }
+#server-console, #yams-log { font-size: 80%; }
+
+#console-tab, #chat-tab { padding: 0; }
+
+.ui-layout-east,
+.ui-layout-east .ui-layout-content { padding: 0; overflow: hidden; }
+.ui-layout-center { padding: 0; }
+
+.ui-widget { font-size: 1em; }
+
+.ui-accordion .ui-accordion-content { padding: 0.5em; }
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-widget-header  { font-weight: normal; }
+
+/*#players { background-color: #fff; margin: 5px; overflow: auto; border: 1px solid #000; }*/
 
 .version-label, .version-number, .app-label, .app-checkbox { width: 48%; float: left; }
 .version-label, .app-label { font-weight: bold; text-align: right; padding-right: 5px; }

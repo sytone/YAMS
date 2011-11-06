@@ -4,16 +4,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>YAMS Admin</title>
 
-<!-- Combo-handled YUI CSS files: -->
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css&2.8.2r1/build/base/base-min.css" />
-<!-- Combo-handled YUI JS files: -->
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/yuiloader-dom-event/yuiloader-dom-event.js&2.8.2r1/build/selector/selector-min.js"></script>
 <!-- jQuery -->
-<script type="text/javascript" src="/assets/js/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery-ui-1.8.16.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.layout.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.layout.resizePaneAccordions.js"></script>
+<!-- jQuery CSS -->
+<link rel="stylesheet" type="text/css" href="/assets/css/base/jquery.ui.all.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/blitzer/jquery-ui-1.8.16.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/jquery.layout.css" />
+
+<!-- YUI -->
+<link rel="stylesheet" type="text/css" href="/assets/css/yui.menu.css" />
+<script type="text/javascript" src="/assets/js/yui.menu.js"></script>
+
 <!-- Load YAMS JS -->
 <link rel="stylesheet" type="text/css" href="/assets/css/admin.css" />
 <script type="text/javascript">
-	var YAMSModules = [ "admin" ];
+	var YAMSModules = [ "admin", "YAMSpanel", "YAMSmenu", "YAMSlayout" ];
 </script>
 <script type="text/javascript" src="/assets/js/global.js"></script>
 
@@ -21,17 +29,45 @@
 
 <body>
 
-    <div id="header"></div>
+    <div id="header" class="ui-layout-north"></div>
     
-    <div id="yams-log"></div>
+    <div id="yams-log" class="ui-layout-south"></div>
     
-    <div id="server-status"></div>
-    
-    <div id="left-menu"></div>
-    
-    <div id="main">
-    	<h1></h1>
-        <div id="server-console"></div>
+    <div id="server-status" class="ui-layout-east" style="display: none;">
+    	<h3 class="ui-widget-header">Server Status</h3>
+        <div class="ui-layout-content">
+        	<div id="server-accordion" class="basic"></div>
+        </div>
+    </div>
+   
+    <div id="main" class="ui-layout-center" style="display: none;">
+    	<h3 class="ui-widget-header"></h3>
+        <div id="server-console" style="display: none;">
+            <ul>
+                <li><a href="#console-tab">Console</a></li>
+                <li><a href="#chat-tab">Chat</a></li>
+                <li><a href="#settings-tab">Settings</a></li>
+                <li><a href="#apps-tab">Apps</a></li>
+            </ul>
+            <div id="console-tab">
+                <div id="console" class="log"></div>
+                <div class="command console">
+                    <input type="text" class="console-input" id="console-input" /><button id="console-send" class="send">Send</button>
+                </div>
+            </div>
+            <div id="chat-tab">
+                <div id="chat" class="log"></div>
+                <div class="command chat">
+                    <input type="text" class="chat-input" id="chat-input" /><button id="chat-send" class="send">Say</button>
+                </div>
+            </div>
+            <div id="settings-tab">
+                <img src="/assets/images/ajax-loader.gif" />
+            </div>
+            <div id="apps-tab">
+                <img src="/assets/images/ajax-loader.gif" />
+            </div>
+        </div>
     </div>
 
 </body>

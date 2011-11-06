@@ -39,6 +39,18 @@ YAMS = {
 		admin: {
 			friendlyName: "Admin",
 			fileName: "admin.js"
+		},
+		YAMSpanel: {
+			friendlyName: "Panel",
+			fileName: "panel.js"
+		},
+		YAMSmenu: {
+			friendlyName: "Menu",
+			fileName: "menu.js"
+		},
+		YAMSlayout: {
+			friendlyName: "Layout",
+			fileName: "layout.js"
 		}
 	
 	},
@@ -55,6 +67,7 @@ YAMS = {
 			});
 			moduleLoader.require(YAMS.required[i]);
 		};
+		moduleLoader.onSuccess = function() { YAMS.admin.init() };
 		
 		moduleLoader.insert();
 	},
@@ -84,7 +97,6 @@ YAMS = {
 			YAMS.L = YAHOO.util.YUILoader;
 			YAMS.D = YAHOO.util.Dom;
 			YAMS.E = YAHOO.util.Event;
-			YAMS.S = YAHOO.util.Selector.query;
 		}
 
 		// Add the yui skin class to the body
