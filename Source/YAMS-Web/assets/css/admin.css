@@ -42,6 +42,7 @@ h3, h4 { font-size: 1.1em; background: #EEF; border: 1px solid #BBB; border-widt
 .ui-layout-center { padding: 0; }
 
 .ui-widget { font-size: 1em; }
+.ui-dialog-content { font-size: 98% }
 
 .ui-accordion .ui-accordion-content { padding: 0.5em; }
 .ui-state-default,

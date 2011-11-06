@@ -13,7 +13,7 @@ YAMS.panel = {
 
     dialogs: {},
 
-    createDialog: function (strName, intWidth, strHeader, strTemplate, funcOnLoad) {
+    createDialog: function (strName, intWidth, strHeader, strTemplate, funcOnLoad, objButtons) {
         var dialog = $('<div id="' + strName + '"><img src="/assets/images/ajax-loader.gif" /></div>').dialog({
             modal: true,
             open: function () {
@@ -26,6 +26,7 @@ YAMS.panel = {
             title: strHeader,
             resizable: false
         });
+        if (typeof (objButtons) != "undefined") $(dialog).dialog("option", "buttons", objButtons);
 
         return dialog;
     },
@@ -57,6 +58,9 @@ YAMS.panel = {
                     if (data.bukkit === "true") $('#bukkit-installed').prop("checked", true);
                 }
             });
+        },
+        {
+            "Save": YAMS.panel.updateApps
         });
     },
 
@@ -69,9 +73,10 @@ YAMS.panel = {
                      "bukkit=" + $('#bukkit-installed').prop("checked");
         $.ajax({
             data: 'action=update-apps&' + values,
+            dataType: 'text',
             success: function (data) {
                 alert("Selected apps will be downloaded on next update check.");
-                $(YAMS.panel.dialogs.apps).dialog("close");
+                YAMS.panel.dialogs.apps.remove();
             },
             failure: function () {
                 alert("apps not set");
@@ -97,6 +102,9 @@ YAMS.panel = {
                     }
                 }
             });
+        },
+        {
+            "Save": YAMS.panel.updateNetwork
         });
     },
 
@@ -108,19 +116,20 @@ YAMS.panel = {
                      "listenIp=" + YAMS.D.get('listen-ip').value;
         $.ajax({
             data: 'action=save-network-settings&' + values,
+            dataType: 'text',
             success: function () {
-                $(YAMS.panel.dialogs.network).dialog("destroy");
+                YAMS.panel.dialogs.network.remove();
             }
         });
     },
 
 
     jobList: function () {
-        this.dialogs.jobs = this.createDialog("job-panel", 600, "Jobs", "job-list", YAMS.panel.refreshJobs);
+        this.dialogs.jobs = this.createDialog("job-panel", 600, "Jobs", "job-list", YAMS.panel.refreshJobs, { "Add Job": YAMS.panel.addJobWindow });
     },
 
     addJobWindow: function () {
-        this.dialogs.addJob = this.createDialog('add-job', 400, "Add a job", "add-job");
+        YAMS.panel.dialogs.addJob = YAMS.panel.createDialog('add-job', 400, "Add a job", "add-job");
     },
 
     refreshJobs: function () {
