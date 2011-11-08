@@ -68,10 +68,10 @@ YAMS.admin = {
                 $('#console-send').button().click(YAMS.admin.consoleSend);
                 $('#chat-send').button().click(YAMS.admin.chatSend);
                 $('#console-input').on('keydown', function (e) {
-                    if (e && (e.keyCode == 13)) { YAMS.admin.consoleSend(); }
+                    if (e && (e.keyCode == 13)) { e.preventDefault(); YAMS.admin.consoleSend(); }
                 });
                 $('#chat-input').on('keydown', function (e) {
-                    if (e && (e.keyCode == 13)) { YAMS.admin.chatSend(); }
+                    if (e && (e.keyCode == 13)) { e.preventDefault(); YAMS.admin.chatSend(); }
                 });
 
                 YAMS.layout.resizeConsoles();
