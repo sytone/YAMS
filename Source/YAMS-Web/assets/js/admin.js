@@ -337,12 +337,10 @@ YAMS.admin = {
     },
 
     forceUpdate: function () {
-        var trans = YAHOO.util.Connect.asyncRequest('POST', '/api/', {
-            success: function (o) {
-            },
-            failure: function (o) {
-            }
-        }, 'action=force-autoupdate');
+        $.ajax({
+            dataType: 'text',
+            data: 'action=force-autoupdate'
+        });
     },
 
     server: function (id, name, ver) {
