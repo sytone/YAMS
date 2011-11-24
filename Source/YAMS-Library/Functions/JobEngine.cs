@@ -58,6 +58,10 @@ namespace YAMS
                     case "update":
                         AutoUpdate.CheckUpdates();
                         break;
+                    case "delayedrestart":
+                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                        s.DelayedRestart(Convert.ToInt32(rdJobs["JobParams"]));
+                        break;
                     default:
                         Database.AddLog("Invalid entry in Job database", "job", "warn");
                         break;
