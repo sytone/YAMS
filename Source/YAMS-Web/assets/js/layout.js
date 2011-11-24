@@ -43,7 +43,7 @@ YAMS.layout = {
 			.append($('<button id="restart-server">Restart</button>').button().click(function () { YAMS.admin.restartServer(); return false; }))
 			.append($('<button id="restart-server-when-free">Restart When Free</button>').button().click(function () { YAMS.admin.restartServerWhenFree(); return false; }))
 			.append('<br />')
-			.append($('<button id="delayed-restart-server">Restart After</button>').button().click(function () { YAMS.admin.restartServerWhenFree(); return false; }))
+			.append($('<button id="delayed-restart-server">Restart After</button>').button().click(function () { YAMS.admin.delayedRestartServer(); return false; }))
 			.append($('<input type="text" id="delay-time" size="3" />'));
 
         $('#server-accordion').accordion({
