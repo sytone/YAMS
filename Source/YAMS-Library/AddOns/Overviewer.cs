@@ -40,7 +40,7 @@ namespace YAMS.AddOns
                 strArgs += " --rendermodes=" + jobParams["rendermodes"];
             }
             
-            strArgs += " \"" + ServerRoot + "\\world\" \"" + ServerRoot + "renders\\overviewer\\output\"";
+            strArgs += " \"" + ServerRoot + "world\" \"" + ServerRoot + "renders\\overviewer\\output\"";
 
             Process prcOverviewer = new Process();
             prcOverviewer.StartInfo.UseShellExecute = false;
