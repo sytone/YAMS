@@ -12,7 +12,7 @@
     {
       "overviewer" : "0.3.0",
       "c10t" : "1.9",
-      "biomeextractor": "080",
+      "biomeextractor": "090",
       "tectonicus":"1.38"
     },
 	"pre": "http://assets.minecraft.net/rc2/minecraft_server.jar"
