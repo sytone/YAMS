@@ -13,6 +13,8 @@ namespace YAMS
 
         public static Timer timJob;
 
+
+
         public static void Init()
         {
             //Tick every minute
@@ -32,9 +34,30 @@ namespace YAMS
             SqlCeDataReader rdJobs = Database.GetJobs(intHour, intMinutes);
 
             MCServer s;
-            
+
             while (rdJobs.Read())
             {
+                //Split up the parameters
+                string strParams = rdJobs["JobParams"].ToString();
+                Dictionary<string, string> jobParams = new Dictionary<string, string> { };
+
+                if (strParams != "")
+                {
+                    string[] arrKeys = strParams.Split('&');
+                    foreach (string strKey in arrKeys)
+                    {
+                        string[] arrValues = strKey.Split('=');
+                        if (arrValues.Length == 2)
+                        {
+                            jobParams.Add(arrValues[0], arrValues[1]);
+                        }
+                        else
+                        {
+                            Database.AddLog("Params failed on job. String was " + strParams, "job", "warn");
+                        }
+                    }
+                }
+
                 switch (rdJobs["JobAction"].ToString()) {
                     case "overviewer":
                         s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
@@ -61,6 +84,9 @@ namespace YAMS
                     case "delayedrestart":
                         s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
                         s.DelayedRestart(Convert.ToInt32(rdJobs["JobParams"]));
+                        break;
+                    case "clearlogs":
+                        Database.ClearLogs(jobParams["period"], Convert.ToInt32(jobParams["amount"]));
                         break;
                     default:
                         Database.AddLog("Invalid entry in Job database", "job", "warn");

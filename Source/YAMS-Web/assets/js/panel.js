@@ -177,8 +177,8 @@ YAMS.panel = {
     },
 
     selectType: function (strType) {
-        $('#job-server, #job-update, #job-backup, #job-overviewer, #job-c10t, #job-delayedrestart').hide();
-        if (strType != "update") $('#job-server').show();
+        $('#job-server, #job-update, #job-backup, #job-overviewer, #job-c10t, #job-delayedrestart, #job-clearlogs').hide();
+        if (strType != "update" && strType != "clearlogs") $('#job-server').show();
         if (strType != "") $('#job-' + strType).show();
     },
 
@@ -260,6 +260,10 @@ YAMS.panel = {
             case "delayedrestart":
                 strData += "&job-server=" + $('#server-select').val();
                 strData += "&job-params=" + $('#delayedrestart-delay').val();
+                break;
+            case "clearlogs":
+                strData += "&job-server=0";
+                strData += "&job-params=" + escape("period=" + $('#clearlogs-period').val() + "&amount=" + $('#clearlogs-amount').val());
                 break;
         }
         $.ajax({

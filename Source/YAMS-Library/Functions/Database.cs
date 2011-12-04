@@ -491,6 +491,14 @@ namespace YAMS
             cmd.ExecuteNonQuery();
         }
 
+        public static void ClearLogs(string strPeriod, int intAmount)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+            cmd.CommandText = "DELETE FROM Log WHERE LogDateTime < DATEADD(" + strPeriod + ", -" + intAmount + ", GETDATE());";
+            cmd.ExecuteNonQuery();
+        }
+
         ~Database()
         {
             connLocal.Close();

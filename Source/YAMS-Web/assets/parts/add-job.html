@@ -5,6 +5,7 @@
     <option value="overviewer">Overviewer</option>
     <option value="c10t">c10t</option>
     <option value="delayedrestart">Restart with warning</option>
+    <option value="clearlogs">Clear old database logs</option>
 </select>
 <fieldset>
     <div id="job-time">
@@ -131,5 +132,15 @@
     </div>
     <div id="job-delayedrestart" style="display: none;">
         <div><label for="delayedrestart-time">Restart after (s)</label><input type="text" id="delayedrestart-delay" /></div>
+    </div>
+    <div id="job-clearlogs" style="display: none;">
+        <div><label for="clearlogs-period">Period</label>
+        <select id="clearlogs-period">
+            <option value="yy">Year</option>
+            <option value="mm">Month</option>
+            <option value="ww">Week</option>
+            <option value="dd">Day</option>
+        </select></div>
+        <div><label for="clearlogs-amount">Amount</label><input type="text" id="clearlogs-amount" /></div>
     </div>
 </fieldset>
