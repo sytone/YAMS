@@ -71,8 +71,6 @@ namespace YAMS
         //Checks for available updates
         public static void CheckUpdates(bool bolForce = false)
         {
-            YAMS.Database.AddLog("Running update check", "updater");
-
             if (!UpdatePaused)
             {
                 //What branch are we on?
