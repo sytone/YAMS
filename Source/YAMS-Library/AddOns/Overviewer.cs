@@ -16,11 +16,6 @@ namespace YAMS.AddOns
 
         public override void DoWork()
         {
-
-            //Force a server save and turn off level saving
-            this.Server.Save();
-            this.Server.DisableSaving();
-
             //If we have Biome Extractor installed, we should run it
             BiomeExtractor BE = new BiomeExtractor(this.Server);
             if (BE.IsInstalled)
@@ -33,6 +28,18 @@ namespace YAMS.AddOns
             //Check the proper folders exist
             if (!Directory.Exists(ServerRoot + @"\renders\overviewer\")) Directory.CreateDirectory(ServerRoot + @"\renders\overviewer\");
             if (!Directory.Exists(ServerRoot + @"\renders\overviewer\output\")) Directory.CreateDirectory(ServerRoot + @"\renders\overviewer\output\");
+            if (!Directory.Exists(ServerRoot + @"\renders\overviewer\temp\")) Directory.CreateDirectory(ServerRoot + @"\renders\overviewer\temp\");
+
+            //Force a server save and turn off level saving
+            this.Server.Save();
+            this.Server.DisableSaving();
+
+            //Copy the world to a temp directory and operate on that
+            Util.Copy(ServerRoot + @"\world\", ServerRoot + @"\renders\overviewer\temp\");
+
+            //Re-enable server saving and updating
+            this.Server.EnableSaving();
+
             string strArgs = "";
 
             if (this.jobParams.ContainsKey("rendermodes"))
@@ -40,7 +47,7 @@ namespace YAMS.AddOns
                 strArgs += " --rendermodes=" + jobParams["rendermodes"];
             }
             
-            strArgs += " \"" + ServerRoot + "world\" \"" + ServerRoot + "renders\\overviewer\\output\"";
+            strArgs += " \"" + ServerRoot + "renders\\overviewer\\temp\" \"" + ServerRoot + "renders\\overviewer\\output\"";
 
             Process prcOverviewer = new Process();
             prcOverviewer.StartInfo.UseShellExecute = false;
@@ -81,8 +88,8 @@ namespace YAMS.AddOns
             }
             Thread.Sleep(10000);
 
-            //Re-enable server saving and updating
-            this.Server.EnableSaving();
+            //Clear out the temp folder
+            if (!Directory.Exists(ServerRoot + @"\renders\overviewer\temp\")) Directory.Delete(ServerRoot + @"\renders\overviewer\temp\", true);
 
             //Must always call this to let base class know we're done
             this.Finish();
