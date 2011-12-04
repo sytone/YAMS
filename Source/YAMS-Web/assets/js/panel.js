@@ -84,6 +84,17 @@ YAMS.panel = {
         });
     },
 
+    setTime: function () {
+        this.dialogs.time = this.createDialog("time-panel", 400, "Set Time", "set-time", null,
+        {
+            "Go": YAMS.panel.completeSetTime
+        });
+    },
+
+    completeSetTime: function () {
+        YAMS.admin.sendCommand('time ' + $('#set-time-type').val() + ' ' + $('#set-time-value').val());
+        YAMS.panel.dialogs.time.remove();
+    },
     networkSettings: function () {
         this.dialogs.network = this.createDialog("networking-panel", 400, "Network Settings", "network", function () {
             $.ajax({
