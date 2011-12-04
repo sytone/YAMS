@@ -13,7 +13,7 @@ YAMS.menu = {
 
     build: function() {
         YAMS.menu.menuBar = new YAHOO.widget.MenuBar("top-menu", {
-            lazyload: true,
+            lazyload: false,
             autosubmenudisplay: true,
             hidedelay: 750,
             itemdata: YAMS.menu.menuData
@@ -57,7 +57,7 @@ YAMS.menu = {
             submenu: {
                 id: "serversmenu",
                 itemdata: [
-                    { text: "New Server", onclick: { fn: onMenuItemClick} }
+                    { text: "New Server", onclick: { fn: addServer} }
                 ]
             }
         },
@@ -98,3 +98,4 @@ function forceUpdate() { YAMS.admin.forceUpdate() };
 function networkSettings() { YAMS.panel.networkSettings() };
 function jobList() { YAMS.panel.jobList() };
 function logOut() { YAMS.admin.logOut() };
+function addServer() { YAMS.panel.newServer() };

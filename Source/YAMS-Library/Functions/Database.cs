@@ -293,7 +293,6 @@ namespace YAMS
             if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\");
             if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\");
             if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\output\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\output\");
-            if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\tectonicus\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\tectonicus\");
             if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\banned-ips.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\banned-ips.txt");
             if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\banned-players.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\banned-players.txt");
             if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\ops.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\ops.txt");
@@ -301,6 +300,54 @@ namespace YAMS
 
             //Create default config files
             BuildServerProperties(intNewID);
+
+            return intNewID;
+        }
+
+        public static int NewServerWeb(List<KeyValuePair<string, string>> listServer, string strServerTitle, int intServerMemory = 1024)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+
+            //Create the server and get an ID
+            cmd.CommandText = "INSERT INTO MCServers (ServerTitle, ServerWrapperMode, ServerAssignedMemory, ServerAutostart) VALUES (@title, 0, @mem, 0)";
+            cmd.Parameters.Add("@title", strServerTitle);
+            cmd.Parameters.Add("@mem", intServerMemory);
+            cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SELECT @@IDENTITY";
+            int intNewID = Convert.ToInt32(cmd.ExecuteScalar());
+
+            //Set up Files + Folders
+            if (!Directory.Exists(Core.StoragePath + intNewID.ToString())) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString());
+            //if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\config\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\config\");
+            if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\world\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\world\");
+            if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\backups\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\backups\");
+            if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\");
+            if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\");
+            if (!Directory.Exists(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\output\")) Directory.CreateDirectory(Core.StoragePath + intNewID.ToString() + @"\renders\overviewer\output\");
+            if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\banned-ips.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\banned-ips.txt");
+            if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\banned-players.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\banned-players.txt");
+            if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\ops.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\ops.txt");
+            if (!File.Exists(Core.StoragePath + intNewID.ToString() + @"\white-list.txt")) File.Create(Core.StoragePath + intNewID.ToString() + @"\white-list.txt");
+
+            //Insert the settings into the DB for this server
+            foreach (var element in listServer)
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandText = "INSERT INTO MCSettings (ServerID, SettingName, SettingValue) VALUES (@id, @name, @value);";
+                cmd.Parameters.Add("@id", intNewID);
+                cmd.Parameters.Add("@name", element.Key);
+                cmd.Parameters.Add("@value", element.Value);
+                cmd.ExecuteNonQuery();
+            }
+
+            //Create default config files
+            BuildServerProperties(intNewID);
+
+            //Add the server to the collection
+            MCServer myServer = new MCServer(intNewID);
+            Core.Servers.Add(intNewID, myServer);
 
             return intNewID;
         }

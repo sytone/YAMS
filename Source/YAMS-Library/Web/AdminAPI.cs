@@ -382,6 +382,15 @@ namespace YAMS.Web
                         case "logout":
                             WebSession.Current.UserName = "";
                             break;
+                        case "newserver":
+                            var NewServer = new List<KeyValuePair<string, string>>();
+                            NewServer.Add(new KeyValuePair<string, string>("motd", "Welcome to a YAMS server!"));
+                            NewServer.Add(new KeyValuePair<string, string>("server-ip", Networking.GetListenIP().ToString()));
+                            NewServer.Add(new KeyValuePair<string, string>("server-name", param["name"]));
+                            NewServer.Add(new KeyValuePair<string, string>("server-port", Networking.TcpPort.FindNextAvailablePort(25565).ToString()));
+                            Database.NewServerWeb(NewServer, param["name"], 1024);
+                            strResponse = "done";
+                            break;
                         default:
                             return ProcessingResult.Abort;
                     }

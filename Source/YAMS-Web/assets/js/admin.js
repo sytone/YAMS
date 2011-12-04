@@ -77,12 +77,12 @@ YAMS.admin = {
                 YAMS.layout.resizeConsoles();
 
                 //Set initial server
-                YAMS.admin.setServer(0);
+                YAMS.admin.setServer(0, 0, 0);
             }
         })
     },
 
-    setServer: function (serverid) {
+    setServer: function (a, b, serverid) {
         //Clear out any previous contents
         $('#console').html('');
         $('#chat').html('');

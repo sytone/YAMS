@@ -31,6 +31,21 @@ YAMS.panel = {
         return dialog;
     },
 
+    newServer: function () {
+        this.dialogs.newServer = this.createDialog("newServer-panel", 400, "New Server", "add-server", null,
+        {
+            "Add": function () {
+                $.ajax({
+                    data: 'action=newserver&name=' + escape($('#newServer-name').val()),
+                    success: function () {
+                        alert("Server Created, select it in the menu to configure");
+                        window.location.reload(true);
+                    }
+                });
+            }
+        });
+    },
+
     aboutYAMS: function () {
         this.dialogs.about = this.createDialog("about-panel", 240, "About YAMS", "about", function () {
             $.ajax({
