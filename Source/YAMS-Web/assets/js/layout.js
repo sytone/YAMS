@@ -44,7 +44,11 @@ YAMS.layout = {
 			.append($('<button id="restart-server-when-free">Restart When Free</button>').button().click(function () { YAMS.admin.restartServerWhenFree(); return false; }))
 			.append('<br />')
 			.append($('<button id="delayed-restart-server">Restart After</button>').button().click(function () { YAMS.admin.delayedRestartServer(); return false; }))
-			.append($('<input type="text" id="delay-time" size="3" />'));
+			.append($('<input type="text" id="delay-time" size="3" />'))
+            .append('<br />')
+            .append($('<button id="toggle-downfall">Toggle Rain/Snow</button>').button().click(function () { YAMS.admin.sendCommand('toggledownfall'); return false; }))
+            .append('<br />')
+            .append($('<button id="set-time">Set Time</button>').button().click(function () { YAMS.panel.setTime(); return false; }));
 
         $('#server-accordion').accordion({
             fillSpace: true,
