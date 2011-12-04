@@ -11,6 +11,9 @@ All documentation is now in the [wiki](https://github.com/richardbenson/YAMS/wik
   * [Current Features](https://github.com/richardbenson/YAMS/wiki/Current-features)
   * [Repository Guide](https://github.com/richardbenson/YAMS/wiki/Repository-guide) (For Developers)
 
+## Credits
+
+  * Makes use of the excellent Silk Icon Set from famfamfam.com (http://www.famfamfam.com/lab/icons/silk/)
 
 ## License
 

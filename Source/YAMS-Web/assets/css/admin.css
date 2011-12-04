@@ -51,6 +51,7 @@ h3, h4 { font-size: 1.1em; background: #EEF; border: 1px solid #BBB; border-widt
 .ui-widget-header  { font-weight: normal; }
 
 .ui-tabs .ui-tabs-panel { overflow: auto; padding: 0; }
+
 /*#players { background-color: #fff; margin: 5px; overflow: auto; border: 1px solid #000; }*/
 
 .version-label, .version-number, .app-label, .app-checkbox { width: 48%; float: left; }
@@ -76,4 +77,15 @@ label { width: 150px; float: left; text-align: right; padding-right: 10px; }
 em#yamslabel { text-indent: -6em; display: block; background: url(../images/YAMS-Icon.png) center center no-repeat; width: 2em; overflow: hidden; }
 #filemenu.visible .yuimenuitemlabel, #editmenu.visible .yuimenuitemlabel { *zoom: 1; }
 #filemenu.visible .yuimenu .yuimenuitemlabel { *zoom: normal; }            
-.yui-skin-sam .yui-layout .yui-layout-unit-top .yui-layout-wrap div.yui-layout-bd {	border: none; }            
+.yui-skin-sam .yui-layout .yui-layout-unit-top .yui-layout-wrap div.yui-layout-bd {	border: none; }
+
+/* Context Menu */
+.contextMenu LI.tp A { background-image: url(../images/icons/user_go.png); }
+.contextMenu LI.xp A { background-image: url(../images/icons/medal_gold_add.png); }
+.contextMenu LI.give A { background-image: url(../images/icons/package_add.png); }
+/*.contextMenu LI.gamemode A { background-image: url(../images/icons/user_go.png); }*/
+.contextMenu LI.op A { background-image: url(../images/icons/award_star_add.png); }
+.contextMenu LI.deop A { background-image: url(../images/icons/award_star_delete.png); }
+.contextMenu LI.kick A { background-image: url(../images/icons/bomb.png); }
+.contextMenu LI.ban A { background-image: url(../images/icons/user_delete.png); }
+.contextMenu LI.banip A { background-image: url(../images/icons/server_delete.png); }

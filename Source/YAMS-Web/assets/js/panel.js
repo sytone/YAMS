@@ -95,6 +95,19 @@ YAMS.panel = {
         YAMS.admin.sendCommand('time ' + $('#set-time-type').val() + ' ' + $('#set-time-value').val());
         YAMS.panel.dialogs.time.remove();
     },
+
+    givePanel: function (strPlayer) {
+        this.dialogs.give = this.createDialog("give-panel", 400, "Give player: " + strPlayer, "give-player", function () {
+            $('#playername').val(strPlayer);
+        },
+        {
+            "Give": function () {
+                YAMS.admin.sendCommand('give ' + $('#playername').val() + ' ' + $('#give-item').val() + ' ' + $('#give-amount').val() + ' ' + $('#give-damage').val());
+                YAMS.panel.dialogs.give.remove();
+            }
+        });
+    },
+
     networkSettings: function () {
         this.dialogs.network = this.createDialog("networking-panel", 400, "Network Settings", "network", function () {
             $.ajax({

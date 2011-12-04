@@ -185,10 +185,39 @@ YAMS.admin = {
                 l.html('');
                 for (var i = 0, len = results.players.length; i < len; ++i) {
                     var r = results.players[i].name + " (" + results.players[i].level + ")";
-                    var s = document.createElement('div');
-                    s.innerHTML = r;
-                    l.append(s);
+                    $('<div>').attr('player', results.players[i].name).html(r).addClass('player').appendTo(l);
                 }
+                $('.player').contextMenu({
+                    menu: "player-menu"
+                },
+                function (action, el, pos) {
+                    switch (action) {
+                        case "give":
+                            YAMS.panel.givePanel($(el).attr('player'));
+                            break;
+                        case "op":
+                            YAMS.admin.sendCommand('op ' + $(el).attr('player'));
+                            break;
+                        case "deop":
+                            YAMS.admin.sendCommand('deop ' + $(el).attr('player'));
+                            break;
+                        case "kick":
+                            YAMS.admin.sendCommand('kick ' + $(el).attr('player'));
+                            break;
+                        case "ban":
+                            YAMS.admin.sendCommand('ban ' + $(el).attr('player'));
+                            break;
+                        case "banip":
+                            YAMS.admin.sendCommand('ban-ip ' + $(el).attr('player'));
+                            break;
+                        case "survival":
+                            YAMS.admin.sendCommand('gamemode ' + $(el).attr('player') + ' 0');
+                            break;
+                        case "creative":
+                            YAMS.admin.sendCommand('gamemode ' + $(el).attr('player') + ' 1');
+                            break;
+                    };
+                });
             },
             timeout: 4500
         });
@@ -244,6 +273,12 @@ YAMS.admin = {
     deleteWorld: function () {
         $.ajax({
             data: 'action=delete-world&serverid=' + YAMS.admin.selectedServer
+        });
+    },
+
+    sendCommand: function (strCommand) {
+        $.ajax({
+            data: 'action=command&serverid=' + YAMS.admin.selectedServer + '&message=' + escape(strCommand)
         });
     },
 
