@@ -60,6 +60,8 @@ YAMS.layout = {
 
         $('#console-input').width(centerWidth - 70);
         $('#chat-input').width(centerWidth - 70);
+
+        $('.ui-tabs .ui-tabs-panel').height(centerHeight - 74);
     }
 
 }

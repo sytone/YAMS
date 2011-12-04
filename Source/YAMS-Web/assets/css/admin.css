@@ -35,11 +35,11 @@ h3, h4 { font-size: 1.1em; background: #EEF; border: 1px solid #BBB; border-widt
 
 #server-console, #yams-log { font-size: 80%; }
 
-#console-tab, #chat-tab { padding: 0; }
+/*#console-tab, #chat-tab { padding: 0; }*/
 
 .ui-layout-east,
 .ui-layout-east .ui-layout-content { padding: 0; overflow: hidden; }
-.ui-layout-center { padding: 0; }
+.ui-layout-center { padding: 0; overflow: hidden; }
 
 .ui-widget { font-size: 1em; }
 .ui-dialog-content { font-size: 98% }
@@ -50,6 +50,7 @@ h3, h4 { font-size: 1.1em; background: #EEF; border: 1px solid #BBB; border-widt
 .ui-widget-header .ui-state-default,
 .ui-widget-header  { font-weight: normal; }
 
+.ui-tabs .ui-tabs-panel { overflow: auto; padding: 0; }
 /*#players { background-color: #fff; margin: 5px; overflow: auto; border: 1px solid #000; }*/
 
 .version-label, .version-number, .app-label, .app-checkbox { width: 48%; float: left; }
