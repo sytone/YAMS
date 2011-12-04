@@ -163,6 +163,8 @@ namespace YAMS
                 return true;
             }
             catch(Exception e) {
+                string strMessage = e.Message;
+                if (e.Message == "Object reference not set to an instance of an object.") strMessage = "No UPnP Router Found";
                 Database.AddLog("Unable foward port " + intPortNumber + " for " + strFriendlyName + ": Exception - " + e.Message, "networking", "warn");
                 return false;
             }
