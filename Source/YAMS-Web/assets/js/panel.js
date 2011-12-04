@@ -123,6 +123,46 @@ YAMS.panel = {
         });
     },
 
+    giveXPPanel: function (strPlayer) {
+        this.dialogs.xp = this.createDialog("xp-panel", 400, "Give XP to player: " + strPlayer, "givexp-player", function () {
+            $('#playername').val(strPlayer);
+        },
+        {
+            "Give": function () {
+                YAMS.admin.sendCommand('xp ' + $('#playername').val() + ' ' + $('#give-amount').val());
+                YAMS.panel.dialogs.xp.remove();
+            }
+        });
+    },
+
+    whisperPanel: function (strPlayer) {
+        this.dialogs.whisper = this.createDialog("whisper-panel", 400, "Whisper to player: " + strPlayer, "whisper-player", function () {
+            $('#playername').val(strPlayer);
+        },
+        {
+            "Say": function () {
+                YAMS.admin.sendCommand('tell ' + $('#playername').val() + ' ' + $('#whisper-message').val());
+                YAMS.panel.dialogs.whisper.remove();
+            }
+        });
+    },
+
+    teleportPanel: function (strPlayer) {
+        this.dialogs.teleport = this.createDialog("teleport-panel", 400, "Teleport player: " + strPlayer, "teleport-player", function () {
+            $('#playername').val(strPlayer);
+            $('.player').each(function () {
+                var playerSelect = document.getElementById('teleport-target');
+                playerSelect.options[playerSelect.options.length] = new Option($(this).attr('player'), $(this).attr('player'), false, false);
+            });
+        },
+        {
+            "Teleport": function () {
+                YAMS.admin.sendCommand('tp ' + $('#playername').val() + ' ' + $('#teleport-target').val());
+                YAMS.panel.dialogs.teleport.remove();
+            }
+        });
+    },
+
     networkSettings: function () {
         this.dialogs.network = this.createDialog("networking-panel", 400, "Network Settings", "network", function () {
             $.ajax({

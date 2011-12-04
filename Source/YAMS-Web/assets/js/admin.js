@@ -195,6 +195,9 @@ YAMS.admin = {
                         case "give":
                             YAMS.panel.givePanel($(el).attr('player'));
                             break;
+                        case "xp":
+                            YAMS.panel.giveXPPanel($(el).attr('player'));
+                            break;
                         case "op":
                             YAMS.admin.sendCommand('op ' + $(el).attr('player'));
                             break;
@@ -215,6 +218,12 @@ YAMS.admin = {
                             break;
                         case "creative":
                             YAMS.admin.sendCommand('gamemode ' + $(el).attr('player') + ' 1');
+                            break;
+                        case "whisper":
+                            YAMS.panel.whisperPanel($(el).attr('player'));
+                            break;
+                        case "tp":
+                            YAMS.panel.teleportPanel($(el).attr('player'));
                             break;
                     };
                 });

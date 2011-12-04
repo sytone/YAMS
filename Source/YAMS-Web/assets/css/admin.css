@@ -10,7 +10,9 @@ body {
 .login #logo { float: left; background: url(../images/redbg.gif) repeat-x; padding: 100px 25px 15px; margin: -46px 30px 20px 0px; }
 .login #logo h1 { text-shadow: 1px 1px 1px #7E0E0E; color: #fff; font-size: 1.6em; font-weight: normal; }
 .login a { text-decoration: none; color: #fff; }
-.login .version-tag { float: right; width: 20px; font-size: .8em; color: #aaa; text-shadow: 1px 1px 1px #ccc; }
+.login .version-tag { float: right; width: 70px; font-size: .8em; color: #aaa; text-shadow: 1px 1px 1px #ccc; text-align: right; }
+.login .version-tag a, .login .version-tag a:link, .login .version-tag a:visited { color: #777; }
+.login .version-tag a:hover { text-decoration: underline; }
 .login input.text { width: 146px; padding: 2px; border: 1px solid #ccc; }
 
 /* Main Admin */
@@ -89,3 +91,4 @@ em#yamslabel { text-indent: -6em; display: block; background: url(../images/YAMS
 .contextMenu LI.kick A { background-image: url(../images/icons/bomb.png); }
 .contextMenu LI.ban A { background-image: url(../images/icons/user_delete.png); }
 .contextMenu LI.banip A { background-image: url(../images/icons/server_delete.png); }
+.contextMenu LI.whisper A { background-image: url(../images/icons/user_comment.png); }
