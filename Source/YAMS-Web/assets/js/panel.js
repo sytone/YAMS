@@ -37,6 +37,7 @@ YAMS.panel = {
             "Add": function () {
                 $.ajax({
                     data: 'action=newserver&name=' + escape($('#newServer-name').val()),
+                    dataType: 'text',
                     success: function () {
                         alert("Server Created, select it in the menu to configure");
                         window.location.reload(true);
