@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using YAMS;
+using LibNbt;
 
 namespace YAMS_Gui
 {
@@ -133,6 +134,19 @@ namespace YAMS_Gui
         private void button5_Click_1(object sender, EventArgs e)
         {
             Networking.OpenFirewallPort(25565, "YAMS TEST");
+        }
+
+        private void button8_Click_1(object sender, EventArgs e)
+        {
+            NbtFile PlayerDat = new NbtFile(YAMS.Core.RootFolder + "\\servers\\1\\world\\players\\bigolslabomeat.dat");
+            PlayerDat.LoadFile();
+            Vector _position;
+            _position.x = PlayerDat.Query<LibNbt.Tags.NbtDouble>("//Pos/0").Value;
+            _position.y = PlayerDat.Query<LibNbt.Tags.NbtDouble>("//Pos/1").Value;
+            _position.z = PlayerDat.Query<LibNbt.Tags.NbtDouble>("//Pos/2").Value;
+            PlayerDat.Dispose();
+
+            MessageBox.Show("x:" + _position.x.ToString() + " y:" + _position.y.ToString() + " z:" + _position.z.ToString());
         }
     }
 }
