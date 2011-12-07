@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using YAMS;
+using LibNbt;
 
 namespace YAMS.Objects
 {
+
     public class Player
     {
         //The minecraft login name of the player
@@ -15,6 +17,17 @@ namespace YAMS.Objects
 
         //Which server are they on?
         private MCServer Server;
+
+        //Where are they at the moment?
+        private Vector _position;
+        public Vector Position
+        {
+            get
+            {
+                this.UpdatePosition();
+                return _position;
+            }
+        }
 
         public Player(string strName, MCServer s)
         {
@@ -40,6 +53,16 @@ namespace YAMS.Objects
         public void SendMessage(string strMessage)
         {
             this.Server.Whisper(this.Username, strMessage);
+        }
+
+        private void UpdatePosition()
+        {
+            NbtFile PlayerDat = new NbtFile(this.Server.ServerDirectory + "\\world\\players\\" + this.Username + ".dat");
+            PlayerDat.LoadFile();
+            this._position.x = PlayerDat.Query<LibNbt.Tags.NbtDouble>("//Pos/0").Value;
+            this._position.y = PlayerDat.Query<LibNbt.Tags.NbtDouble>("//Pos/1").Value;
+            this._position.z = PlayerDat.Query<LibNbt.Tags.NbtDouble>("//Pos/2").Value;
+            PlayerDat.Dispose();
         }
 
     }

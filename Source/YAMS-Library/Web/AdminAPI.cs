@@ -79,7 +79,12 @@ namespace YAMS.Web
                             {
                                 foreach (KeyValuePair<string, Objects.Player> kvp in s.Players)
                                 {
-                                    strResponse += " { \"name\": \"" + kvp.Value.Username + "\", \"level\": \"" + kvp.Value.Level + "\" },";
+                                    Vector playerPos = kvp.Value.Position;
+                                    strResponse += " { \"name\": \"" + kvp.Value.Username + "\", " +
+                                                      "\"level\": \"" + kvp.Value.Level + "\", " +
+                                                      "\"x\": \"" + playerPos.x.ToString() + "\", " +
+                                                      "\"y\": \"" + playerPos.y.ToString() + "\", " +
+                                                      "\"z\": \"" + playerPos.z.ToString() + "\" },";
                                 };
                                 strResponse = strResponse.Remove(strResponse.Length - 1);
                             }

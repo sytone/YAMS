@@ -10,6 +10,13 @@ using YAMS;
 
 namespace YAMS
 {
+    public struct Vector
+    {
+        public double x;
+        public double y;
+        public double z;
+    }
+    
     public static class Core
     {
         public static string RootFolder = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName;

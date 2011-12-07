@@ -184,8 +184,8 @@ YAMS.admin = {
                 var l = $('#players');
                 l.html('');
                 for (var i = 0, len = results.players.length; i < len; ++i) {
-                    var r = results.players[i].name + " (" + results.players[i].level + ")";
-                    $('<div>').attr('player', results.players[i].name).html(r).addClass('player').appendTo(l);
+                    var r = results.players[i].name + " (" + results.players[i].x + "," + results.players[i].y + "," + results.players[i].z + ")";
+                    $('<div>').attr('player', results.players[i].name).html(r).addClass('player').addClass(results.players[i].level).appendTo(l);
                 }
                 $('.player').contextMenu({
                     menu: "player-menu"
