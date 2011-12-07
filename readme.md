@@ -14,6 +14,8 @@ All documentation is now in the [wiki](https://github.com/richardbenson/YAMS/wik
 ## Credits
 
   * Makes use of the excellent Silk Icon Set from famfamfam.com (http://www.famfamfam.com/lab/icons/silk/)
+  * Includes the amazingly useful LibNbt from aphistic (https://github.com/aphistic/libnbt)
+  * Item and block icons provided by the awesome Graham Edgecombe (http://grahamedgecombe.com/)
 
 ## License
 
