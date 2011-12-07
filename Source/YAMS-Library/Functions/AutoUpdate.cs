@@ -168,26 +168,6 @@ namespace YAMS
                             Directory.Move(strC10tDir, YAMS.Core.RootFolder + @"\apps\c10t");
                         }
                     }
-
-                    //Update Tectonicus
-                    if (Convert.ToBoolean(Database.GetSetting("TectonicusInstalled", "YAMS")))
-                    {
-                        if (!Directory.Exists(YAMS.Core.RootFolder + @"\apps\tectonicus\")) Directory.CreateDirectory(YAMS.Core.RootFolder + @"\apps\tectonicus\");
-                        strTectonicusVer = (string)jVers["apps"]["tectonicus"];
-                        if (UpdateIfNeeded(GetExternalURL("tectonicus", strTectonicusVer), YAMS.Core.RootFolder + @"\apps\tectonicus\tectonicus.jar.update", "modified"))
-                        {
-                            bolTectonicusUpdateAvailable = true;
-                            try
-                            {
-                                if (File.Exists(YAMS.Core.RootFolder + @"\apps\tectonicus\tectonicus.jar")) File.Delete(YAMS.Core.RootFolder + @"\apps\tectonicus\tectonicus.jar");
-                                File.Move(YAMS.Core.RootFolder + @"\apps\tectonicus\tectonicus.jar.update", YAMS.Core.RootFolder + @"\apps\tectonicus\tectonicus.jar");
-                            }
-                            catch (IOException e)
-                            {
-                                YAMS.Database.AddLog("Unable to update Tectonicus: " + e.Message, "updater", "warn");
-                            }
-                        }
-                    }
                 }
 
                 //Now check if we can auto-restart anything
