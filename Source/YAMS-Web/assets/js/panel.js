@@ -69,8 +69,6 @@ YAMS.panel = {
                     if (data.overviewer === "true") $('#overviewer-installed').prop("checked", true);
                     if (data.c10t === "true") $('#c10t-installed').prop("checked", true);
                     if (data.biomeextractor === "true") $('#biomeextractor-installed').prop("checked", true);
-                    if (data.tectonicus === "true") $('#tectonicus-installed').prop("checked", true);
-                    if (data.nbtoolkit === "true") $('#nbtoolkit-installed').prop("checked", true);
                     if (data.bukkit === "true") $('#bukkit-installed').prop("checked", true);
                 }
             });
@@ -84,8 +82,6 @@ YAMS.panel = {
         var values = "overviewer=" + $('#overviewer-installed').prop("checked") + "&" +
                      "c10t=" + $('#c10t-installed').prop("checked") + "&" +
                      "biomeextractor=" + $('#biomeextractor-installed').prop("checked") + "&" +
-                     "tectonicus=" + $('#tectonicus-installed').prop("checked") + "&" +
-                     "nbtoolkit=" + $('#nbtoolkit-installed').prop("checked") + "&" +
                      "bukkit=" + $('#bukkit-installed').prop("checked");
         $.ajax({
             data: 'action=update-apps&' + values,
