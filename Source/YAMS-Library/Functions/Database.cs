@@ -385,8 +385,13 @@ namespace YAMS
                     AddJob("update", -1, 0, "", 0);
                     AddJob("backup", -1, 30, "", 1);
                     Database.SaveSetting("DBSchema", "4");
-                    break;
+                    goto case 4;
                     //goto case 3; //etc
+                case 4:
+                    Database.SaveSetting("DNSName", "");
+                    Database.SaveSetting("DNSSecret", "");
+                    Database.SaveSetting("LastExternalIP", "");
+                    break;
                 default:
                     break;
             }

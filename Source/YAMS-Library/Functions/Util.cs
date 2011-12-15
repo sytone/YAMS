@@ -354,6 +354,32 @@ namespace YAMS
             if (Regex.IsMatch(text, strSearchText)) return true;
             else return false;
         }
-   
+
+        /// <summary>
+        /// Updates the Dynamic yams.at DNS.
+        /// </summary>
+        public static void UpdateDNS()
+        {
+            string externalIP = Networking.GetExternalIP().ToString();
+            if (externalIP != Database.GetSetting("LastExternalIP", "YAMS"))
+            {
+                //IP has changed since last time we checked so update the DNS
+                string strVars = "action=update&domain=" + Database.GetSetting("DNSName", "YAMS") + "&secret=" + Database.GetSetting("DNSSecret", "YAMS") + "&ip=" + externalIP;
+                try
+                {
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://www.richardbenson.co.uk/yams/dns/?" + strVars);
+                    request.Method = "GET";
+
+                    //Grab the response
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    Database.AddLog("Updated Dynamic DNS");
+                }
+                catch (System.Net.WebException ex)
+                {
+                    Database.AddLog("Couldn't update DNS: " + ex.Message);
+                }
+            }
+        }
     }
 }

@@ -30,6 +30,9 @@ namespace YAMS
             //is it time to phone home?
             if (Database.GetSetting("UsageData", "YAMS") == "true" && intMinutes == 0) Util.PhoneHome();
 
+            //Should we check DNS?
+            if (intMinutes % 5 == 0 && Database.GetSetting("DNSName", "YAMS") != "") Util.UpdateDNS();
+
             //Get jobs for current minute
             SqlCeDataReader rdJobs = Database.GetJobs(intHour, intMinutes);
 

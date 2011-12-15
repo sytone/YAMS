@@ -396,6 +396,11 @@ namespace YAMS.Web
                             Database.NewServerWeb(NewServer, param["name"], 1024);
                             strResponse = "done";
                             break;
+                        case "updateDNS":
+                            Database.SaveSetting("DNSName", param["dns-name"]);
+                            Database.SaveSetting("DNSSecret", param["dns-secret"]);
+                            strResponse = "done";
+                            break;
                         default:
                             return ProcessingResult.Abort;
                     }
