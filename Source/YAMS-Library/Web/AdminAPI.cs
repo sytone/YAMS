@@ -399,7 +399,11 @@ namespace YAMS.Web
                         case "updateDNS":
                             Database.SaveSetting("DNSName", param["dns-name"]);
                             Database.SaveSetting("DNSSecret", param["dns-secret"]);
+                            Database.SaveSetting("LastExternalIP", param["dns-external"]);
                             strResponse = "done";
+                            break;
+                        case "getDNS":
+                            strResponse = "{ \"name\":\"" + Database.GetSetting("DNSName", "YAMS") + "\", \"secret\": \"" + Database.GetSetting("DNSSecret", "YAMS") + "\", \"external\" : \"" + Networking.GetExternalIP().ToString() + "\" }";
                             break;
                         default:
                             return ProcessingResult.Abort;

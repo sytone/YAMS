@@ -320,6 +320,103 @@ YAMS.panel = {
                 YAMS.admin.refreshJobs();
             }
         });
+    },
+
+    dnsWindow: function () {
+        YAMS.panel.dialogs.dns = YAMS.panel.createDialog('dns-window', 400, "Dynamic DNS", "dns-window", function () {
+            $.ajax({
+                data: "action=getDNS",
+                success: function (data) {
+                    $('#dns-name').val(data.name);
+                    $('#dns-secret').val(data.secret);
+                    $('#dns-external').val(data.external);
+                }
+            });
+        },
+        {
+            "Edit": YAMS.panel.editDNS
+        });
+    },
+
+    editDNS: function () {
+        YAMS.panel.dialogs.dnsEdit = YAMS.panel.createDialog('dns-edit', 400, "Edit DNS", "dns-edit", function () {
+            if ($('#dns-name').val() == "") {
+                $('#add-dns').show();
+                $('#dns-check').button().click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: "http://richardbenson.co.uk/yams/dns/",
+                        dataType: "JSONP",
+                        data: "action=available&domain=" + $('#dns-edit-name').val(),
+                        success: function (data) {
+                            if (data.result == 'true') {
+                                alert($('#dns-edit-name').val() + ".yams.at is available!");
+                                $('#dns-check').hide();
+                                $('#dns-create').show();
+                            } else {
+                                alert($('#dns-edit-name').val() + ".yams.at is NOT available, please try a different name.");
+                            }
+                        }
+                    });
+                });
+                $('#dns-create').button().click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: "http://richardbenson.co.uk/yams/dns/",
+                        dataType: "JSONP",
+                        data: "action=add&domain=" + $('#dns-edit-name').val() + "&ip=" + $('#dns-external').val(),
+                        success: function (data) {
+                            if (data.result == 'ok') {
+                                YAMS.panel.updateDNS($('#dns-edit-name').val(), data.secret, $('#dns-external').val());
+                            } else {
+                                alert("There was an error: " + data.message);
+                            }
+                        }
+                    });
+                });
+                $('#dns-edit-name').on('keyup', function () {
+                    $('#dns-create').hide();
+                    $('#dns-check').show();
+                });
+            } else {
+                $('#delete-dns').show();
+                $('#dns-delete').button().click(function (event) {
+                    event.preventDefault();
+                    if (confirm("This will remove your DNS entry, are you sure?")) {
+                        $.ajax({
+                            url: "http://richardbenson.co.uk/yams/dns/",
+                            dataType: "JSONP",
+                            data: "action=delete&domain=" + $('#dns-name').val() + "&secret=" + $('#dns-secret').val(),
+                            success: function (data) {
+                                if (data.result == 'ok') {
+                                    YAMS.panel.updateDNS("", "", "");
+                                } else {
+                                    alert("There was an error: " + data.message);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
+
+    updateDNS: function (strName, strSecret, strIP) {
+        $.ajax({
+            data: "action=updateDNS&dns-name=" + strName + "&dns-secret=" + strSecret + "&dns-external=" + strIP,
+            dataType: "text",
+            success: function () {
+                YAMS.panel.dialogs.dnsEdit.remove();
+                YAMS.panel.dialogs.dns.remove();
+                YAMS.panel.dnsWindow();
+            }
+        });
+    },
+
+    closeDNSPanels: function () {
+        YAMS.panel.dialogs.dnsEdit.remove();
+        YAMS.panel.dialogs.dns.remove();
+        YAMS.panel.dnsWindow();
     }
 
 };

@@ -72,6 +72,9 @@ YAMS.menu = {
                         { text: "Scheduled Jobs", onclick: { fn: jobList} }
                     ],
                     [
+                        { text: "Dynamic DNS", onclick: { fn: dnsWindow } }
+                    ],
+                    [
                         { text: "Run Updates Now", onclick: { fn: forceUpdate} }
                     ]
             ]
@@ -99,3 +102,4 @@ function networkSettings() { YAMS.panel.networkSettings() };
 function jobList() { YAMS.panel.jobList() };
 function logOut() { YAMS.admin.logOut() };
 function addServer() { YAMS.panel.newServer() };
+function dnsWindow() { YAMS.panel.dnsWindow() };
