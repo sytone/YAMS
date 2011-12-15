@@ -41,9 +41,6 @@ namespace YAMS
         public static string strMCServerURL = "http://www.minecraft.net/download/minecraft_server.jar";
         public static string strMCClientURL = "http://minecraft.net/download/Minecraft.jar";
 
-        //Bukkit URLs
-        public static string strBukkitServerURL = "http://ci.bukkit.org/job/dev-CraftBukkit/promotion/latest/Recommended/artifact/target/craftbukkit-0.0.1-SNAPSHOT.jar";
-
         //YAMS URLs
         public static Dictionary<string, string> strYAMSUpdatePath = new Dictionary<string, string>()
         {
@@ -82,6 +79,8 @@ namespace YAMS
                 string json = File.ReadAllText(YAMS.Core.RootFolder + @"\lib\versions.json");
                 //Dictionary<string, string> dicVers = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                 JObject jVers = JObject.Parse(json);
+
+                string strBukkitServerURL = (string)jVers["bukkit"];
 
                 //Reset all the JAR etags so we re-download them
                 if (bolForce)
