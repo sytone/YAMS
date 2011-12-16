@@ -34,13 +34,7 @@ namespace YAMS_Updater
             txtStoragePath.Text = YAMS.Database.GetSetting("StoragePath", "YAMS");
 
             //Addresses
-            IPAddress externalIP = YAMS.Networking.GetExternalIP();
-            lblExternalIP.Text = externalIP.ToString();
-            lblPublicURL.Text = "http://" + externalIP.ToString();
-            if (YAMS.Database.GetSetting("PublicListenPort", "YAMS") != "80") lblPublicURL.Text += ":" + YAMS.Database.GetSetting("PublicListenPort", "YAMS");
-            lblPublicURL.Text += "/";
-            lblAdminURL.Text = "http://" + externalIP.ToString() + ":" + YAMS.Database.GetSetting("AdminListenPort", "YAMS") + "/admin/";
-            lblListenIP.Text = YAMS.Networking.GetListenIP().ToString();
+            RefreshAddresses();
 
             //Set current update branch
             switch (YAMS.Database.GetSetting("UpdateBranch", "YAMS")) {
@@ -54,6 +48,18 @@ namespace YAMS_Updater
                     selUpdateBranch.SelectedIndex = 0;
                     break;
             }
+        }
+
+        private void RefreshAddresses()
+        {
+            IPAddress externalIP = YAMS.Networking.GetExternalIP();
+            lblExternalIP.Text = externalIP.ToString();
+            lblPublicURL.Text = "http://" + externalIP.ToString();
+            if (YAMS.Database.GetSetting("PublicListenPort", "YAMS") != "80") lblPublicURL.Text += ":" + YAMS.Database.GetSetting("PublicListenPort", "YAMS");
+            lblPublicURL.Text += "/";
+            lblAdminURL.Text = "http://" + externalIP.ToString() + ":" + YAMS.Database.GetSetting("AdminListenPort", "YAMS") + "/admin/";
+            lblListenIP.Text = YAMS.Networking.GetListenIP().ToString();
+            lblDNS.Text = (YAMS.Database.GetSetting("DNSName", "YAMS") != "" ? YAMS.Database.GetSetting("DNSName", "YAMS") + ".yams.at" : "");
         }
 
         private void frmMain_Shown(Object sender, EventArgs e)
@@ -216,6 +222,16 @@ namespace YAMS_Updater
 
                 //Start the service back up
                 Program.StartService();
+            }
+        }
+
+        private void btnResetPorts_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This will reset your admin and web ports back to defaults (56552, 80), are you sure?", "Confirm port reset", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                YAMS.Database.SaveSetting("AdminListenPort", "56552");
+                YAMS.Database.SaveSetting("PublicListenPort", "80");
+                RefreshAddresses();
             }
         }
 

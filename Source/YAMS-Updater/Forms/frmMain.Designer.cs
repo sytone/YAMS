@@ -70,6 +70,8 @@
             this.PFPort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PFStatus = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.lblListenIP = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.lblAdminURL = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.lblPublicURL = new System.Windows.Forms.Label();
@@ -79,8 +81,10 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progToolStrip = new System.Windows.Forms.ToolStripProgressBar();
             this.lblPortStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblListenIP = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.lblDNS = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnResetPorts = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -91,6 +95,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tblPortForwards)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -433,7 +438,7 @@
             this.groupBox7.Controls.Add(this.tblPortForwards);
             this.groupBox7.Location = new System.Drawing.Point(312, 13);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(351, 314);
+            this.groupBox7.Size = new System.Drawing.Size(351, 150);
             this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Port Forwarding";
@@ -454,7 +459,7 @@
             this.tblPortForwards.Name = "tblPortForwards";
             this.tblPortForwards.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.tblPortForwards.RowHeadersVisible = false;
-            this.tblPortForwards.Size = new System.Drawing.Size(335, 286);
+            this.tblPortForwards.Size = new System.Drawing.Size(335, 119);
             this.tblPortForwards.TabIndex = 13;
             // 
             // PFName
@@ -477,6 +482,8 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.lblDNS);
+            this.groupBox8.Controls.Add(this.label15);
             this.groupBox8.Controls.Add(this.lblListenIP);
             this.groupBox8.Controls.Add(this.label13);
             this.groupBox8.Controls.Add(this.lblAdminURL);
@@ -492,10 +499,28 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Addresses";
             // 
+            // lblListenIP
+            // 
+            this.lblListenIP.AutoSize = true;
+            this.lblListenIP.Location = new System.Drawing.Point(80, 58);
+            this.lblListenIP.Name = "lblListenIP";
+            this.lblListenIP.Size = new System.Drawing.Size(16, 13);
+            this.lblListenIP.TabIndex = 14;
+            this.lblListenIP.Text = "...";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 58);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(51, 13);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "Listen IP:";
+            // 
             // lblAdminURL
             // 
             this.lblAdminURL.AutoSize = true;
-            this.lblAdminURL.Location = new System.Drawing.Point(81, 45);
+            this.lblAdminURL.Location = new System.Drawing.Point(80, 45);
             this.lblAdminURL.Name = "lblAdminURL";
             this.lblAdminURL.Size = new System.Drawing.Size(16, 13);
             this.lblAdminURL.TabIndex = 12;
@@ -513,7 +538,7 @@
             // lblPublicURL
             // 
             this.lblPublicURL.AutoSize = true;
-            this.lblPublicURL.Location = new System.Drawing.Point(80, 31);
+            this.lblPublicURL.Location = new System.Drawing.Point(80, 32);
             this.lblPublicURL.Name = "lblPublicURL";
             this.lblPublicURL.Size = new System.Drawing.Size(16, 13);
             this.lblPublicURL.TabIndex = 10;
@@ -570,29 +595,50 @@
             this.lblPortStatus.Size = new System.Drawing.Size(140, 17);
             this.lblPortStatus.Text = "Checking port forwards...";
             // 
-            // lblListenIP
+            // lblDNS
             // 
-            this.lblListenIP.AutoSize = true;
-            this.lblListenIP.Location = new System.Drawing.Point(81, 58);
-            this.lblListenIP.Name = "lblListenIP";
-            this.lblListenIP.Size = new System.Drawing.Size(16, 13);
-            this.lblListenIP.TabIndex = 14;
-            this.lblListenIP.Text = "...";
+            this.lblDNS.AutoSize = true;
+            this.lblDNS.Location = new System.Drawing.Point(80, 71);
+            this.lblDNS.Name = "lblDNS";
+            this.lblDNS.Size = new System.Drawing.Size(16, 13);
+            this.lblDNS.TabIndex = 16;
+            this.lblDNS.Text = "...";
             // 
-            // label13
+            // label15
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(7, 58);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(51, 13);
-            this.label13.TabIndex = 13;
-            this.label13.Text = "Listen IP:";
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 71);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(64, 13);
+            this.label15.TabIndex = 15;
+            this.label15.Text = "DNS Name:";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.btnResetPorts);
+            this.groupBox9.Location = new System.Drawing.Point(312, 170);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(351, 157);
+            this.groupBox9.TabIndex = 11;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Troubleshoot";
+            // 
+            // btnResetPorts
+            // 
+            this.btnResetPorts.Location = new System.Drawing.Point(10, 20);
+            this.btnResetPorts.Name = "btnResetPorts";
+            this.btnResetPorts.Size = new System.Drawing.Size(75, 23);
+            this.btnResetPorts.TabIndex = 0;
+            this.btnResetPorts.Text = "Reset Ports";
+            this.btnResetPorts.UseVisualStyleBackColor = true;
+            this.btnResetPorts.Click += new System.EventHandler(this.btnResetPorts_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(675, 516);
+            this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -626,6 +672,7 @@
             this.groupBox8.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -684,6 +731,10 @@
         private System.Windows.Forms.ToolStripProgressBar progToolStrip;
         private System.Windows.Forms.Label lblListenIP;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblDNS;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button btnResetPorts;
 
     }
 }
