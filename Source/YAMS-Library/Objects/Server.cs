@@ -427,7 +427,14 @@ namespace YAMS
         //Login and out events
         private void PlayerLogin(string strName)
         {
-            this.Players.Add(strName, new Objects.Player(strName, this));
+            int intCounter = 0;
+            string strSafeName = strName;
+            while (this.Players.ContainsKey(strSafeName)) {
+                //Player is logged in? Change their temp name
+                intCounter++;
+                strSafeName = strName + "-" + intCounter.ToString();
+            }
+            this.Players.Add(strSafeName, new Objects.Player(strName, this));
             this.HasChanged = true;
         }
         private void PlayerLogout(string strName)
