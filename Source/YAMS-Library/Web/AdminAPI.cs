@@ -82,9 +82,9 @@ namespace YAMS.Web
                                     Vector playerPos = kvp.Value.Position;
                                     strResponse += " { \"name\": \"" + kvp.Value.Username + "\", " +
                                                       "\"level\": \"" + kvp.Value.Level + "\", " +
-                                                      "\"x\": \"" + playerPos.x.ToString() + "\", " +
-                                                      "\"y\": \"" + playerPos.y.ToString() + "\", " +
-                                                      "\"z\": \"" + playerPos.z.ToString() + "\" },";
+                                                      "\"x\": \"" + playerPos.x.ToString("0.##") + "\", " +
+                                                      "\"y\": \"" + playerPos.y.ToString("0.##") + "\", " +
+                                                      "\"z\": \"" + playerPos.z.ToString("0.##") + "\" },";
                                 };
                                 strResponse = strResponse.Remove(strResponse.Length - 1);
                             }
