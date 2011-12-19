@@ -172,12 +172,16 @@ YAMS.admin = {
                     $('#restart-server').button("enable");
                     $('#delayed-restart-server').button("enable");
                     $('#restart-server-when-free').button("enable");
+                    $('#toggle-downfall').button("enable");
+                    $('#set-time').button("enable");
                 } else {
                     $('#start-server').button("enable");
                     $('#stop-server').button("disable");
                     $('#restart-server').button("disable");
                     $('#delayed-restart-server').button("disable");
                     $('#restart-server-when-free').button("disable");
+                    $('#toggle-downfall').button("disable");
+                    $('#set-time').button("disable");
                 }
 
                 //Update the player info
