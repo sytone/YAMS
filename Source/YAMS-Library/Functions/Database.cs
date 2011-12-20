@@ -391,6 +391,7 @@ namespace YAMS
                     Database.SaveSetting("DNSName", "");
                     Database.SaveSetting("DNSSecret", "");
                     Database.SaveSetting("LastExternalIP", "");
+                    Database.SaveSetting("DBSchema", "5");
                     break;
                 default:
                     break;
