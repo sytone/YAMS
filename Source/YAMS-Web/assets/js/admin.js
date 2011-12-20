@@ -61,6 +61,8 @@ YAMS.admin = {
                             YAMS.admin.getServerSettings();
                         } else if (ui.panel.id == "apps-tab") {
                             YAMS.admin.getApps();
+                        } else if (ui.panel.id == "connections-tab") {
+                            YAMS.admin.getConnections();
                         }
                     }
                 }).show();
@@ -106,6 +108,31 @@ YAMS.admin = {
             dataType: 'text',
             success: function (data) {
                 $('#apps-tab').html(data);
+            }
+        });
+    },
+
+    getConnections: function (e) {
+        $.ajax({
+            url: '/assets/parts/connections-page.html',
+            type: 'GET',
+            dataType: 'text',
+            success: function (data) {
+                $('#connections-tab').html(data);
+                $.ajax({
+                    data: 'action=get-server-connections&serverid=' + YAMS.admin.selectedServer,
+                    success: function (results) {
+                        var strPrefix = results.externalip;
+                        if (results.dnsname != "") strPrefix = results.dnsname + ".yams.in";
+                        var strMCConnection = strPrefix;
+                        if (results.mcport != 25565) strMCConnection += ":" + results.mcport;
+                        $('#minecraft-name').val(strMCConnection);
+                        var strPublic = "http://" + strPrefix;
+                        if (results.publicport != 80) strPublic += ":" + results.publicport;
+                        strPublic += "/servers/" + YAMS.admin.selectedServer + "/";
+                        $('#public-website').html('<a href="' + strPublic + '" target="_blank">' + strPublic + '</a>');
+                    }
+                });
             }
         });
     },

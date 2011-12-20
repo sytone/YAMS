@@ -195,6 +195,13 @@ namespace YAMS.Web
                                               "\"IPs\": " + JsonConvert.SerializeObject(listIPsMC, Formatting.None);
                             strResponse += "}";
                             break;
+                        case "get-server-connections":
+                            intServerID = Convert.ToInt32(param["serverid"]);
+                            strResponse = "{ \"dnsname\" : \"" + Database.GetSetting("DNSName", "YAMS") + "\", " +
+                                            "\"externalip\" : \"" + Networking.GetExternalIP().ToString() + "\", " +
+                                            "\"mcport\" : " + Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].GetProperty("server-port") + ", " +
+                                            "\"publicport\" : " + Database.GetSetting("PublicListenPort", "YAMS") + " }";
+                            break;
                         case "get-mc-settings":
                             //retrieve all server settings as JSON
                             intServerID = Convert.ToInt32(param["serverid"]);
