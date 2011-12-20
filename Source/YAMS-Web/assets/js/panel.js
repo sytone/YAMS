@@ -350,11 +350,11 @@ YAMS.panel = {
                         data: "action=available&domain=" + $('#dns-edit-name').val(),
                         success: function (data) {
                             if (data.result == 'true') {
-                                alert($('#dns-edit-name').val() + ".yams.at is available!");
+                                alert($('#dns-edit-name').val() + ".yams.in is available!");
                                 $('#dns-check').hide();
                                 $('#dns-create').show();
                             } else {
-                                alert($('#dns-edit-name').val() + ".yams.at is NOT available, please try a different name.");
+                                alert($('#dns-edit-name').val() + ".yams.in is NOT available, please try a different name.");
                             }
                         }
                     });
