@@ -374,6 +374,7 @@ namespace YAMS
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                     Database.AddLog("Updated Dynamic DNS");
+                    Database.SaveSetting("LastExternalIP", externalIP);
                 }
                 catch (System.Net.WebException ex)
                 {
