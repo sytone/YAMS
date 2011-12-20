@@ -42,19 +42,28 @@
       <h4>What is YAMS?</h4>
       <p><em><abbr title="Yet Another Minecraft Server">YAMS</abbr> is not a server wrapper, it is for providing the vanilla Minecraft experience, but in an
         always-on environment.  Additionally, YAMS is designed to make adding dynamic and static maps of your server easy, and to provide a public
-        front to your server for your community to enjoy.</em></p>
+        front to your server for your community to enjoy whilst taking the headache out of learning console commands.</em></p>
     </div>
     <div class="right">
       <h3>Features</h3>
       <p>The core features of YAMS are:</p>
       <ul>
-        <li>Runs as a Windows service</li>
-        <li>Allows control through web based interface</li>
-        <li>All chat, console messages, error and alerts stored in a database for persistence</li>
-        <li>Keeps itself and Minecraft up to date</li>
-        <li>Vanilla Minecraft server so won&apos;t break when Notch releases a client or server update</li>
-        <li>Integrates and automates Minecraft Overviewer and c10t</li>
-        <li>Control and run multiple Minecraft servers on one Windows box</li>
+          <li>Installer which includes downloading latest Minecraft server</li>
+          <li>Runs itself as a Windows service</li>
+          <li>Opens firewall ports automatically and closes them again when not needed</li>
+          <li>If UPnP router is available, will try and forward ports</li>
+          <li>Includes free yams.in dynamic DNS so your players don&apos;t need to know your IP</li>
+          <li>Detects a Minecraft server crash and automatically restarts</li>
+          <li>Runs multiple Minecraft servers within it's service, no need to log on and start manually</li>
+          <li>Checks dependencies on install and guides through installing any requirements</li>
+          <li>Provides admin web interface for sending console commands and splits chat messages out</li>
+          <li>Right-click menu for easily managing players</li>
+          <li>Logs everything to a database</li>
+          <li>Back up your servers to your own schedule with the job engine</li>
+          <li>Map your server on demand and to a schedule with <a href="https://github.com/overviewer/Minecraft-Overviewer">Overviewer</a></li>
+          <li>Generate images of your server with <a href="https://github.com/udoprog/c10t">c10t</a></li>
+          <li>Serve the output of renders on a built-in webserver</li>
+          <li>Can run Vanilla, <a href="http://bukkit.org/">Bukkit</a> or the weekly snapshots.</li>
       </ul>
       <br />
       <h3>YAMS is not a wrapper</h3>
