@@ -34,9 +34,9 @@ namespace YAMS
         /// Grab the external IP address using icanhazip.com
         /// </summary>
         /// <returns>IPAddress</returns>
-        public static IPAddress GetExternalIP()
+        public static IPAddress GetExternalIP(string strUrl = "http://icanhazip.com/")
         {
-            string strExternalIPChecker = "http://icanhazip.com/";
+            string strExternalIPChecker = strUrl;
             WebClient wcGetIP = new WebClient();
             UTF8Encoding utf8 = new UTF8Encoding();
             string strResponse = "";
@@ -49,6 +49,8 @@ namespace YAMS
             {
                 YAMS.Database.AddLog("Unable to determine external IP: " + e.Data, "utils", "warn");
             }
+
+            if (strResponse == "") strResponse = GetExternalIP("http://richardbenson.co.uk/yams/getip.php").ToString();
 
             IPAddress ipExternal = null;
             ipExternal = IPAddress.Parse(strResponse);
