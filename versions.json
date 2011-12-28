@@ -17,5 +17,5 @@
       "tectonicus":"1.38"
     },
 	"pre": "http://assets.minecraft.net/11w50a/minecraft_server.jar",
-	"bukkit": "http://ci.bukkit.org/job/dev-CraftBukkit/promotion/latest/Recommended/artifact/target/craftbukkit-1.0.1-R1.jar"
+	"bukkit": "http://ci.bukkit.org/job/dev-CraftBukkit/Recommended/artifact/target/craftbukkit-1.0.1-R1.jar"
 }
