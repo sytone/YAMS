@@ -8,8 +8,8 @@ UPnP port forwarding, firewall port opening and the built-in dynamic DNS.
 
 ## Installing YAMS
 
-<iframe width="560" height="315" src="http://www.youtube.com/embed/p_WLIuZeyd4" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/p_WLIuZeyd4" frameborder="0" allowfullscreen>A video will be here</iframe>
 
 ## Basic Minecraft server admin with YAMS
 
-<iframe width="420" height="315" src="http://www.youtube.com/embed/ETpcWVkm4aA" frameborder="0" allowfullscreen></iframe>
+<iframe width="420" height="315" src="http://www.youtube.com/embed/ETpcWVkm4aA" frameborder="0" allowfullscreen>A video will be here</iframe>
