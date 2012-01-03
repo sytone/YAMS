@@ -3,14 +3,14 @@ layout: default
 title: News
 ---
 
-#News
+# News
 
 {% for post in site.posts limit:5  %}
 
-    ## {{ post.title }}
+## {{ post.title }}
 
-    {{ post.content }}
+{{ post.content }}
 
-    {% if forloop.rindex > 0 %}<div class="line"></div>{% endif %}
+{% if forloop.rindex > 0 %}<div class="line"></div>{% endif %}
 
 {% endfor %}
