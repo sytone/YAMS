@@ -9,6 +9,8 @@ title: News
 
 {{ post.content }}
 
-{% if forloop.rindex0 > 0 %}<div class="line"></div>{% endif %}
+{% if forloop.rindex0 > 0 %}
+<div class="line">&nbsp;</div>
+{% endif %}
 
 {% endfor %}
