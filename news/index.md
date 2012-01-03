@@ -5,4 +5,12 @@ title: News
 
 #News
 
-There should probably be the most recent post here.
+{% for post in site.posts limit:5  %}
+
+    ## {{ post.title }}
+
+    {{ post.content }}
+
+    {% if forloop.rindex > 0 %}<div class="line"></div>{% endif %}
+
+{% endfor %}

@@ -30,7 +30,8 @@ p { clear: both; line-height: 1.64em; margin: 0 0 15px; }
 	#pitch {  padding: 30px 0 0 0; border-bottom: 1px solid #ddd; height: 238px; margin: 0 0 35px; }
 		#pitch h1 { font-size: 2.6em; color: #000; margin: 0 0 20px; }
 		#pitch h2 { line-height: 1.5em; }
-	.left { float: left; width: 250px; }	
+	.left { float: left; width: 250px; }
+            .left ul { clear: both; }
 	.right { float: right; width: 630px; margin: 0 0 20px; }
 		.right h3 { background: #808080; font-size: .84em; }
 	.third { float: left; width: 296px; margin: 0 40px 20px 0; }
