@@ -382,5 +382,18 @@ namespace YAMS
                 }
             }
         }
+
+        //Emulates VBScript's Left http://www.mgbrown.com/PermaLink68.aspx
+        public static string Left(string text, int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException("length", length, "length must be > 0");
+            else if (length == 0 || text.Length == 0)
+                return "";
+            else if (text.Length <= length)
+                return text;
+            else
+                return text.Substring(0, length);
+        }
     }
 }

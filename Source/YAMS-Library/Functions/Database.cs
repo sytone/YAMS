@@ -74,7 +74,7 @@ namespace YAMS
                 if (strMessage.Length > 255) strMessage = strMessage.Substring(0, 255);
                 SqlCeCommand cmdIns = new SqlCeCommand(sqlIns, connLocal);
                 cmdIns.Parameters.Add("@source", strSource);
-                cmdIns.Parameters.Add("@msg", strMessage);
+                cmdIns.Parameters.Add("@msg", Util.Left(strMessage, 255));
                 cmdIns.Parameters.Add("@level", strLevel);
                 cmdIns.Parameters.Add("@serverid", intServerID);
                 cmdIns.ExecuteNonQuery();
@@ -96,7 +96,7 @@ namespace YAMS
             {
                 SqlCeCommand cmdIns = new SqlCeCommand(sqlIns, connLocal);
                 cmdIns.Parameters.Add("@source", strSource);
-                cmdIns.Parameters.Add("@msg", strMessage);
+                cmdIns.Parameters.Add("@msg", Util.Left(strMessage, 255));
                 cmdIns.Parameters.Add("@level", strLevel);
                 cmdIns.Parameters.Add("@serverid", intServerID);
                 cmdIns.Parameters.Add("@timestamp", datTimeStamp);
