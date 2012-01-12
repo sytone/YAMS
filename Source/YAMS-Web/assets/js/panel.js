@@ -317,7 +317,7 @@ YAMS.panel = {
             success: function (data) {
                 if (data == "done") alert("Job Deleted");
                 else alert("Job not deleted");
-                YAMS.admin.refreshJobs();
+                YAMS.panel.refreshJobs();
             }
         });
     },
