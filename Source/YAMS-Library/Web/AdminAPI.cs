@@ -327,8 +327,6 @@ namespace YAMS.Web
                             Database.SaveSetting("OverviewerInstalled", param["overviewer"]);
                             Database.SaveSetting("C10tInstalled", param["c10t"]);
                             Database.SaveSetting("BiomeExtractorInstalled", param["biomeextractor"]);
-                            Database.SaveSetting("TectonicusInstalled", param["tectonicus"]);
-                            Database.SaveSetting("NBToolkitInstalled", param["nbtoolkit"]);
                             Database.SaveSetting("BukkitInstalled", param["bukkit"]);
                             strResponse = "done";
                             break;
