@@ -76,6 +76,19 @@
       "type":"string",
       "default":"A YAMS powered server",
       "description":"Message that is displayed in the client server browser",
-      "name":"Server Message" }      
+      "name":"Server Message" },
+	 
+    { "key":"generate-structures",
+      "type":"boolean",
+      "default":"true",
+      "description":"Whether to generate structures such as villages",
+      "name":"Generate Structures" },
+      
+    { "key":"level-type",
+      "type":"array",
+      "values": "DEFAULT|Normal,FLAT|Flat",
+      "default": "DEFAULT",
+      "description":"Type of world generation",
+      "name":"Level Type" }
       
 ] }
