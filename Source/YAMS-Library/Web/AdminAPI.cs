@@ -344,6 +344,7 @@ namespace YAMS.Web
                             Dictionary<string, string> dicNetwork = new Dictionary<string, string> {
                                 { "portForwarding" , Database.GetSetting("EnablePortForwarding", "YAMS") },
                                 { "openFirewall" , Database.GetSetting("EnableOpenFirewall", "YAMS") },
+                                { "publicEnable" , Database.GetSetting("EnablePublicSite", "YAMS") },
                                 { "adminPort" , Database.GetSetting("AdminListenPort", "YAMS") },
                                 { "publicPort" , Database.GetSetting("PublicListenPort", "YAMS") },
                                 { "currentIP" , Database.GetSetting("YAMSListenIP", "YAMS") },
@@ -368,6 +369,7 @@ namespace YAMS.Web
 
                             Database.SaveSetting("EnablePortForwarding", param["portForwarding"]);
                             Database.SaveSetting("EnableOpenFirewall", param["openFirewall"]);
+                            Database.SaveSetting("EnablePublicSite", param["publicEnable"]);
                             Database.SaveSetting("AdminListenPort", param["adminPort"]);
                             Database.SaveSetting("PublicListenPort", param["publicPort"]);
                             Database.SaveSetting("YAMSListenIP", param["listenIp"]);

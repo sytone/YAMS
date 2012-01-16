@@ -44,56 +44,65 @@ namespace YAMS
             }
             
             adminServer = new Server();
-            publicServer = new Server();
 
             //Handle the requests for static files
             var adminModule = new FileModule();
             adminModule.Resources.Add(new FileResources("/assets/", YAMS.Core.RootFolder + "\\web\\assets\\"));
             adminServer.Add(adminModule);
-
-            //Add any server specific folders
-            var publicModule = new FileModule();
-            publicModule.Resources.Add(new FileResources("/assets/", YAMS.Core.RootFolder + "\\web\\assets\\"));
-            SqlCeDataReader readerServers = YAMS.Database.GetServers();
-            while (readerServers.Read())
-            {
-                var intServerID = readerServers["ServerID"].ToString();
-                if (!Directory.Exists(Core.StoragePath + intServerID + "\\renders\\")) Directory.CreateDirectory(Core.StoragePath + intServerID + "\\renders\\");
-                publicModule.Resources.Add(new FileResources("/servers/" + intServerID + "/renders/", Core.StoragePath + intServerID + "\\renders\\"));
-                if (!Directory.Exists(Core.StoragePath + intServerID + "\\backups\\")) Directory.CreateDirectory(Core.StoragePath + intServerID + "\\backups\\");
-                publicModule.Resources.Add(new FileResources("/servers/" + intServerID + "/backups/", Core.StoragePath + intServerID + "\\backups\\"));
-            }
-            publicServer.Add(publicModule);
-
             //Handle requests to API
             adminServer.Add(new Web.AdminAPI());
-            publicServer.Add(new Web.PublicAPI());
 
             adminServer.Add(HttpListener.Create(IPAddress.Any, Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS"))));
-            publicServer.Add(HttpListener.Create(IPAddress.Any, Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS"))));
-
             adminServer.ErrorPageRequested += new EventHandler<ErrorPageEventArgs>(myServer_ErrorPageRequested);
-            publicServer.ErrorPageRequested += new EventHandler<ErrorPageEventArgs>(myServer_ErrorPageRequested);
-
             adminServerThread = new Thread(new ThreadStart(StartAdmin));
-            publicServerThread = new Thread(new ThreadStart(StartPublic));
             adminServerThread.Start();
-            publicServerThread.Start();
 
             //Open firewall ports
             if (Database.GetSetting("EnableOpenFirewall", "YAMS") == "true")
             {
                 Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website");
-                Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
             }
-            else { Database.AddLog("Firewall Opening disabled"); }
 
             if (Database.GetSetting("EnablePortForwarding", "YAMS") == "true")
             {
                 Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("AdminListenPort", "YAMS")), "Admin website", YAMS.Database.GetSetting("YAMSListenIP", "YAMS"));
-                Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website", YAMS.Database.GetSetting("YAMSListenIP", "YAMS"));
             }
-            else { Database.AddLog("Port Forwarding disabled"); }
+
+            if (Database.GetSetting("EnablePublicSite", "YAMS") == "true")
+            {
+                //Add any server specific folders
+                publicServer = new Server();
+                var publicModule = new FileModule();
+                publicModule.Resources.Add(new FileResources("/assets/", YAMS.Core.RootFolder + "\\web\\assets\\"));
+                SqlCeDataReader readerServers = YAMS.Database.GetServers();
+                while (readerServers.Read())
+                {
+                    var intServerID = readerServers["ServerID"].ToString();
+                    if (!Directory.Exists(Core.StoragePath + intServerID + "\\renders\\")) Directory.CreateDirectory(Core.StoragePath + intServerID + "\\renders\\");
+                    publicModule.Resources.Add(new FileResources("/servers/" + intServerID + "/renders/", Core.StoragePath + intServerID + "\\renders\\"));
+                    if (!Directory.Exists(Core.StoragePath + intServerID + "\\backups\\")) Directory.CreateDirectory(Core.StoragePath + intServerID + "\\backups\\");
+                    publicModule.Resources.Add(new FileResources("/servers/" + intServerID + "/backups/", Core.StoragePath + intServerID + "\\backups\\"));
+                }
+                publicServer.Add(publicModule);
+
+                //Handle requests to API
+                publicServer.Add(new Web.PublicAPI());
+                publicServer.Add(HttpListener.Create(IPAddress.Any, Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS"))));
+                publicServer.ErrorPageRequested += new EventHandler<ErrorPageEventArgs>(myServer_ErrorPageRequested);
+                publicServerThread = new Thread(new ThreadStart(StartPublic));
+                publicServerThread.Start();
+
+                //Open firewall ports
+                if (Database.GetSetting("EnableOpenFirewall", "YAMS") == "true")
+                {
+                    Networking.OpenFirewallPort(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website");
+                }
+
+                if (Database.GetSetting("EnablePortForwarding", "YAMS") == "true")
+                {
+                    Networking.OpenUPnP(Convert.ToInt32(YAMS.Database.GetSetting("PublicListenPort", "YAMS")), "Public website", YAMS.Database.GetSetting("YAMSListenIP", "YAMS"));
+                }
+            }
         }
 
         static void myServer_ErrorPageRequested(object sender, ErrorPageEventArgs e)

@@ -167,6 +167,7 @@ YAMS.panel = {
                 success: function (data) {
                     if (data.portForwarding === "true") $('#portForwarding-enabled').prop("checked", true);
                     if (data.openFirewall === "true") $('#openFirewall-enabled').prop("checked", true);
+                    if (data.publicEnable === "true") $('#publicSite-enabled').prop("checked", true);
                     $('#adminInterface-port').val(data.adminPort);
                     $('#publicInterface-port').val(data.publicPort);
                     var ipSelect = document.getElementById('listen-ip');
@@ -187,6 +188,7 @@ YAMS.panel = {
     updateNetwork: function () {
         var values = "portForwarding=" + YAMS.D.get('portForwarding-enabled').checked + "&" +
                      "openFirewall=" + YAMS.D.get('openFirewall-enabled').checked + "&" +
+                     "publicEnable=" + YAMS.D.get('publicSite-enabled').checked + "&" +
                      "adminPort=" + YAMS.D.get('adminInterface-port').value + "&" +
                      "publicPort=" + YAMS.D.get('publicInterface-port').value + "&" +
                      "listenIp=" + YAMS.D.get('listen-ip').value;

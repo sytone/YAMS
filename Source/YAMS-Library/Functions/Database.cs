@@ -393,6 +393,10 @@ namespace YAMS
                     Database.SaveSetting("LastExternalIP", "");
                     Database.SaveSetting("DBSchema", "5");
                     break;
+                case 5:
+                    Database.SaveSetting("EnablePublicSite", "true");
+                    Database.SaveSetting("DBSchema", "6");
+                    break;
                 default:
                     break;
             }
