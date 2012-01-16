@@ -63,6 +63,8 @@ YAMS.admin = {
                             YAMS.admin.getApps();
                         } else if (ui.panel.id == "connections-tab") {
                             YAMS.admin.getConnections();
+                        } else if (ui.panel.id == "whitelist-tab") {
+                            YAMS.admin.getWhitelist();
                         }
                     }
                 }).show();
@@ -110,6 +112,69 @@ YAMS.admin = {
                 $('#apps-tab').html(data);
             }
         });
+    },
+
+    getWhitelist: function (e) {
+        $.ajax({
+            url: '/assets/parts/whitelist-page.html',
+            type: 'GET',
+            dataType: 'text',
+            success: function (data) {
+                $('#whitelist-tab').html(data);
+                $.ajax({
+                    data: 'action=get-server-whitelist&serverid=' + YAMS.admin.selectedServer,
+                    success: function (results) {
+                        if (results.enabled) {
+                            $('#whitelist-enabled').html('Enabled');
+                            YAMS.admin.refreshWhitelist();
+                        } else {
+                            $('#whitelist-enabled').html('Disabled');
+                        }
+                    }
+                });
+                YAMS.admin.refreshBanlist();
+            }
+        });
+    },
+
+    refreshWhitelist: function () {
+        $.ajax({
+            data: 'action=get-config-file&file=white-list.txt&serverid=' + YAMS.admin.selectedServer,
+            success: function (results) {
+                $('#whitelist-list').html('');
+                for (var i = 0, len = results.length; i < len; ++i) {
+                    $('#whitelist-list').append('<div>' + results[i] + '<a class="icon delete" href="javascript:void(0)" onclick="YAMS.admin.removeWhitelist(\'' + results[i] + '\')"></a></div>');
+                }
+            }
+        });
+    },
+
+    removeWhitelist: function (player) {
+        if (confirm('Are you sure you want to remove "' + player + '" from the whitelist?')) {
+            YAMS.admin.sendCommand('whitelist remove ' + player);
+            alert('"' + player + '" removed');
+            YAMS.admin.refreshWhitelist();
+        }
+    },
+
+    refreshBanlist: function () {
+        $.ajax({
+            data: 'action=get-config-file&file=banned-players.txt&serverid=' + YAMS.admin.selectedServer,
+            success: function (results) {
+                $('#banlist-list').html('');
+                for (var i = 0, len = results.length; i < len; ++i) {
+                    $('#banlist-list').append('<div>' + results[i] + '<a class="icon delete" href="javascript:void(0)" onclick="YAMS.admin.removeBanlist(\'' + results[i] + '\')"></a></div>');
+                }
+            }
+        });
+    },
+
+    removeBanlist: function (player) {
+        if (confirm('Are you sure you want to pardon "' + player + '"?')) {
+            YAMS.admin.sendCommand('pardon ' + player);
+            alert('"' + player + '" pardonned');
+            YAMS.admin.refreshBanlist();
+        }
     },
 
     getConnections: function (e) {

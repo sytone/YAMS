@@ -76,6 +76,8 @@ label { width: 150px; float: left; text-align: right; padding-right: 10px; }
 
 .icon { display: block; height: 16px; width: 16px; }
 
+#whitelist-tab .icon { display: inline-block; }
+
 .delete { background-image: url(../images/icons/delete.png); }
 
 /* Menu */
@@ -95,3 +97,5 @@ em#yamslabel { text-indent: -6em; display: block; background: url(../images/YAMS
 .contextMenu LI.ban A { background-image: url(../images/icons/user_delete.png); }
 .contextMenu LI.banip A { background-image: url(../images/icons/server_delete.png); }
 .contextMenu LI.whisper A { background-image: url(../images/icons/user_comment.png); }
+
+.larger { font-size: 110%; font-weight: bold; }

@@ -294,6 +294,9 @@ namespace YAMS.Web
                             List<string> listConfig = Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].ReadConfig(param["file"]);
                             strResponse = JsonConvert.SerializeObject(listConfig, Formatting.Indented);
                             break;
+                        case "get-server-whitelist":
+                            strResponse = "{ \"enabled\" : " + Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].GetProperty("white-list") + " }";
+                            break;
                         case "upload-world":
                             var test = context.Request.Files["new-world"];
                             break;
