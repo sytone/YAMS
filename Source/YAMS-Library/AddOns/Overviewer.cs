@@ -17,12 +17,12 @@ namespace YAMS.AddOns
         public override void DoWork()
         {
             //If we have Biome Extractor installed, we should run it
-            BiomeExtractor BE = new BiomeExtractor(this.Server);
-            if (BE.IsInstalled)
-            {
-                BE.Start();
-                while (!BE.Complete) Thread.Sleep(5000);
-            }
+            //BiomeExtractor BE = new BiomeExtractor(this.Server);
+            //if (BE.IsInstalled)
+            //{
+            //    BE.Start();
+            //    while (!BE.Complete) Thread.Sleep(5000);
+            //} - 16/01/2012 - Disable BE as it is killing servers until it is updated.
 
             string ServerRoot = this.Server.ServerDirectory;
             //Check the proper folders exist
