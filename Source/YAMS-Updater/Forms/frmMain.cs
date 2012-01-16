@@ -59,7 +59,7 @@ namespace YAMS_Updater
             lblPublicURL.Text += "/";
             lblAdminURL.Text = "http://" + externalIP.ToString() + ":" + YAMS.Database.GetSetting("AdminListenPort", "YAMS") + "/admin/";
             lblListenIP.Text = YAMS.Networking.GetListenIP().ToString();
-            lblDNS.Text = (YAMS.Database.GetSetting("DNSName", "YAMS") != "" ? YAMS.Database.GetSetting("DNSName", "YAMS") + ".yams.at" : "");
+            lblDNS.Text = (YAMS.Database.GetSetting("DNSName", "YAMS") != "" ? YAMS.Database.GetSetting("DNSName", "YAMS") + ".yams.in" : "");
         }
 
         private void frmMain_Shown(Object sender, EventArgs e)
