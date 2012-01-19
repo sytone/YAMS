@@ -184,7 +184,7 @@ namespace YAMS
             }
             
             adminServerThread.Abort();
-            publicServerThread.Abort();
+            if (publicServerThread != null) publicServerThread.Abort();
         }
 
     }
