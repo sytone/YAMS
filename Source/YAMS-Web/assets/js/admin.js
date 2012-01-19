@@ -40,6 +40,8 @@ YAMS.admin = {
         this.updateGlobalLog();
         this.timer = setInterval("YAMS.admin.updateGlobalLog();", 10000);
 
+        window.alert = YAMS.panel.alert;
+
     },
 
     getServers: function () {

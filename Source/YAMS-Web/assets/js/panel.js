@@ -31,6 +31,19 @@ YAMS.panel = {
         return dialog;
     },
 
+    alert: function(message) {
+        var dialog = $('<div id="alert-dialog"><div style="text-align: center">' + message + '</div></div>').dialog({
+            modal: true,
+            close: function (event, ui) {
+                $(this).remove();
+            },
+            width: 400,
+            title: "Alert",
+            resizable: false
+        });
+        return dialog;
+    },
+
     newServer: function () {
         this.dialogs.newServer = this.createDialog("newServer-panel", 400, "New Server", "add-server", null,
         {
