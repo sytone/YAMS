@@ -31,7 +31,7 @@ YAMS.panel = {
         return dialog;
     },
 
-    alert: function(message) {
+    alert: function (message) {
         var dialog = $('<div id="alert-dialog"><div style="text-align: center">' + message + '</div></div>').dialog({
             modal: true,
             close: function (event, ui) {
@@ -41,7 +41,6 @@ YAMS.panel = {
             title: "Alert",
             resizable: false
         });
-        return dialog;
     },
 
     newServer: function () {
