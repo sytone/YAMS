@@ -259,6 +259,20 @@ YAMS.admin = {
         });
     },
 
+    deleteServer: function () {
+        if (confirm('This will remove your server from YAMS but not delete your world, backups or renders.\n\n' +
+                   'To complete the removal you will have to manually remove the "' + YAMS.admin.selectedServer + '" folder from your storage path.\n\n' +
+                   'Are you sure you want to do this?')) {
+            $.ajax({
+                data: 'serverid=' + YAMS.admin.selectedServer + '&action=remove-server',
+                success: function (data) {
+                    alert("Server deleted.");
+                    window.location.reload(true);
+                }
+            });
+        }
+    },
+
     checkServerStatus: function () {
         $.ajax({
             data: 'action=status&serverid=' + YAMS.admin.selectedServer,

@@ -304,6 +304,16 @@ namespace YAMS
             return intNewID;
         }
 
+        public static void DeleteServer(int intServerID)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+            cmd.CommandText = "DELETE FROM MCServers WHERE ServerID = @id;";
+            cmd.Parameters.Add("@id", intServerID);
+
+            cmd.ExecuteNonQuery();
+        }
+
         public static int NewServerWeb(List<KeyValuePair<string, string>> listServer, string strServerTitle, int intServerMemory = 1024)
         {
             SqlCeCommand cmd = new SqlCeCommand();

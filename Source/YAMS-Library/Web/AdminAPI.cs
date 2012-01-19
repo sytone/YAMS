@@ -306,6 +306,12 @@ namespace YAMS.Web
                             Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].ClearWorld(bolRandomSeed);
                             strResponse = "{ \"result\" : \"sent\" }";
                             break;
+                        case "remove-server":
+                            Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])].Stop();
+                            Core.Servers.Remove(Convert.ToInt32(context.Request.Parameters["serverid"]));
+                            Database.DeleteServer(Convert.ToInt32(context.Request.Parameters["serverid"]));
+                            strResponse = "{ \"result\" : \"removed\" }";
+                            break;
                         case "about":
                             Dictionary<string, string> dicAbout = new Dictionary<string, string> {
                                 { "dll" , FileVersionInfo.GetVersionInfo(Path.Combine(Core.RootFolder, "YAMS-Library.dll")).FileVersion },
