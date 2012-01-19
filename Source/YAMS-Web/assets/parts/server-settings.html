@@ -10,6 +10,8 @@
         <p><label for="port">Port:</label><input type="text" name="cfg_port" id="cfg_port" /></p>
         <p><label for="listen-ip">Listen IP:</label><select id="cfg_listen-ip" name="cfg_listen-ip"></select></p>
         <p><label>Actions:</label><button onclick="YAMS.admin.deleteWorld(false); return false;">Delete world (leave seed)</button></p>
+        <p><label>&nbsp;</label><button onclick="YAMS.admin.deleteWorld(true); return false;">Delete world (random seed)</button></p>
+        <p><label>&nbsp;</label><button onclick="YAMS.admin.deleteServer(); return false;">DELETE SERVER</button></p>
     </fieldset>
     <fieldset id="server-properties">
         <legend>Server Properties</legend>

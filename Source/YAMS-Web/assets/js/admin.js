@@ -399,10 +399,13 @@ YAMS.admin = {
             data: 'action=restart-when-free&serverid=' + YAMS.admin.selectedServer
         });
     },
-    deleteWorld: function () {
-        $.ajax({
-            data: 'action=delete-world&serverid=' + YAMS.admin.selectedServer
-        });
+    deleteWorld: function (bolRandomSeed) {
+        if (confirm('This will backup your world then delete it, allowing a map reset.' +
+                   'Are you sure you want to do this?')) {
+            $.ajax({
+                data: 'action=delete-world&serverid=' + YAMS.admin.selectedServer + '&randomseed=' + bolRandomSeed
+            });
+        }
     },
 
     sendCommand: function (strCommand) {
