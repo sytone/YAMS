@@ -88,6 +88,10 @@ namespace YAMS
                         s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
                         s.DelayedRestart(Convert.ToInt32(rdJobs["JobParams"]));
                         break;
+                    case "restartwhenfree":
+                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                        s.RestartIfEmpty();
+                        break;
                     case "clearlogs":
                         Database.ClearLogs(jobParams["period"], Convert.ToInt32(jobParams["amount"]));
                         break;
