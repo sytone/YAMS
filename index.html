@@ -8,8 +8,12 @@
   <link rel="stylesheet" type="text/css" href="assets/css/screen.css" media="screen" />
   <title>Yet Another Minecraft Server (YAMS) @ GitHub </title>
   
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script type="text/javascript">
+      if (window.location.hostname != 'yams.in') window.location = "http://yams.in" + window.location.pathname.replace("/YAMS", "");
+  </script> 
   
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+
   <script type="text/javascript">
 
       var _gaq = _gaq || [];
