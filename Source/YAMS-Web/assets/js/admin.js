@@ -154,9 +154,13 @@ YAMS.admin = {
     removeWhitelist: function (player) {
         if (confirm('Are you sure you want to remove "' + player + '" from the whitelist?')) {
             YAMS.admin.sendCommand('whitelist remove ' + player);
-            alert('"' + player + '" removed');
-            YAMS.admin.refreshWhitelist();
+            setTimeout("YAMS.admin.refreshWhitelist()", 1000);
         }
+    },
+
+    addWhitelist: function () {
+        YAMS.admin.sendCommand('whitelist add ' + $('#whitelist-name').val());
+        setTimeout("YAMS.admin.refreshWhitelist()", 1000);
     },
 
     refreshBanlist: function () {
@@ -174,9 +178,13 @@ YAMS.admin = {
     removeBanlist: function (player) {
         if (confirm('Are you sure you want to pardon "' + player + '"?')) {
             YAMS.admin.sendCommand('pardon ' + player);
-            alert('"' + player + '" pardonned');
-            YAMS.admin.refreshBanlist();
+            setTimeout("YAMS.admin.refreshBanlist()", 1000);
         }
+    },
+
+    addBanlist: function () {
+        YAMS.admin.sendCommand('ban ' + $('#banlist-name').val());
+        setTimeout("YAMS.admin.refreshBanlist()", 1000);
     },
 
     getConnections: function (e) {
