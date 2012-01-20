@@ -7,6 +7,7 @@
     <option value="delayedrestart">Restart with warning</option>
     <option value="restartwhenfree">Restart when free</option>
     <option value="clearlogs">Clear old database logs</option>
+    <option value="clearbackups">Clear old backups</option>
 </select>
 <fieldset>
     <div id="job-time">
@@ -145,4 +146,13 @@
         </select></div>
         <div><label for="clearlogs-amount">Amount</label><input type="text" id="clearlogs-amount" /></div>
     </div>
-</fieldset>
+    <div id="job-clearbackups" style="display: none;">
+        <div><label for="clearbackups-period">Period</label>
+        <select id="clearbackups-period">
+            <option value="yy">Year</option>
+            <option value="mm">Month</option>
+            <option value="dd">Day</option>
+        </select></div>
+        <div><label for="clearbackups-amount">Amount</label><input type="text" id="clearbackups-amount" /></div>
+    </div>
+ </fieldset>

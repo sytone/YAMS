@@ -50,5 +50,33 @@ namespace YAMS
             }
         }
 
+        public static void ClearBackups(MCServer s, string strPeriod, int intAmount)
+        {
+
+            Database.AddLog("Clearing backups older than " + intAmount.ToString() + " " + strPeriod, "backup", "info", false, s.ServerID);
+
+            string[] files = Directory.GetFiles(s.ServerDirectory + @"\backups\");
+
+            foreach (string file in files)
+            {
+                FileInfo fi = new FileInfo(file);
+                DateTime endTime = new DateTime();
+                switch (strPeriod)
+                {
+                    case "yy":
+                        endTime = DateTime.Now.AddYears(-intAmount);
+                        break;
+                    case "mm":
+                        endTime = DateTime.Now.AddMonths(-intAmount);
+                        break;
+                    case "dd":
+                        endTime = DateTime.Now.AddDays(-intAmount);
+                        break;
+                }
+                if (fi.CreationTime < endTime)
+                    fi.Delete();
+            }
+        }
+
     }
 }
