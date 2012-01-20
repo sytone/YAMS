@@ -90,6 +90,10 @@ namespace YAMS.Web
                             }
                             strResponse += "]}";
                             break;
+                        case "get-players":
+                            DataSet dsPlayers = Database.GetPlayers(Convert.ToInt32(context.Request.Parameters["serverid"]));
+                            JsonConvert.SerializeObject(dsPlayers, Formatting.Indented);
+                            break;
                         case "overviewer":
                             //Maps a server
                             s = Core.Servers[Convert.ToInt32(context.Request.Parameters["serverid"])];

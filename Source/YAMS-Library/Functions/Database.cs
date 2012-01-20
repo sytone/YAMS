@@ -462,9 +462,19 @@ namespace YAMS
             }
             catch (Exception ex)
             {
-                AddLog("YAMS.Database.GetPlayerLevel Exception: " + ex.Message, "database", "error");
+                AddLog("YAMS.Database.GetPlayerCount Exception: " + ex.Message, "database", "error");
                 return 0;
             }
+        }
+
+        public static DataSet GetPlayers(int intServerID)
+        {
+            DataSet ds = new DataSet();
+            SqlCeCommand comPlayers = new SqlCeCommand("SELECT * FROM Players WHERE PlayerServer = @id", connLocal);
+            comPlayers.Parameters.Add("@id", intServerID);
+            SqlCeDataAdapter adapter = new SqlCeDataAdapter(comPlayers);
+            adapter.Fill(ds);
+            return ds;
         }
 
         //Job Engine
