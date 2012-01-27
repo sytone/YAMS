@@ -402,10 +402,13 @@ namespace YAMS
                     Database.SaveSetting("DNSSecret", "");
                     Database.SaveSetting("LastExternalIP", "");
                     Database.SaveSetting("DBSchema", "5");
-                    break;
+                    goto case 5;
                 case 5:
                     Database.SaveSetting("EnablePublicSite", "true");
                     Database.SaveSetting("DBSchema", "6");
+                    goto case 6;
+                case 6:
+
                     break;
                 default:
                     break;
@@ -526,6 +529,14 @@ namespace YAMS
             SqlCeCommand cmd = new SqlCeCommand();
             cmd.Connection = connLocal;
             cmd.CommandText = "DELETE FROM Log WHERE LogDateTime < DATEADD(" + strPeriod + ", -" + intAmount + ", GETDATE());";
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void ExecuteSQL(string strSQL)
+        {
+            SqlCeCommand cmd = new SqlCeCommand();
+            cmd.Connection = connLocal;
+            cmd.CommandText = strSQL;
             cmd.ExecuteNonQuery();
         }
 
