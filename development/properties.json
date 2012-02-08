@@ -17,6 +17,12 @@
 	  "default":"true",
 	  "description":"Enable spawning of friendly mobs",
 	  "name":"Animals" },
+
+    { "key":"spawn-npcs",
+      "type":"boolean",
+      "default":"true",
+      "description":"Whether to spawn NPCs",
+      "name":"Spawn NPCs" },
 	  
 	{ "key":"max-players",
 	  "type":"integer",
@@ -83,7 +89,7 @@
       "default":"true",
       "description":"Whether to generate structures such as villages",
       "name":"Generate Structures" },
-      
+
     { "key":"level-type",
       "type":"array",
       "values": "DEFAULT|Normal,FLAT|Flat",
