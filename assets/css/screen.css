@@ -13,7 +13,7 @@ a { text-decoration: none; color: #B20F0F; }
 h1 { font-size: 1.4em; font-weight: normal; }
 	h1 a { color: #fff; font-size: 1.6em; }
 h2 { font-size: 1.2em; }
-h3 { font-size: 1.2em; background: #B00A0A url(../images/redbg.gif) repeat-x left bottom; padding: 6px 7px; color: #fff; font-weight: normal; margin: 0 0 15px; float: left; }
+h3 { font-size: 1.2em; background: #B00A0A url(../images/redbg.gif) repeat-x left bottom; padding: 6px 7px; color: #fff; font-weight: normal; margin: 0 0 15px;}
 h4 { margin: 0 0 15px; color: #555; font-weight: normal; font-size: 1.6em; font-weight: normal; }
 p { clear: both; line-height: 1.64em; margin: 0 0 15px; }
 .line { clear: both; border-bottom: 1px solid #ddd; margin: 0 0 45px; }
@@ -39,6 +39,18 @@ p { clear: both; line-height: 1.64em; margin: 0 0 15px; }
 	#footer { clear: both; font-size: .84em; border-top: 1px solid #ddd; padding: 20px 0 0; }
         
 #home-vid { float: right; height: 315px; width: 420px; margin-top: -76px; }
+	
+#other-yams { position: fixed; bottom: -91px; right: 0; background-color: #fff; border: 1px solid #ccc; height: 90px;
+	-webkit-border-top-left-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	border-top-left-radius: 15px; }
+	#other-yams h3 {
+	-webkit-border-top-left-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	border-top-left-radius: 15px
+	}
+	#other-yams #oy-text { margin: 0 10px 10px 10px; }
+	#other-yams #oy-close { float: right; padding: 7px; color: #fff; font-weight: bold; cursor: pointer; }
 	
 /* Github specific */
 
