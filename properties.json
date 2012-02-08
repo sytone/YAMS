@@ -89,6 +89,11 @@
       "values": "DEFAULT|Normal,FLAT|Flat",
       "default": "DEFAULT",
       "description":"Type of world generation",
-      "name":"Level Type" }
-      
+      "name":"Level Type" },
+
+    { "key":"enable-query",
+      "type":"boolean",
+      "default":"true",
+      "description":"Allow querying of server info",
+      "name":"Enable Querying" }      
 ] }
