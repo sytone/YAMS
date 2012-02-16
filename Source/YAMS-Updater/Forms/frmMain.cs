@@ -235,5 +235,14 @@ namespace YAMS_Updater
             }
         }
 
+        private void btnTruncate_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This will clear ALL logs from the database, they will not be recoverable.\n\nAre you sure?", "Confirm truncate logs", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                YAMS.Database.ExecuteSQL("DELETE FROM Log");
+                MessageBox.Show("Logs cleared");
+            }
+        }
+
     }
 }

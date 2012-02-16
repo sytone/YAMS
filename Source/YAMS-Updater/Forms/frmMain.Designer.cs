@@ -70,6 +70,8 @@
             this.PFPort = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PFStatus = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.lblDNS = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.lblListenIP = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lblAdminURL = new System.Windows.Forms.Label();
@@ -81,10 +83,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progToolStrip = new System.Windows.Forms.ToolStripProgressBar();
             this.lblPortStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblDNS = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btnResetPorts = new System.Windows.Forms.Button();
+            this.btnTruncate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -499,6 +500,24 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Addresses";
             // 
+            // lblDNS
+            // 
+            this.lblDNS.AutoSize = true;
+            this.lblDNS.Location = new System.Drawing.Point(80, 71);
+            this.lblDNS.Name = "lblDNS";
+            this.lblDNS.Size = new System.Drawing.Size(16, 13);
+            this.lblDNS.TabIndex = 16;
+            this.lblDNS.Text = "...";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 71);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(64, 13);
+            this.label15.TabIndex = 15;
+            this.label15.Text = "DNS Name:";
+            // 
             // lblListenIP
             // 
             this.lblListenIP.AutoSize = true;
@@ -595,26 +614,9 @@
             this.lblPortStatus.Size = new System.Drawing.Size(140, 17);
             this.lblPortStatus.Text = "Checking port forwards...";
             // 
-            // lblDNS
-            // 
-            this.lblDNS.AutoSize = true;
-            this.lblDNS.Location = new System.Drawing.Point(80, 71);
-            this.lblDNS.Name = "lblDNS";
-            this.lblDNS.Size = new System.Drawing.Size(16, 13);
-            this.lblDNS.TabIndex = 16;
-            this.lblDNS.Text = "...";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(7, 71);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(64, 13);
-            this.label15.TabIndex = 15;
-            this.label15.Text = "DNS Name:";
-            // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.btnTruncate);
             this.groupBox9.Controls.Add(this.btnResetPorts);
             this.groupBox9.Location = new System.Drawing.Point(312, 170);
             this.groupBox9.Name = "groupBox9";
@@ -632,6 +634,16 @@
             this.btnResetPorts.Text = "Reset Ports";
             this.btnResetPorts.UseVisualStyleBackColor = true;
             this.btnResetPorts.Click += new System.EventHandler(this.btnResetPorts_Click);
+            // 
+            // btnTruncate
+            // 
+            this.btnTruncate.Location = new System.Drawing.Point(91, 20);
+            this.btnTruncate.Name = "btnTruncate";
+            this.btnTruncate.Size = new System.Drawing.Size(92, 23);
+            this.btnTruncate.TabIndex = 12;
+            this.btnTruncate.Text = "Truncate Logs";
+            this.btnTruncate.UseVisualStyleBackColor = true;
+            this.btnTruncate.Click += new System.EventHandler(this.btnTruncate_Click);
             // 
             // frmMain
             // 
@@ -735,6 +747,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Button btnResetPorts;
+        private System.Windows.Forms.Button btnTruncate;
 
     }
 }
