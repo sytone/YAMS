@@ -58,7 +58,14 @@ namespace YAMS.Web
                     //List of Servers
                     strTemplate = File.ReadAllText(Core.RootFolder + @"\web\templates\server-list.html");
                     dicTags.Add("PageTitle", "Server List");
-                    dicTags.Add("PageBody", "test");
+                    string strServerList;
+                    strServerList = "<ul>";
+                    foreach (KeyValuePair<int, MCServer> kvp in Core.Servers)
+                    {
+                        strServerList += "<li><a href=\"" + kvp.Value.ServerID + "/\">" + kvp.Value.ServerTitle + "</a></li>";
+                    };
+                    strServerList += "</ul>";
+                    dicTags.Add("ServerList", strServerList);
                 }
                 else if (regServerHome.Match(context.Request.Uri.AbsolutePath).Success)
                 {
@@ -68,43 +75,44 @@ namespace YAMS.Web
                     MCServer s = Core.Servers[intServerID];
 
                     string strOverviewer = "";
-                    string strTectonicus = "";
                     string strImages = "";
                     string strBackups = "";
 
                     if (File.Exists(s.ServerDirectory + @"\renders\overviewer\output\index.html")) {
-                        strOverviewer = "<h3>Overviewer Map</h3><div><a href=\"renders/overviewer/output/index.html\">Click here to open map</a>";
-                    }
-                    if (File.Exists(s.ServerDirectory + @"\renders\tectonicus\map.html"))
-                    {
-                        strTectonicus = "<h3>Tectonicus Map</h3><div><a href=\"renders/tectonicus/map.html\">Click here to open map</a>";
+                        strOverviewer = "<div><a href=\"renders/overviewer/output/index.html\">Click here to open map</a></div>";
                     }
 
-                    strImages = "<h3>Images</h3><ul>";
+                    strImages = "<ul>";
                     DirectoryInfo di = new DirectoryInfo(s.ServerDirectory + @"\renders\");
                     FileInfo[] fileEntries = di.GetFiles();
+                    int intImages = 0;
                     foreach (FileInfo fi in fileEntries)
                     {
                         strImages += "<li><a href=\"renders/" + fi.Name + "\">" + fi.Name + "</a></li>";
+                        intImages++;
+                        if (intImages > 20) break;
                     }
                     strImages += "</ul>";
 
-                    strBackups = "<h3>Backups</h3><ul>";
+                    strBackups = "<ul>";
                     DirectoryInfo di2 = new DirectoryInfo(s.ServerDirectory + @"\backups\");
                     FileInfo[] fileEntries2 = di2.GetFiles();
+                    int intBackups = 0;
                     foreach (FileInfo fi in fileEntries2)
                     {
                         strBackups += "<li><a href=\"backups/" + fi.Name + "\">" + fi.Name + "</a></li>";
+                        intBackups++;
+                        if (intBackups > 20) break;
                     }
                     strBackups += "</ul>";
 
                     strTemplate = File.ReadAllText(Core.RootFolder + @"\web\templates\server-home.html");
                     dicTags.Add("PageTitle", s.ServerTitle);
                     dicTags.Add("RenderOverviewer", strOverviewer);
-                    dicTags.Add("RenderTectonicus", strTectonicus);
                     dicTags.Add("RenderImages", strImages);
                     dicTags.Add("BackupList", strBackups);
-                    dicTags.Add("PageBody", "Body");
+                    dicTags.Add("ServerConnectAddress", ""); //TODO
+                    dicTags.Add("PageBody", "Some blurb about the server, probably including some <em>HTML</em>");
                 }
                 else
                 {
