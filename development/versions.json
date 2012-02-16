@@ -18,5 +18,5 @@
     },
 	"pre": "http://assets.minecraft.net/12w07b/minecraft_server.jar",
 	"pre-client": "http://assets.minecraft.net/12w07b/minecraft.jar",
-	"bukkit": "https://s3.amazonaws.com/yams/craftbukkit.jar"
+	"bukkit": "http://dl.bukkit.org/latest-rb/craftbukkit.jar"
 }
