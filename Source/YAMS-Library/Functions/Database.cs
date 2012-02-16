@@ -24,7 +24,7 @@ namespace YAMS
         private static SqlCeConnection GetConnection()
         {
             string dbfile = YAMS.Core.RootFolder + "\\db\\dbYAMS.sdf";
-            SqlCeConnection connection = new SqlCeConnection("datasource=" + dbfile);
+            SqlCeConnection connection = new SqlCeConnection("datasource=" + dbfile + ";max database size=2048");
             return connection;
         }
 
