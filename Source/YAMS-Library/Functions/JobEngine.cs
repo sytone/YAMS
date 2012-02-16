@@ -40,69 +40,78 @@ namespace YAMS
 
             while (rdJobs.Read())
             {
-                //Split up the parameters
-                string strParams = rdJobs["JobParams"].ToString();
-                Dictionary<string, string> jobParams = new Dictionary<string, string> { };
-
-                if (strParams != "")
+                try
                 {
-                    string[] arrKeys = strParams.Split('&');
-                    foreach (string strKey in arrKeys)
+
+                    //Split up the parameters
+                    string strParams = rdJobs["JobParams"].ToString();
+                    Dictionary<string, string> jobParams = new Dictionary<string, string> { };
+
+                    if (strParams != "")
                     {
-                        string[] arrValues = strKey.Split('=');
-                        if (arrValues.Length == 2)
+                        string[] arrKeys = strParams.Split('&');
+                        foreach (string strKey in arrKeys)
                         {
-                            jobParams.Add(arrValues[0], arrValues[1]);
-                        }
-                        else
-                        {
-                            Database.AddLog("Params failed on job. String was " + strParams, "job", "warn");
+                            string[] arrValues = strKey.Split('=');
+                            if (arrValues.Length == 2)
+                            {
+                                jobParams.Add(arrValues[0], arrValues[1]);
+                            }
+                            else
+                            {
+                                Database.AddLog("Params failed on job. String was " + strParams, "job", "warn");
+                            }
                         }
                     }
-                }
 
-                switch (rdJobs["JobAction"].ToString()) {
-                    case "overviewer":
-                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
-                        AddOns.Overviewer gmap = new AddOns.Overviewer(s, rdJobs["JobParams"].ToString());
-                        gmap.Start();
-                        break;
-                    case "c10t":
-                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
-                        AddOns.c10t c10t = new AddOns.c10t(s, rdJobs["JobParams"].ToString());
-                        c10t.Start();
-                        break;
-                    case "biome-extractor":
-                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
-                        AddOns.BiomeExtractor extractor = new AddOns.BiomeExtractor(s, rdJobs["JobParams"].ToString());
-                        extractor.Start();
-                        break;
-                    case "backup":
-                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
-                        Backup.BackupIfNeeded(s);
-                        break;
-                    case "update":
-                        AutoUpdate.CheckUpdates();
-                        break;
-                    case "delayedrestart":
-                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
-                        s.DelayedRestart(Convert.ToInt32(rdJobs["JobParams"]));
-                        break;
-                    case "restartwhenfree":
-                        s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
-                        s.RestartIfEmpty();
-                        break;
-                    case "clearlogs":
-                        Database.ClearLogs(jobParams["period"], Convert.ToInt32(jobParams["amount"]));
-                        break;
-                    case "clearbackups":
-                        Backup.ClearBackups(Core.Servers[Convert.ToInt32(rdJobs["JobServer"])], jobParams["period"], Convert.ToInt32(jobParams["amount"]));
-                        break;
-                    default:
-                        Database.AddLog("Invalid entry in Job database", "job", "warn");
-                        break;
+                    switch (rdJobs["JobAction"].ToString())
+                    {
+                        case "overviewer":
+                            s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                            AddOns.Overviewer gmap = new AddOns.Overviewer(s, rdJobs["JobParams"].ToString());
+                            gmap.Start();
+                            break;
+                        case "c10t":
+                            s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                            AddOns.c10t c10t = new AddOns.c10t(s, rdJobs["JobParams"].ToString());
+                            c10t.Start();
+                            break;
+                        case "biome-extractor":
+                            s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                            AddOns.BiomeExtractor extractor = new AddOns.BiomeExtractor(s, rdJobs["JobParams"].ToString());
+                            extractor.Start();
+                            break;
+                        case "backup":
+                            s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                            Backup.BackupIfNeeded(s);
+                            break;
+                        case "update":
+                            AutoUpdate.CheckUpdates();
+                            break;
+                        case "delayedrestart":
+                            s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                            s.DelayedRestart(Convert.ToInt32(rdJobs["JobParams"]));
+                            break;
+                        case "restartwhenfree":
+                            s = Core.Servers[Convert.ToInt32(rdJobs["JobServer"])];
+                            s.RestartIfEmpty();
+                            break;
+                        case "clearlogs":
+                            Database.ClearLogs(jobParams["period"], Convert.ToInt32(jobParams["amount"]));
+                            break;
+                        case "clearbackups":
+                            Backup.ClearBackups(Core.Servers[Convert.ToInt32(rdJobs["JobServer"])], jobParams["period"], Convert.ToInt32(jobParams["amount"]));
+                            break;
+                        default:
+                            Database.AddLog("Invalid entry in Job database", "job", "warn");
+                            break;
+                    }
+
+                } catch (Exception e) {
+                    YAMS.Database.AddLog("Error running job: " + e.Message, "job", "error");
                 }
-            }
+            } 
+        
         }
     }
 }
