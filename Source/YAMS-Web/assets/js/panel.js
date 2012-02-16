@@ -314,6 +314,7 @@ YAMS.panel = {
                 break;
             case "restartwhenfree":
                 strData += "&job-server=" + $('#server-select').val();
+                strData += "&job-params=";
                 break;
             case "clearlogs":
                 strData += "&job-server=0";
