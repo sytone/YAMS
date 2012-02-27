@@ -177,26 +177,36 @@ namespace YAMS
                 var strArgs = "";
                 var strFileName = YAMS.Util.JavaPath() + "java.exe";
 
-                //If we have enabled the java optimisations add the additional
-                //arguments. See http://www.minecraftforum.net/viewtopic.php?f=1012&t=68128
-                if (bolEnableJavaOptimisations && YAMS.Util.HasJDK())
+                if (File.Exists(this.strWorkingDir + "args.txt"))
                 {
-                    var intGCCores = Environment.ProcessorCount - 1;
-                    if (intGCCores == 0) intGCCores = 1;
-                    strArgs += "-server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:ParallelGCThreads=" + intGCCores + " -XX:+AggressiveOpts";
-                    strFileName = YAMS.Util.JavaPath("jdk") + "java.exe";
+                    StreamReader reader = new StreamReader(this.strWorkingDir + "args.txt");
+                    String text = reader.ReadToEnd();
+                    reader.Close();
+                    strArgs = text;
                 }
-
-                //Some specials for bukkit
-                if (this.ServerType == "bukkit")
+                else
                 {
-                    strArgs += " -Djline.terminal=jline.UnsupportedTerminal";
-                }
+                    //If we have enabled the java optimisations add the additional
+                    //arguments. See http://www.minecraftforum.net/viewtopic.php?f=1012&t=68128
+                    if (bolEnableJavaOptimisations && YAMS.Util.HasJDK())
+                    {
+                        var intGCCores = Environment.ProcessorCount - 1;
+                        if (intGCCores == 0) intGCCores = 1;
+                        strArgs += "-server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:ParallelGCThreads=" + intGCCores + " -XX:+AggressiveOpts";
+                        strFileName = YAMS.Util.JavaPath("jdk") + "java.exe";
+                    }
 
-                //Basic arguments in all circumstances
-                strArgs += " -Xmx" + intAssignedMem + "M -Xms" + intAssignedMem + @"M -jar " + "\"" + Core.RootFolder + "\\lib\\";
-                strArgs += strFile;
-                strArgs += "\" nogui";
+                    //Some specials for bukkit
+                    if (this.ServerType == "bukkit")
+                    {
+                        strArgs += " -Djline.terminal=jline.UnsupportedTerminal";
+                    }
+
+                    //Basic arguments in all circumstances
+                    strArgs += " -Xmx" + intAssignedMem + "M -Xms" + intAssignedMem + @"M -jar " + "\"" + Core.RootFolder + "\\lib\\";
+                    strArgs += strFile;
+                    strArgs += "\" nogui";
+                }
 
                 this.prcMinecraft.StartInfo.UseShellExecute = false;
                 this.prcMinecraft.StartInfo.FileName = strFileName;
