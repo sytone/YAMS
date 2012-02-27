@@ -12,6 +12,9 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <script type="text/javascript" src="/assets/js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="/assets/js/public.js"></script>
+
     <!-- Le styles -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
@@ -56,14 +59,14 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="span4">
-          <h2>Rules</h2>
-          {?Y:ServerRules?}
-        </div>
-        <div class="span4">
           <h2>Connection</h2>
            <pre>{?Y:ServerConnectAddress?}</pre>
            {?Y:ClientURL?}
        </div>
+        <div class="span4">
+          <h2>Status</h2>
+          <div id="server-status"></div>
+        </div>
         <div class="span4">
           <h2>Players Online</h2>
           {?Y:PlayersOnline?}

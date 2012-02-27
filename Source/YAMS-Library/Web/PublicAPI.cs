@@ -126,10 +126,13 @@ namespace YAMS.Web
                         foreach (KeyValuePair<string, Objects.Player> kvp in s.Players)
                         {
                             Vector playerPos = kvp.Value.Position;
-                            strPlayers += "<li class=\"" + kvp.Value.Level + "\">" + kvp.Value.Username + " <span class=\"location\">(" +
+                            strPlayers += "<li>";
+                            if (kvp.Value.Level == "op") strPlayers += "<span class=\"label label-important\">op</span> ";
+                            strPlayers += kvp.Value.Username + " <span class=\"label\">" +
                                               playerPos.x.ToString("0.##") + ", " +
                                               playerPos.y.ToString("0.##") + ", " +
-                                              playerPos.z.ToString("0.##") + ")</span></li>";
+                                              playerPos.z.ToString("0.##") + "</span>";
+                            strPlayers += "</li>";
                         };
                         strPlayers += "</ul>";
                     }
@@ -149,6 +152,9 @@ namespace YAMS.Web
                         strConnectAddress = Networking.GetExternalIP().ToString();
                     }
                     if (s.GetProperty("server-port") != "25565") strConnectAddress += ":" + s.GetProperty("server-port");
+
+                    strConnectAddress += "<input type=\"hidden\" id=\"server-host\" value=\"" + Networking.GetExternalIP().ToString() + "\" />" +
+                                         "<input type=\"hidden\" id=\"server-port\" value=\"" + s.GetProperty("server-port") + "\" />";
 
                     strTemplate = File.ReadAllText(Core.RootFolder + @"\web\templates\server-home.html");
                     dicTags.Add("PageTitle", s.ServerTitle);
