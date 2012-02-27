@@ -15,6 +15,8 @@ using HttpServer.Resources;
 using HttpServer.Tools;
 using Newtonsoft.Json;
 using System.Data.SqlServerCe;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using HttpListener = HttpServer.HttpListener;
 using YAMS;
 
@@ -106,12 +108,56 @@ namespace YAMS.Web
                     }
                     strBackups += "</ul>";
 
+                    //Determine if they need a special client URL
+                    string strClientURL = "";
+                    if (s.ServerType == "pre")
+                    {
+                        string json = File.ReadAllText(YAMS.Core.RootFolder + @"\lib\versions.json");
+                        //Dictionary<string, string> dicVers = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                        JObject jVers = JObject.Parse(json);
+                        strClientURL = "This server is running the weekly snapshots, <a href=\"" + (string)jVers["pre-client"] + "\">download current client</a>.";
+                    }
+
+                    //List out players online
+                    string strPlayers = "";
+                    if (s.Players.Count > 0)
+                    {
+                        strPlayers = "<ul>";
+                        foreach (KeyValuePair<string, Objects.Player> kvp in s.Players)
+                        {
+                            Vector playerPos = kvp.Value.Position;
+                            strPlayers += "<li class=\"" + kvp.Value.Level + "\">" + kvp.Value.Username + " <span class=\"location\">(" +
+                                              playerPos.x.ToString("0.##") + ", " +
+                                              playerPos.y.ToString("0.##") + ", " +
+                                              playerPos.z.ToString("0.##") + ")</span></li>";
+                        };
+                        strPlayers += "</ul>";
+                    }
+                    else
+                    {
+                        strPlayers = "No players online right now";
+                    }
+
+                    //Connection Addresses
+                    string strConnectAddress = "";
+                    if (Database.GetSetting("DNSName", "YAMS") != "")
+                    {
+                        strConnectAddress = Database.GetSetting("DNSName", "YAMS");
+                    }
+                    else
+                    {
+                        strConnectAddress = Networking.GetExternalIP().ToString();
+                    }
+                    if (s.GetProperty("server-port") != "25565") strConnectAddress += ":" + s.GetProperty("server-port");
+
                     strTemplate = File.ReadAllText(Core.RootFolder + @"\web\templates\server-home.html");
                     dicTags.Add("PageTitle", s.ServerTitle);
                     dicTags.Add("RenderOverviewer", strOverviewer);
                     dicTags.Add("RenderImages", strImages);
                     dicTags.Add("BackupList", strBackups);
-                    dicTags.Add("ServerConnectAddress", ""); //TODO
+                    dicTags.Add("ServerConnectAddress", strConnectAddress); //TODO
+                    dicTags.Add("ClientURL", strClientURL);
+                    dicTags.Add("PlayersOnline", strPlayers);
                     dicTags.Add("PageBody", "Some blurb about the server, probably including some <em>HTML</em>");
                 }
                 else

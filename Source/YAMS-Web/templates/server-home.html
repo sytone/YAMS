@@ -37,8 +37,8 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <!--<li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>-->
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -51,6 +51,23 @@
       <div class="hero-unit">
         <h1>{?Y:PageTitle?}</h1>
         {?Y:PageBody?}
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>Rules</h2>
+          {?Y:ServerRules?}
+        </div>
+        <div class="span4">
+          <h2>Connection</h2>
+           <pre>{?Y:ServerConnectAddress?}</pre>
+           {?Y:ClientURL?}
+       </div>
+        <div class="span4">
+          <h2>Players Online</h2>
+          {?Y:PlayersOnline?}
+        </div>
       </div>
 
       <!-- Example row of columns -->
