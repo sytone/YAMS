@@ -364,6 +364,9 @@ YAMS.panel = {
         YAMS.panel.dialogs.dnsEdit = YAMS.panel.createDialog('dns-edit', 400, "Edit DNS", "dns-edit", function () {
             if ($('#dns-name').val() == "") {
                 $('#add-dns').show();
+                $('#dns-edit-name').on('keyup', function () {
+                    $(this).val(YAMS.admin.dirify($(this).val()));
+                });
                 $('#dns-check').button().click(function (event) {
                     event.preventDefault();
                     $.ajax({
