@@ -425,6 +425,10 @@ namespace YAMS.Web
                         case "getDNS":
                             strResponse = "{ \"name\":\"" + Database.GetSetting("DNSName", "YAMS") + "\", \"secret\": \"" + Database.GetSetting("DNSSecret", "YAMS") + "\", \"external\" : \"" + Networking.GetExternalIP().ToString() + "\" }";
                             break;
+                        case "backup-now":
+                            Backup.BackupNow(Core.Servers[Convert.ToInt32(param["serverid"])], param["title"]);
+                            strResponse = "{ \"result\" : \"sent\" }";
+                            break;
                         default:
                             return ProcessingResult.Abort;
                     }

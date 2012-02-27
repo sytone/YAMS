@@ -48,7 +48,9 @@ YAMS.layout = {
             .append('<br />')
             .append($('<button id="toggle-downfall">Toggle Rain/Snow</button>').button().click(function () { YAMS.admin.sendCommand('toggledownfall'); return false; }))
             .append('<br />')
-            .append($('<button id="set-time">Set Time</button>').button().click(function () { YAMS.panel.setTime(); return false; }));
+            .append($('<button id="set-time">Set Time</button>').button().click(function () { YAMS.panel.setTime(); return false; }))
+            .append('<br />')
+            .append($('<button id="backup-now">Backup Now</button>').button().click(function () { YAMS.panel.backupNow(); return false; }));
 
         $('#server-accordion').accordion({
             fillSpace: true,

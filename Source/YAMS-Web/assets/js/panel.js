@@ -59,6 +59,28 @@ YAMS.panel = {
         });
     },
 
+    backupNow: function () {
+        this.dialogs.backupNow = this.createDialog("backupnow-panel", 400, "Backup Server", "backup-now", function () {
+            $('#backupNow-title').on('keyup', function () {
+                $(this).val(YAMS.admin.dirify($(this).val()));
+            });
+        },
+        {
+            "Backup": function () {
+                if ($('#backupNow-title').val() != "") $('#backupNow-title').val('-' + $('#backupNow-title').val());
+                $.ajax({
+                    data: 'action=backup-now&title=' + escape($('#backupNow-title').val()) + '&serverid=' + YAMS.admin.selectedServer,
+                    dataType: 'text',
+                    success: function () {
+                        alert("Backup has completed");
+                    }
+                });
+                alert("Backup has been started. Watch the log for details.");
+                YAMS.panel.dialogs.backupNow.remove();
+            }
+        });
+    },
+
     aboutYAMS: function () {
         this.dialogs.about = this.createDialog("about-panel", 240, "About YAMS", "about", function () {
             $.ajax({
