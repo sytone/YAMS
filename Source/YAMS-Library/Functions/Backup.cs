@@ -23,10 +23,17 @@ namespace YAMS
             s.Save();
             s.DisableSaving();
 
-            //Copy world to a temp Dir
+            //Find all the directories that start with "world"
             if (Directory.Exists(Core.StoragePath + s.ServerID.ToString() + @"\backups\temp\")) Directory.Delete(Core.StoragePath + s.ServerID.ToString() + @"\backups\temp\", true);
             if (!Directory.Exists(Core.StoragePath + s.ServerID.ToString() + @"\backups\temp\")) Directory.CreateDirectory(Core.StoragePath + s.ServerID.ToString() + @"\backups\temp\");
-            Util.Copy(s.ServerDirectory + @"\world\", s.ServerDirectory + @"\backups\temp\");
+
+            string[] dirs = Directory.GetDirectories(s.ServerDirectory, "world*");
+            foreach (string dir in dirs)
+            {
+                //Copy world to a temp Dir
+                DirectoryInfo thisDir = new DirectoryInfo(dir);
+                Util.Copy(dir, s.ServerDirectory + @"\backups\temp\" + thisDir.Name);
+            }
 
             //Re-enable saving then force another save
             s.EnableSaving();
@@ -35,7 +42,7 @@ namespace YAMS
             //Now zip up temp dir and move to backups
             FastZip z = new FastZip();
             z.CreateEmptyDirectories = true;
-            z.CreateZip(s.ServerDirectory + @"\backups\" + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + strAppendName + ".zip", s.ServerDirectory + @"\backups\temp\", true, "");
+            z.CreateZip(s.ServerDirectory + @"\backups\" + DateTime.Now.Year + "-" + DateTime.Now.Month.ToString("D2") + "-" + DateTime.Now.Day.ToString("D2") + "-" + DateTime.Now.Hour.ToString("D2") + "-" + DateTime.Now.Minute.ToString("D2") + strAppendName + ".zip", s.ServerDirectory + @"\backups\temp\", true, "");
 
             //If the server is empty, reset the HasChanged
             if (s.Players.Count == 0) s.HasChanged = false;
