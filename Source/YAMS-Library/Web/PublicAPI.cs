@@ -145,7 +145,7 @@ namespace YAMS.Web
                     string strConnectAddress = "";
                     if (Database.GetSetting("DNSName", "YAMS") != "")
                     {
-                        strConnectAddress = Database.GetSetting("DNSName", "YAMS");
+                        strConnectAddress = Database.GetSetting("DNSName", "YAMS") + ".yams.in";
                     }
                     else
                     {
