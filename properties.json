@@ -96,6 +96,13 @@
       "default": "DEFAULT",
       "description":"Type of world generation",
       "name":"Level Type" },
+      
+    { "key":"max-build-height",
+      "type":"array",
+      "values": "128|128,256|256",
+      "default": "256",
+      "description":"Maximum height you can build to.",
+      "name":"Build Height" },      
 
     { "key":"enable-query",
       "type":"boolean",
