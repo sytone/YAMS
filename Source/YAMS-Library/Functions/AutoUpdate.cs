@@ -38,8 +38,8 @@ namespace YAMS
         public static bool bolLibUpdateAvailable = false;
 
         //Minecraft URLs
-        public static string strMCServerURL = "http://www.minecraft.net/download/minecraft_server.jar";
-        public static string strMCClientURL = "http://minecraft.net/download/Minecraft.jar";
+        public static string strMCServerURL = "https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar?";
+        public static string strMCClientURL = "https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar";
 
         //YAMS URLs
         public static Dictionary<string, string> strYAMSUpdatePath = new Dictionary<string, string>()
