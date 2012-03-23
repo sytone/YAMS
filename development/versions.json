@@ -11,7 +11,7 @@
     },
   "apps":
     {
-      "overviewer" : "0.9.59",
+      "overviewer" : "0.9.62",
       "c10t" : "1.9",
       "biomeextractor": "090",
       "tectonicus":"1.38"
