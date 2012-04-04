@@ -102,7 +102,7 @@ namespace YAMS
                 //Have they opted for bukkit? If so, update that too
                 if (Convert.ToBoolean(Database.GetSetting("BukkitInstalled", "YAMS")))
                 {
-                    bolBukkitUpdateAvailable = UpdateIfNeeded(strBukkitServerURL, Core.RootFolder + @"\lib\craftbukkit.jar", "modified");
+                    bolBukkitUpdateAvailable = UpdateIfNeeded(strBukkitServerURL, Core.RootFolder + @"\lib\craftbukkit.jar.UPDATE", "modified");
                 }
 
                 //Now update self
