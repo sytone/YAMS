@@ -7,6 +7,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Collections.Generic;
 using System.Collections;
+using System.Globalization;
 
 namespace YAMS
 {
@@ -250,6 +251,13 @@ namespace YAMS
                     intPlayers = intPlayers + Database.GetPlayerCount(kvp.Value.ServerID);
                 }
 
+                //Check .NET versions
+                RegistryKey installed_versions = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP");
+                string[] version_names = installed_versions.GetSubKeyNames();
+                //version names start with 'v', eg, 'v3.5' which needs to be trimmed off before conversion
+                double Framework = Convert.ToDouble(version_names[version_names.Length - 1].Remove(0, 1), CultureInfo.InvariantCulture);
+                int SP = Convert.ToInt32(installed_versions.OpenSubKey(version_names[version_names.Length - 1]).GetValue("SP", 0));
+
                 //Collect Data
                 string strVars = "servers=" + Core.Servers.Count +
                                  "&players=" + intPlayers +
@@ -263,7 +271,9 @@ namespace YAMS
                                  "&updatejar=" + Database.GetSetting("UpdateJAR", "YAMS") +
                                  "&updategui=" + Database.GetSetting("UpdateGUI", "YAMS") +
                                  "&updatesvc=" + Database.GetSetting("UpdateSVC", "YAMS") +
-                                 "&updateweb=" + Database.GetSetting("UpdateWeb", "YAMS");
+                                 "&updateweb=" + Database.GetSetting("UpdateWeb", "YAMS") +
+                                 "&highestnet=" + Framework.ToString() +
+                                 "&highestSP=" + SP.ToString();
 
                 //Send info
                 try
