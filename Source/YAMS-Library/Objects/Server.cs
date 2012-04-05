@@ -338,7 +338,14 @@ namespace YAMS
         }
 
         //Catch the output from the server process
-        private void ServerOutput(object sender, DataReceivedEventArgs e) { if (e.Data != null && e.Data != ">") YAMS.Database.AddLog(DateTime.Now, e.Data, "server", "out", false, this.ServerID); }
+        private void ServerOutput(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null && e.Data != ">")
+            {
+                YAMS.Database.AddLog(DateTime.Now, e.Data, "server", "out", false, this.ServerID);
+                if (Database.GetSetting("EnableTelnet", "YAMS") == "true") TelnetServer.SendMessage(e.Data, this.ServerID);
+            }
+        }
         private void ServerError(object sender, DataReceivedEventArgs e)
         {
             DateTime datTimeStamp = DateTime.Now;
@@ -395,6 +402,7 @@ namespace YAMS
             }
 
             Database.AddLog(datTimeStamp, strMessage, "server", strLevel, false, this.ServerID);
+            if (Database.GetSetting("EnableTelnet", "YAMS") == "true") TelnetServer.SendMessage(e.Data, this.ServerID);
         }
 
         private void ServerExited(object sender, EventArgs e)

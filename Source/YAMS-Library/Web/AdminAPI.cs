@@ -361,6 +361,8 @@ namespace YAMS.Web
                                 { "adminPort" , Database.GetSetting("AdminListenPort", "YAMS") },
                                 { "publicPort" , Database.GetSetting("PublicListenPort", "YAMS") },
                                 { "currentIP" , Database.GetSetting("YAMSListenIP", "YAMS") },
+                                { "telnetEnable" , Database.GetSetting("EnableTelnet", "YAMS") },
+                                { "telnetPort" , Database.GetSetting("TelnetPort", "YAMS") },
                                 { "IPs" , JsonConvert.SerializeObject(listIPs, Formatting.None) }
                             };
                             strResponse = JsonConvert.SerializeObject(dicNetwork, Formatting.Indented).Replace(@"\","").Replace("\"[", "[").Replace("]\"", "]");
@@ -386,6 +388,8 @@ namespace YAMS.Web
                             Database.SaveSetting("AdminListenPort", param["adminPort"]);
                             Database.SaveSetting("PublicListenPort", param["publicPort"]);
                             Database.SaveSetting("YAMSListenIP", param["listenIp"]);
+                            Database.SaveSetting("EnableTelnet", param["telnetEnable"]);
+                            Database.SaveSetting("TelnetPort", param["telnetPort"]);
 
                             Database.AddLog("Network settings have been saved, to apply changes a service restart is required. Please check they are correct before restarting", "web", "warn");
                             break;

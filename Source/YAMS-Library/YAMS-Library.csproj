@@ -105,17 +105,16 @@
     <Compile Include="Functions\JobEngine.cs" />
     <Compile Include="Functions\Networking.cs" />
     <Compile Include="Objects\IniParser.cs" />
+    <Compile Include="Objects\Telnet.cs" />
     <Compile Include="Web\AdminAPI.cs" />
     <Compile Include="Web\PublicAPI.cs" />
     <Compile Include="Web\WebTemplate.cs" />
-    <Compile Include="Objects\Client.cs" />
     <Compile Include="Functions\Database.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\Server.cs" />
     <Compile Include="Functions\Util.cs" />
     <Compile Include="Web\WebServer.cs" />
-    <Compile Include="Objects\Wrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dbYAMS.sdf">
@@ -147,7 +146,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

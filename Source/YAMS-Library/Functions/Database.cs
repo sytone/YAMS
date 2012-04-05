@@ -408,7 +408,11 @@ namespace YAMS
                     Database.SaveSetting("DBSchema", "6");
                     goto case 6;
                 case 6:
-
+                    Database.SaveSetting("EnableTelnet", "false");
+                    Database.SaveSetting("TelnetPort", "56553");
+                    Database.SaveSetting("DBSchema", "7");
+                    goto case 7;
+                case 7:
                     break;
                 default:
                     break;

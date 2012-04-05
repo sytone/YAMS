@@ -202,8 +202,10 @@ YAMS.panel = {
                     if (data.portForwarding === "true") $('#portForwarding-enabled').prop("checked", true);
                     if (data.openFirewall === "true") $('#openFirewall-enabled').prop("checked", true);
                     if (data.publicEnable === "true") $('#publicSite-enabled').prop("checked", true);
+                    if (data.telnetEnable === "true") $('#telnetServer-enabled').prop("checked", true);
                     $('#adminInterface-port').val(data.adminPort);
                     $('#publicInterface-port').val(data.publicPort);
+                    $('#telnetServer-port').val(data.telnetPort);
                     var ipSelect = document.getElementById('listen-ip');
                     for (ip in data.IPs) {
                         ipSelect.options[ipSelect.options.length] = new Option(data.IPs[ip], data.IPs[ip], false, false);
@@ -225,6 +227,8 @@ YAMS.panel = {
                      "publicEnable=" + YAMS.D.get('publicSite-enabled').checked + "&" +
                      "adminPort=" + YAMS.D.get('adminInterface-port').value + "&" +
                      "publicPort=" + YAMS.D.get('publicInterface-port').value + "&" +
+                     "telnetPort=" + YAMS.D.get('publicInterface-port').value + "&" +
+                     "telnetEnable=" + YAMS.D.get('publicSite-enabled').checked + "&" +
                      "listenIp=" + YAMS.D.get('listen-ip').value;
         $.ajax({
             data: 'action=save-network-settings&' + values,
