@@ -227,8 +227,8 @@ YAMS.panel = {
                      "publicEnable=" + YAMS.D.get('publicSite-enabled').checked + "&" +
                      "adminPort=" + YAMS.D.get('adminInterface-port').value + "&" +
                      "publicPort=" + YAMS.D.get('publicInterface-port').value + "&" +
-                     "telnetPort=" + YAMS.D.get('publicInterface-port').value + "&" +
-                     "telnetEnable=" + YAMS.D.get('publicSite-enabled').checked + "&" +
+                     "telnetPort=" + YAMS.D.get('telnetServer-port').value + "&" +
+                     "telnetEnable=" + YAMS.D.get('telnetServer-enabled').checked + "&" +
                      "listenIp=" + YAMS.D.get('listen-ip').value;
         $.ajax({
             data: 'action=save-network-settings&' + values,
