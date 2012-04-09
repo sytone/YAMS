@@ -246,9 +246,12 @@ namespace YAMS
 
         public void Restart()
         {
-            this.Stop();
-            System.Threading.Thread.Sleep(10000);
-            this.Start();
+            if (this.Running)
+            {
+                this.Stop();
+                System.Threading.Thread.Sleep(10000);
+                this.Start();
+            }
         }
 
         public void RestartIfEmpty()
