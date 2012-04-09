@@ -230,6 +230,7 @@ namespace YAMS_Updater
             if (MessageBox.Show("This will reset your admin and web ports back to defaults (56552, 80), are you sure?", "Confirm port reset", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 YAMS.Database.SaveSetting("AdminListenPort", "56552");
+                YAMS.Database.SaveSetting("TelnetPort", "56553");
                 YAMS.Database.SaveSetting("PublicListenPort", "80");
                 RefreshAddresses();
             }
