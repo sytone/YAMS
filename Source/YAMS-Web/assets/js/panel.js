@@ -396,7 +396,7 @@ YAMS.panel = {
                 $('#dns-check').button().click(function (event) {
                     event.preventDefault();
                     $.ajax({
-                        url: "http://richardbenson.co.uk/yams/dns/",
+                        url: "http://yams.in/dns/",
                         dataType: "JSONP",
                         data: "action=available&domain=" + $('#dns-edit-name').val(),
                         success: function (data) {
@@ -413,7 +413,7 @@ YAMS.panel = {
                 $('#dns-create').button().click(function (event) {
                     event.preventDefault();
                     $.ajax({
-                        url: "http://richardbenson.co.uk/yams/dns/",
+                        url: "http://yams.in/dns/",
                         dataType: "JSONP",
                         data: "action=add&domain=" + $('#dns-edit-name').val() + "&ip=" + $('#dns-external').val(),
                         success: function (data) {
@@ -435,7 +435,7 @@ YAMS.panel = {
                     event.preventDefault();
                     if (confirm("This will remove your DNS entry, are you sure?")) {
                         $.ajax({
-                            url: "http://richardbenson.co.uk/yams/dns/",
+                            url: "http://yams.in/dns/",
                             dataType: "JSONP",
                             data: "action=delete&domain=" + $('#dns-name').val() + "&secret=" + $('#dns-secret').val(),
                             success: function (data) {

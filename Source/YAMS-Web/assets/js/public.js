@@ -5,7 +5,7 @@
 
 function getStats() {
     $.ajax({
-        url: "http://richardbenson.co.uk/yams/ping-server.php",
+        url: "http://yams.in/ping-server.php",
         data: "host=" + $('#server-host').val() + "&port=" + $('#server-port').val(),
         dataType: "JSONP",
         success: function (data) {

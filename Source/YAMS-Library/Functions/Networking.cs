@@ -50,7 +50,7 @@ namespace YAMS
                 YAMS.Database.AddLog("Unable to determine external IP: " + e.Data, "utils", "warn");
             }
 
-            if (strResponse == "") strResponse = GetExternalIP("http://richardbenson.co.uk/yams/getip.php").ToString();
+            if (strResponse == "") strResponse = GetExternalIP("http://yams.in/getip.php").ToString();
 
             IPAddress ipExternal = null;
             ipExternal = IPAddress.Parse(strResponse);
@@ -65,7 +65,7 @@ namespace YAMS
         /// <returns>boolean indicating if the port is accesible from the outside world</returns>
         public static bool CheckExternalPort(IPAddress externalIP, int intPortNumber)
         {
-            string strUrl = "http://richardbenson.co.uk/yams/check-port.php?s=" + externalIP.ToString() + "&p=" + intPortNumber.ToString();
+            string strUrl = "http://yams.in/check-port.php?s=" + externalIP.ToString() + "&p=" + intPortNumber.ToString();
             WebClient wcCheckPort = new WebClient();
             UTF8Encoding utf8 = new UTF8Encoding();
             string strResponse = "";

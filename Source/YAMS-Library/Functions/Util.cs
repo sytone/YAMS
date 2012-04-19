@@ -278,7 +278,7 @@ namespace YAMS
                 //Send info
                 try
                 {
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://www.richardbenson.co.uk/yams/phonehome.php?" + strVars);
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://yams.in/phonehome.php?" + strVars);
                     request.Method = "GET";
 
                     //Grab the response
@@ -377,7 +377,7 @@ namespace YAMS
                 string strVars = "action=update&domain=" + Database.GetSetting("DNSName", "YAMS") + "&secret=" + Database.GetSetting("DNSSecret", "YAMS") + "&ip=" + externalIP;
                 try
                 {
-                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://www.richardbenson.co.uk/yams/dns/?" + strVars);
+                    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://yams.in/dns/?" + strVars);
                     request.Method = "GET";
 
                     //Grab the response
