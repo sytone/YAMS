@@ -344,7 +344,7 @@ namespace YAMS.Web
                             strResponse = "done";
                             break;
                         case "force-autoupdate":
-                            AutoUpdate.CheckUpdates();
+                            AutoUpdate.CheckUpdates(false, true);
                             break;
                         case "network-settings":
                             List<string> listIPs = new List<string>();

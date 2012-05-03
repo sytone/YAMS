@@ -66,7 +66,7 @@ namespace YAMS
         private static string strTectonicusVer = "1.38";
 
         //Checks for available updates
-        public static void CheckUpdates(bool bolForce = false)
+        public static void CheckUpdates(bool bolForce = false, bool bolManual = false)
         {
             if (!UpdatePaused)
             {
@@ -92,7 +92,7 @@ namespace YAMS
                 }
                 
                 //Check Minecraft server first
-                if (bolUpdateJAR)
+                if (bolUpdateJAR || bolManual)
                 {
                     bolServerUpdateAvailable = UpdateIfNeeded(strMCServerURL, YAMS.Core.RootFolder + @"\lib\minecraft_server.jar.UPDATE");
                     UpdateIfNeeded(strYPath + @"/properties.json", YAMS.Core.RootFolder + @"\lib\properties.json");
@@ -106,7 +106,7 @@ namespace YAMS
                 }
 
                 //Now update self
-                if (bolUpdateSVC)
+                if (bolUpdateSVC || bolManual)
                 {
                     bolDllUpdateAvailable = UpdateIfNeeded(strYPath + @"/YAMS-Library.dll", YAMS.Core.RootFolder + @"\YAMS-Library.dll.UPDATE");
                     if (UpdateIfNeeded(strYPath + @"/YAMS-Service.exe", YAMS.Core.RootFolder + @"\YAMS-Service.exe.UPDATE") || UpdateIfNeeded(strYPath + @"/YAMS-Service.exe.config", YAMS.Core.RootFolder + @"\YAMS-Service.exe.config.UPDATE"))
@@ -123,7 +123,7 @@ namespace YAMS
                     }
                 }
 
-                if (bolUpdateAddons)
+                if (bolUpdateAddons || bolManual)
                 {
                     //Update add-ons if they have elected to have them
                     //Update overviewer
