@@ -11,12 +11,12 @@
     },
   "apps":
     {
-      "overviewer" : "0.9.87",
+      "overviewer" : "0.9.165",
       "c10t" : "1.9",
       "biomeextractor": "090",
       "tectonicus":"1.38"
     },
-	"pre": "http://assets.minecraft.net/12w18a/minecraft_server.jar",
-	"pre-client": "http://assets.minecraft.net/12w18a/minecraft.jar",
+	"pre": "http://assets.minecraft.net/12w19a/minecraft_server.jar",
+	"pre-client": "http://assets.minecraft.net/12w19a/minecraft.zip",
 	"bukkit": "http://dl.bukkit.org/latest-rb/craftbukkit.jar"
 }
