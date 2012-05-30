@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -86,26 +87,16 @@ namespace YAMS.Web
 
                     strImages = "<ul>";
                     DirectoryInfo di = new DirectoryInfo(s.ServerDirectory + @"\renders\");
-                    FileInfo[] fileEntries = di.GetFiles();
-                    int intImages = 0;
-                    foreach (FileInfo fi in fileEntries)
-                    {
-                        strImages += "<li><a href=\"renders/" + fi.Name + "\">" + fi.Name + "</a></li>";
-                        intImages++;
-                        if (intImages > 20) break;
-                    }
+                    IEnumerable<FileInfo> fileEntries = di.GetFiles();
+                    var imageFiles = fileEntries.OrderByDescending(f => f.CreationTime).Take(20);
+                    foreach (FileInfo fi in imageFiles) strImages += "<li><a href=\"renders/" + fi.Name + "\">" + fi.Name + "</a></li>";
                     strImages += "</ul>";
 
                     strBackups = "<ul>";
                     DirectoryInfo di2 = new DirectoryInfo(s.ServerDirectory + @"\backups\");
-                    FileInfo[] fileEntries2 = di2.GetFiles();
-                    int intBackups = 0;
-                    foreach (FileInfo fi in fileEntries2)
-                    {
-                        strBackups += "<li><a href=\"backups/" + fi.Name + "\">" + fi.Name + "</a></li>";
-                        intBackups++;
-                        if (intBackups > 20) break;
-                    }
+                    IEnumerable<FileInfo> fileEntries2 = di2.GetFiles();
+                    var backupFiles = fileEntries2.OrderByDescending(f => f.CreationTime).Take(20);
+                    foreach (FileInfo fi in backupFiles) strBackups += "<li><a href=\"backups/" + fi.Name + "\">" + fi.Name + "</a></li>";
                     strBackups += "</ul>";
 
                     //Determine if they need a special client URL
