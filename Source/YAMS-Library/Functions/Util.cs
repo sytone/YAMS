@@ -16,6 +16,8 @@ namespace YAMS
 
         private static string strJRERegKey = "SOFTWARE\\JavaSoft\\Java Runtime Environment";
         private static string strJDKRegKey = "SOFTWARE\\JavaSoft\\Java Development Kit";
+        private static string strJRERegKey32on64 = "SOFTWARE\\Wow6432Node\\JavaSoft\\Java Runtime Environment";
+        private static string strJDKRegKey32on64 = "SOFTWARE\\Wow6432Node\\JavaSoft\\Java Development Kit";
 
         /// <summary>
         /// Detects if the JRE is installed using the regkey
@@ -28,7 +30,13 @@ namespace YAMS
                 RegistryKey rk = Registry.LocalMachine;
                 RegistryKey subKey = rk.OpenSubKey(strJRERegKey);
                 if (subKey != null) return true;
-                else return false;
+                else
+                {
+                    //We need to check if they're running 32-bit Java on a 64-bit OS
+                    subKey = rk.OpenSubKey(strJRERegKey32on64);
+                    if (subKey != null) return true;
+                    else return false;
+                } 
             }
             catch
             {
@@ -47,7 +55,13 @@ namespace YAMS
                 RegistryKey rk = Registry.LocalMachine;
                 RegistryKey subKey = rk.OpenSubKey(strJDKRegKey);
                 if (subKey != null) return true;
-                else return false;
+                else
+                {
+                    //We need to check if they're running 32-bit Java on a 64-bit OS
+                    subKey = rk.OpenSubKey(strJDKRegKey32on64);
+                    if (subKey != null) return true;
+                    else return false;
+                }
             }
             catch
             {
@@ -84,39 +98,56 @@ namespace YAMS
         public static string JavaVersion(string strType = "jre")
         {
             string strKey = "";
+            string strKey32on64 = "";
             switch (strType)
             {
                 case "jre":
                     strKey = strJRERegKey;
+                    strKey32on64 = strJRERegKey32on64;
                     break;
                 case "jdk":
                     strKey = strJDKRegKey;
+                    strKey32on64 = strJDKRegKey32on64;
                     break;
             }
             RegistryKey rk = Registry.LocalMachine;
             RegistryKey subKey = rk.OpenSubKey(strKey);
             if (subKey != null) return subKey.GetValue("CurrentVersion").ToString();
-            else return "";
+            else
+            {
+                subKey = rk.OpenSubKey(strKey32on64);
+                if (subKey != null) return subKey.GetValue("CurrentVersion").ToString();
+                else return "";
+            };
         }
 
         //Calculate the path to the Java executable
         public static string JavaPath(string strType = "jre")
         {
             string strKey = "";
+            string strKey32on64 = "";
             switch (strType)
             {
                 case "jre":
                     strKey = strJRERegKey;
+                    strKey32on64 = strJRERegKey32on64;
                     break;
                 case "jdk":
                     strKey = strJDKRegKey;
+                    strKey32on64 = strJDKRegKey32on64;
                     break;
             }
             strKey += "\\" + JavaVersion(strType);
+            strKey32on64 += "\\" + JavaVersion(strType);
             RegistryKey rk = Registry.LocalMachine;
             RegistryKey subKey = rk.OpenSubKey(strKey);
             if (subKey != null) return subKey.GetValue("JavaHome").ToString() + "\\bin\\";
-            else return "";
+            else
+            {
+                subKey = rk.OpenSubKey(strKey32on64);
+                if (subKey != null) return subKey.GetValue("JavaHome").ToString() + "\\bin\\";
+                else return "";
+            };
         }
 
         //Replaces file 1 with file 2
