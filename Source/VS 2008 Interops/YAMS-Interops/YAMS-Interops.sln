@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAMS-Interops", "YAMS-Interops.csproj", "{036992A1-3652-4B8A-B47C-B6640659807A}"
 EndProject
 Global
